@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar
+    <!-- <v-app-bar
       app
       color="primary"
       dark
@@ -35,22 +35,23 @@
         <span class="mr-2">Latest Release</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
-    </v-app-bar>
+    </v-app-bar> -->
+    <router-view />
 
-    <v-main>
+    <!-- <v-main>
       <HelloWorld/>
-    </v-main>
+    </v-main> -->
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+// import HelloWorld from './components/HelloWorld';
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    // HelloWorld,
   },
 
   data: () => ({
