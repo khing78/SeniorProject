@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import PinDetail from '../views/PinDetail.vue'
+import DataSave from '../views/DataSave.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/pin-detail',
     name: 'pinDetail',
     component: PinDetail
+  },
+  {
+    path: '/data-save',
+    name: 'dataSave',
+    component: DataSave
   },
   {
     path: '/about',

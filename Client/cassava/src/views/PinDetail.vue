@@ -3,6 +3,8 @@
     <v-container>
       <v-row>
         <v-col cols="1"> พื้นที่ {{ areanumber }} </v-col>
+      </v-row>
+      <v-row class="text-center" justify="center">
         <v-col class="text-center"> เปอร์เซ็นต์แป้งเฉลี่ย(%): {{precentstarch}}
           <br>
           วันที่เก็บข้อมูล: {{datekeepdata}}
@@ -10,9 +12,7 @@
           อายุของมันสำปะหลัง(ณ เวลาที่เก็บข้อมูล): {{cassvanaage}} เดือน
         </v-col>
       </v-row>
-      <v-row class="text-center" justify="center">
-      </v-row>
-  <v-simple-table fixed-header height="450px" style="padding-bottom:20px">
+  <v-simple-table fixed-header height="400px" style="padding-bottom:20px">
     <template v-slot:default>
       <thead>
         <tr>
