@@ -2,7 +2,10 @@
   <div class="data-save">
     <v-container>
       <v-row>
-        <v-col cols="2"> ข้อมูลผลตรวจคุณภาพ</v-col>
+        <v-col cols="3"> ข้อมูลผลตรวจคุณภาพ</v-col>
+        <v-col class="text-right">
+          <v-btn color="#E21C1C" rounded>ลบข้อมูล</v-btn>
+        </v-col>
       </v-row>
       <v-row class="text-center" justify="left">
         <v-col cols="2"
@@ -29,35 +32,110 @@
               @input="menu2 = false"
             ></v-date-picker> </v-menu
         ></v-col>
-        <v-col cols="2"><v-text-field
+        <v-col cols="2"
+          ><v-text-field
             v-model="title"
             :rules="rules"
             hint="กรุณาใส่ละติจูด"
             label="ละติจูด"
-          ></v-text-field></v-col>
+          ></v-text-field
+        ></v-col>
+        <v-col cols="2"
+          ><v-text-field
+            v-model="title"
+            :rules="rules"
+            hint="กรุณาใส่ลองจิจูด"
+            label="ลองจิจูด"
+          ></v-text-field
+        ></v-col>
+        <v-col cols="2">
+          <v-btn>Map</v-btn>
+        </v-col>
       </v-row>
-      <v-simple-table fixed-header height="450px" style="padding-bottom: 20px">
+      <v-row>
+        <v-btn rounded>เพิ่มต้น +</v-btn>
+      </v-row>
+      <v-simple-table
+        fixed-header
+        height="350px"
+        style="padding-bottom: 20px; padding-top: 20px"
+      >
         <template v-slot:default>
           <thead>
             <tr>
-              <th class="text-center" style="background-color: #ffa9a9">
-                หัวที่
-              </th>
-              <th class="text-center" style="background-color: #ffa9a9">
-                เปอร์เซ็นต์แป้ง(%)
-              </th>
-              <th class="text-center" style="background-color: #ffa9a9">
-                อุณหภูมิ(เซลเซียส)
-              </th>
-              <th class="text-center" style="background-color: #ffa9a9">
-                ความชื้นสัมพัทธ์(%)
-              </th>
+              <th class="text-center" style="background-color: #ffa9a9"></th>
             </tr>
           </thead>
           <tbody>
-            <tr class="text-center" v-for="item in desserts" :key="item.name">
-              <td>{{ item.name }}</td>
-              <td>{{ item.calories }}</td>
+            <tr
+              class="text-left"
+              v-for="(item, index) in xdata"
+              :key="item.name"
+            >
+              <td>
+                หัวที่{{ index + 1 }}<v-btn rounded color="#E21C1C">ลบ</v-btn>
+                <br>
+                <v-row>
+                <v-col cols="2">
+                  <v-text-field
+                  v-model="item.x1"
+                  :rules="rules"
+                  hint="X1"
+                  label="X1"
+                ></v-text-field>
+                </v-col>
+                <v-col cols="2">
+                  <v-text-field
+                  v-model="item.x2"
+                  :rules="rules"
+                  hint="X2"
+                  label="X2"
+                ></v-text-field>
+                </v-col>
+                <v-col cols="2">
+                  <v-text-field
+                  v-model="item.x3"
+                  :rules="rules"
+                  hint="X3"
+                  label="X3"
+                ></v-text-field>
+                </v-col>
+                <v-col cols="2">
+                  <v-text-field
+                  v-model="item.temputure"
+                  :rules="rules"
+                  hint="อุณหภูมิ"
+                  label="อุณหภูมิ"
+                ></v-text-field>
+                </v-col>
+                </v-row>
+                <v-row>
+                <v-col cols="2">
+                  <v-text-field
+                  v-model="item.x4"
+                  :rules="rules"
+                  hint="X4"
+                  label="X4"
+                ></v-text-field>
+                </v-col>
+                <v-col cols="2">
+                  <v-text-field
+                  v-model="item.x5"
+                  :rules="rules"
+                  hint="X5"
+                  label="X5"
+                ></v-text-field>
+                </v-col>
+                <v-col cols="2">
+                  <v-text-field
+                  v-model="item.x6"
+                  :rules="rules"
+                  hint="X6"
+                  label="X6"
+                ></v-text-field>
+                </v-col>
+                </v-row>
+              </td>
             </tr>
           </tbody>
         </template>
@@ -67,7 +145,7 @@
           <v-btn color="#F2F2F2" rounded>ยกเลิก</v-btn>
         </v-col>
         <v-col class="text-right">
-          <v-btn color="#FFB200" rounded>แก้ไข</v-btn>
+          <v-btn color="#1CE227" rounded>บันทึก</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -77,50 +155,96 @@
 <script>
 export default {
   data: () => ({
-    areanumber: 1,
-    precentstarch: 35.02,
-    datekeepdata: "13/1/2563",
-    cassvanaage: 12,
-    desserts: [
+    xdata: [
       {
-        name: "Frozen Yogurt",
-        calories: 159,
+        x1: "Frozen Yogurt",
+        x2: "Frozen Yogurt",
+        x3: "Frozen Yogurt",
+        x4: "Frozen Yogurt",
+        x5: "Frozen Yogurt",
+        x6: "Frozen Yogurt",
+        temputure: 159,
       },
       {
-        name: "Ice cream sandwich",
-        calories: 237,
+        x1: "Frozen Yogurt",
+        x2: "Frozen Yogurt",
+        x3: "Frozen Yogurt",
+        x4: "Frozen Yogurt",
+        x5: "Frozen Yogurt",
+        x6: "Frozen Yogurt",
+        temputure: 159,
       },
       {
-        name: "Eclair",
-        calories: 262,
+        x1: "Frozen Yogurt",
+        x2: "Frozen Yogurt",
+        x3: "Frozen Yogurt",
+        x4: "Frozen Yogurt",
+        x5: "Frozen Yogurt",
+        x6: "Frozen Yogurt",
+        temputure: 159,
       },
       {
-        name: "Cupcake",
-        calories: 305,
+        x1: "Frozen Yogurt",
+        x2: "Frozen Yogurt",
+        x3: "Frozen Yogurt",
+        x4: "Frozen Yogurt",
+        x5: "Frozen Yogurt",
+        x6: "Frozen Yogurt",
+        temputure: 159,
       },
       {
-        name: "Gingerbread",
-        calories: 356,
+        x1: "Frozen Yogurt",
+        x2: "Frozen Yogurt",
+        x3: "Frozen Yogurt",
+        x4: "Frozen Yogurt",
+        x5: "Frozen Yogurt",
+        x6: "Frozen Yogurt",
+        temputure: 159,
       },
       {
-        name: "Jelly bean",
-        calories: 375,
+        x1: "Frozen Yogurt",
+        x2: "Frozen Yogurt",
+        x3: "Frozen Yogurt",
+        x4: "Frozen Yogurt",
+        x5: "Frozen Yogurt",
+        x6: "Frozen Yogurt",
+        temputure: 159,
       },
       {
-        name: "Lollipop",
-        calories: 392,
+        x1: "Frozen Yogurt",
+        x2: "Frozen Yogurt",
+        x3: "Frozen Yogurt",
+        x4: "Frozen Yogurt",
+        x5: "Frozen Yogurt",
+        x6: "Frozen Yogurt",
+        temputure: 159,
       },
       {
-        name: "Honeycomb",
-        calories: 408,
+        x1: "Frozen Yogurt",
+        x2: "Frozen Yogurt",
+        x3: "Frozen Yogurt",
+        x4: "Frozen Yogurt",
+        x5: "Frozen Yogurt",
+        x6: "Frozen Yogurt",
+        temputure: 159,
       },
       {
-        name: "Donut",
-        calories: 452,
+        x1: "Frozen Yogurt",
+        x2: "Frozen Yogurt",
+        x3: "Frozen Yogurt",
+        x4: "Frozen Yogurt",
+        x5: "Frozen Yogurt",
+        x6: "Frozen Yogurt",
+        temputure: 159,
       },
       {
-        name: "KitKat",
-        calories: 518,
+        x1: "Frozen Yogurt",
+        x2: "Frozen Yogurt",
+        x3: "Frozen Yogurt",
+        x4: "Frozen Yogurt",
+        x5: "Frozen Yogurt",
+        x6: "Frozen Yogurt",
+        temputure: 159,
       },
     ],
   }),
