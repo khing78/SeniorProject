@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import PinDetail from '../views/PinDetail.vue'
 import DataSave from '../views/DataSave.vue'
+import AreaDetailChart from '../views/AreaDetailChart.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/data-save',
     name: 'dataSave',
     component: DataSave
+  },
+  {
+    path: '/area-detail-chart',
+    name: 'areadetailchart',
+    component: AreaDetailChart
   },
   {
     path: '/about',
