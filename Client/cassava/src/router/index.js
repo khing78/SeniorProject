@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import PinDetail from '../views/PinDetail.vue'
 import DataSave from '../views/DataSave.vue'
 import AreaDetailChart from '../views/AreaDetailChart.vue'
+import EditArea from '../views/EditArea.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/area-detail-chart',
     name: 'areadetailchart',
     component: AreaDetailChart
+  },
+  {
+    path: '/edit-area',
+    name: 'editarea',
+    component: EditArea
   },
   {
     path: '/about',

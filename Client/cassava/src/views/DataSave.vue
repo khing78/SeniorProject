@@ -7,7 +7,7 @@
           <v-btn color="#E21C1C" rounded>ลบข้อมูล</v-btn>
         </v-col>
       </v-row>
-      <v-row class="text-center" justify="left">
+      <v-row class="text-center" justify="start">
         <v-col cols="2"
           ><v-menu
             v-model="menu2"
@@ -34,16 +34,14 @@
         ></v-col>
         <v-col cols="2"
           ><v-text-field
-            v-model="title"
-            :rules="rules"
+            v-model="latitude"
             hint="กรุณาใส่ละติจูด"
             label="ละติจูด"
           ></v-text-field
         ></v-col>
         <v-col cols="2"
           ><v-text-field
-            v-model="title"
-            :rules="rules"
+            v-model="longitude"
             hint="กรุณาใส่ลองจิจูด"
             label="ลองจิจูด"
           ></v-text-field
@@ -79,7 +77,6 @@
                 <v-col cols="2">
                   <v-text-field
                   v-model="item.x1"
-                  :rules="rules"
                   hint="X1"
                   label="X1"
                 ></v-text-field>
@@ -87,7 +84,6 @@
                 <v-col cols="2">
                   <v-text-field
                   v-model="item.x2"
-                  :rules="rules"
                   hint="X2"
                   label="X2"
                 ></v-text-field>
@@ -95,7 +91,6 @@
                 <v-col cols="2">
                   <v-text-field
                   v-model="item.x3"
-                  :rules="rules"
                   hint="X3"
                   label="X3"
                 ></v-text-field>
@@ -103,7 +98,6 @@
                 <v-col cols="2">
                   <v-text-field
                   v-model="item.temputure"
-                  :rules="rules"
                   hint="อุณหภูมิ"
                   label="อุณหภูมิ"
                 ></v-text-field>
@@ -113,7 +107,6 @@
                 <v-col cols="2">
                   <v-text-field
                   v-model="item.x4"
-                  :rules="rules"
                   hint="X4"
                   label="X4"
                 ></v-text-field>
@@ -121,7 +114,6 @@
                 <v-col cols="2">
                   <v-text-field
                   v-model="item.x5"
-                  :rules="rules"
                   hint="X5"
                   label="X5"
                 ></v-text-field>
@@ -129,7 +121,6 @@
                 <v-col cols="2">
                   <v-text-field
                   v-model="item.x6"
-                  :rules="rules"
                   hint="X6"
                   label="X6"
                 ></v-text-field>
@@ -155,6 +146,12 @@
 <script>
 export default {
   data: () => ({
+    date: new Date().toISOString().substr(0, 10),
+    menu: false,
+    modal: false,
+    menu2: false,
+    latitude: "",
+    longitude: "",
     xdata: [
       {
         x1: "Frozen Yogurt",
