@@ -85,7 +85,7 @@ export default {
     selectdistrict: "",
     itemsdistrict: ["เมือง", "เลย", "เชียงใหม่", "อุบลราชธานี"],
     selectgrade:"",
-    itemsdistrict: ["A","B","C"],
+    itemsgrade: ["A","B","C"],
     desserts: [
       {
         name: "Frozen Yogurt",
