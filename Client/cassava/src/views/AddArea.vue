@@ -1,7 +1,6 @@
 <template>
-  <div class="edit-area">
+  <div class="add-area">
     <v-container>
-      <v-btn>ลบแปลง</v-btn>
       <v-row>
         <v-col cols="9">
           <!-- For Map -->
@@ -84,7 +83,7 @@
       </v-row>
       <v-row>
         <v-col class="text-right">
-          <v-btn rounded style="margin-end:10px">ย้อนกลับ</v-btn>
+          <v-btn rounded style="margin-end:10px">ยกเลิก</v-btn>
           <v-btn color="#1CE227" rounded>บันทึก</v-btn>
         </v-col>
       </v-row>
