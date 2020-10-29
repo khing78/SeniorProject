@@ -7,6 +7,7 @@ import AreaDetailChart from '../views/AreaDetailChart.vue'
 import EditArea from '../views/EditArea.vue'
 import AddArea from '../views/AddArea.vue'
 import ShowAllArea from '../views/ShowAllArea.vue'
+import ShowArea from '../views/ShowArea.vue'
 
 Vue.use(VueRouter)
 
@@ -45,6 +46,11 @@ const routes = [
     path: '/show-all-area',
     name: 'showallarea',
     component: ShowAllArea
+  },
+  {
+    path: '/show-area',
+    name: 'showarea',
+    component: ShowArea
   },
   {
     path: '/about',

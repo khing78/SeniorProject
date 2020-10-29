@@ -1,35 +1,8 @@
 <template>
-  <div class="show-all-area">
+  <div class="show-area">
     <v-container>
       <v-row>
-        <v-btn color="#1CE227" rounded>+ เพิ่มแปลงใหม่</v-btn>
-        <v-col cols="2">
-          <v-combobox
-            v-model="selectstate"
-            :items="itemsstate"
-            label="จังหวัด"
-            outlined
-            dense
-          ></v-combobox>
-        </v-col>
-        <v-col cols="2">
-          <v-combobox
-            v-model="selectdistrict"
-            :items="itemsdistrict"
-            label="อำเภอ"
-            outlined
-            dense
-          ></v-combobox>
-        </v-col>
-        <v-col cols="2">
-          <v-combobox
-            v-model="selectgrade"
-            :items="itemsgrade"
-            label="สถานะ"
-            outlined
-            dense
-          ></v-combobox>
-        </v-col>
+        <v-btn color="#1CE227" rounded>+ เพิ่มข้อมูลมันสำปะหลัง</v-btn>
       </v-row>
       <v-row>
         <v-col cols="8">
