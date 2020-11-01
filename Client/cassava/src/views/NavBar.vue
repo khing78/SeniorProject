@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="nav-bar">
     <v-app-bar color="white" dense dark>
       <v-toolbar-title style="margin-top: 0px; color:#1CE227" class="navbar">ระบบแสดงคุณภาพมันสำปะหลัง</v-toolbar-title>
       <v-spacer/>
