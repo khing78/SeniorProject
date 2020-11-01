@@ -33,6 +33,21 @@
       </v-row>
       <v-row>
         <v-col cols="8">
+          <GmapMap
+            :center="{ lat: latitude, lng: longitude }"
+            :zoom="7"
+            map-type-id="terrain"
+            style="width: 100%; height: 100%"
+          >
+            <GmapMarker
+              :key="index"
+              v-for="(m, index) in markers"
+              :position="m.position"
+              :clickable="true"
+              :draggable="true"
+              @click="center = m.position"
+            />
+          </GmapMap>
           <!-- For Map -->
         </v-col>
         <v-col cols="4">
@@ -85,7 +100,9 @@ export default {
     selectdistrict: "",
     itemsdistrict: ["เมือง", "เลย", "เชียงใหม่", "อุบลราชธานี"],
     selectgrade:"",
-    itemsdistrict: ["A","B","C"],
+    itemsgrade: ["A","B","C"],
+    latitude:30,
+    longitude:30,
     desserts: [
       {
         name: "Frozen Yogurt",

@@ -37,6 +37,21 @@
       </v-row>
       <v-row>
         <v-col cols="9">
+          <GmapMap
+            :center="{ lat: latitude, lng: longitude }"
+            :zoom="7"
+            map-type-id="terrain"
+            style="width: 100%; height: 100%"
+          >
+            <GmapMarker
+              :key="index"
+              v-for="(m, index) in markers"
+              :position="m.position"
+              :clickable="true"
+              :draggable="true"
+              @click="center = m.position"
+            />
+          </GmapMap>
           <!-- For Map -->
         </v-col>
         <v-col cols="3">
@@ -103,6 +118,8 @@ export default {
     gradeBtotal: 50,
     gradeCtotal: 40,
     totalstarch: 50,
+    latitude:30,
+    longitude:30,
   }),
 };
 </script>

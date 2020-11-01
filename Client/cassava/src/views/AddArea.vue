@@ -3,6 +3,21 @@
     <v-container>
       <v-row>
         <v-col cols="9">
+          <GmapMap
+            :center="{ lat: latitude, lng: longitude }"
+            :zoom="7"
+            map-type-id="terrain"
+            style="width: 100%; height: 100%"
+          >
+            <GmapMarker
+              :key="index"
+              v-for="(m, index) in markers"
+              :position="m.position"
+              :clickable="true"
+              :draggable="true"
+              @click="center = m.position"
+            />
+          </GmapMap>
           <!-- For Map -->
         </v-col>
         <v-col cols="3">
@@ -98,8 +113,8 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
-    latitude: 0,
-    longitude: 0,
+    latitude: 15,
+    longitude: 15,
     areaname: "",
     selectstate: "",
     itemsstate: ["ขอนแก่น", "เลย", "เชียงใหม่", "อุบลราชธานี"],
