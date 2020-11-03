@@ -4,7 +4,7 @@
       <v-row>
         <v-col cols="3"> ข้อมูลผลตรวจคุณภาพ</v-col>
         <v-col class="text-right">
-          <v-btn color="#E21C1C" rounded>ลบข้อมูล</v-btn>
+          <v-btn id="removebutton" rounded>ลบข้อมูล</v-btn>
         </v-col>
       </v-row>
       <v-row class="text-center" justify="start">
@@ -15,11 +15,11 @@
             :nudge-right="40"
             transition="scale-transition"
             offset-y
-            min-width="290px"
+            min-width="5vw"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                v-model="date"
+                v-model="computedDateFormatted"
                 label="วัน/เดือน/ปี ที่บันทึก"
                 prepend-icon="mdi-calendar"
                 readonly
@@ -51,12 +51,12 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-btn rounded>เพิ่มต้น +</v-btn>
+        <v-btn id="savebutton" rounded>เพิ่มต้น +</v-btn>
       </v-row>
       <v-simple-table
         fixed-header
-        height="350px"
-        style="padding-bottom: 20px; padding-top: 20px"
+        height="50vh"
+        id="table"
       >
         <template v-slot:default>
           <thead>
@@ -71,8 +71,10 @@
               :key="item.name"
             >
               <td>
-                หัวที่{{ index + 1 }}<v-btn rounded color="#E21C1C">ลบ</v-btn>
-                <br>
+                <v-row>
+                  <v-col class="text-left"><div id="indexhead">หัวที่{{ index + 1 }}</div></v-col>
+                  <v-col class="text-right"><v-btn rounded id="removebutton">ลบ</v-btn></v-col>
+                </v-row>
                 <v-row>
                 <v-col cols="2">
                   <v-text-field
@@ -133,16 +135,15 @@
       </v-simple-table>
       <v-row>
         <v-col class="text-left">
-          <v-btn color="#F2F2F2" rounded>ยกเลิก</v-btn>
+          <v-btn id="backbutton" rounded>ยกเลิก</v-btn>
         </v-col>
         <v-col class="text-right">
-          <v-btn color="#1CE227" rounded>บันทึก</v-btn>
+          <v-btn id="savebutton" rounded>บันทึก</v-btn>
         </v-col>
       </v-row>
     </v-container>
   </div>
 </template>
-
 <script>
 export default {
   data: () => ({
@@ -154,98 +155,73 @@ export default {
     longitude: "",
     xdata: [
       {
-        x1: "Frozen Yogurt",
-        x2: "Frozen Yogurt",
-        x3: "Frozen Yogurt",
-        x4: "Frozen Yogurt",
-        x5: "Frozen Yogurt",
-        x6: "Frozen Yogurt",
-        temputure: 159,
+        x1: 0.7568462,
+        x2: 5.370551,
+        x3: 10.28535,
+        x4: 12.38871,
+        x5: 24.18566,
+        x6: 21.58091,
+        temputure: 32.02,
       },
       {
-        x1: "Frozen Yogurt",
-        x2: "Frozen Yogurt",
-        x3: "Frozen Yogurt",
-        x4: "Frozen Yogurt",
-        x5: "Frozen Yogurt",
-        x6: "Frozen Yogurt",
-        temputure: 159,
+        x1: 1.892033,
+        x2: 10.74111,
+        x3: 20.5706,
+        x4: 20.89075,
+        x5: 36.91494,
+        x6: 27.83622,
+        temputure: 31.01,
       },
       {
-        x1: "Frozen Yogurt",
-        x2: "Frozen Yogurt",
-        x3: "Frozen Yogurt",
-        x4: "Frozen Yogurt",
-        x5: "Frozen Yogurt",
-        x6: "Frozen Yogurt",
-        temputure: 159,
+        x1: 1.922431,
+        x2: 9.398447,
+        x3: 17.14219,
+        x4: 20.49366,
+        x5: 38.69703,
+        x6: 34.09154,
+        temputure: 29.42,
       },
       {
-        x1: "Frozen Yogurt",
-        x2: "Frozen Yogurt",
-        x3: "Frozen Yogurt",
-        x4: "Frozen Yogurt",
-        x5: "Frozen Yogurt",
-        x6: "Frozen Yogurt",
-        temputure: 159,
-      },
-      {
-        x1: "Frozen Yogurt",
-        x2: "Frozen Yogurt",
-        x3: "Frozen Yogurt",
-        x4: "Frozen Yogurt",
-        x5: "Frozen Yogurt",
-        x6: "Frozen Yogurt",
-        temputure: 159,
-      },
-      {
-        x1: "Frozen Yogurt",
-        x2: "Frozen Yogurt",
-        x3: "Frozen Yogurt",
-        x4: "Frozen Yogurt",
-        x5: "Frozen Yogurt",
-        x6: "Frozen Yogurt",
-        temputure: 159,
-      },
-      {
-        x1: "Frozen Yogurt",
-        x2: "Frozen Yogurt",
-        x3: "Frozen Yogurt",
-        x4: "Frozen Yogurt",
-        x5: "Frozen Yogurt",
-        x6: "Frozen Yogurt",
-        temputure: 159,
-      },
-      {
-        x1: "Frozen Yogurt",
-        x2: "Frozen Yogurt",
-        x3: "Frozen Yogurt",
-        x4: "Frozen Yogurt",
-        x5: "Frozen Yogurt",
-        x6: "Frozen Yogurt",
-        temputure: 159,
-      },
-      {
-        x1: "Frozen Yogurt",
-        x2: "Frozen Yogurt",
-        x3: "Frozen Yogurt",
-        x4: "Frozen Yogurt",
-        x5: "Frozen Yogurt",
-        x6: "Frozen Yogurt",
-        temputure: 159,
-      },
-      {
-        x1: "Frozen Yogurt",
-        x2: "Frozen Yogurt",
-        x3: "Frozen Yogurt",
-        x4: "Frozen Yogurt",
-        x5: "Frozen Yogurt",
-        x6: "Frozen Yogurt",
-        temputure: 159,
+        x1: 2.270401,
+        x2: 6.713198,
+        x3: 15.1423,
+        x4: 14.57496,
+        x5: 31.8232,
+        x6: 23.4575,
+        temputure: 30.31,
       },
     ],
   }),
+  computed: {
+      computedDateFormatted () {
+        return this.formatDate(this.date)
+      },
+    },
+  methods:{
+    formatDate (date) {
+        if (!date) return null
+
+        const [year, month, day] = date.split('-')
+        return `${day}/${month}/${year}`
+      },
+  },
 };
 </script>
 <style scoped>
+#backbutton{
+  background-color: #F2F2F2;
+}
+#savebutton{
+  background-color: #1CE227;
+}
+#removebutton{
+  background-color: #E21C1C;
+}
+#table{
+  padding-bottom: 2vh; 
+  padding-top: 2vh;
+}
+#indexhead{
+  padding-right: 2vw;
+}
 </style>

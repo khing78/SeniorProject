@@ -6,7 +6,7 @@
         <v-col class="text-right"> </v-col>
       </v-row>
       <v-row>
-        <v-col cols="2">
+        <v-col cols="12" md="2" sm="3">
           <v-menu
             :close-on-content-click="true"
             :nudge-right="40"
@@ -16,7 +16,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                v-model="datefrom"
+                v-model="computedDateFromFormatted"
                 label="วัน/เดือน/ปี ที่บันทึก"
                 prepend-icon="mdi-calendar"
                 readonly
@@ -30,7 +30,7 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
-        <v-col cols="2">
+        <v-col cols="12" md="2" sm="3">
           <v-menu
             :close-on-content-click="true"
             :nudge-right="40"
@@ -40,7 +40,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                v-model="dateto"
+                v-model="computedDatetoFormatted"
                 label="วัน/เดือน/ปี ที่บันทึก"
                 prepend-icon="mdi-calendar"
                 readonly
@@ -56,10 +56,10 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="9">
-          <canvas id="myChart" width="400" height="200"></canvas>
+        <v-col cols="12" md="9">
+          <canvas id="myChart"></canvas>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="12" md="3">
           เกรดคุณภาพแป้ง: {{ gradecassvana }}
           <br />
           เปอร์เซ็นต์แป้ง(%)เฉลี่ย: {{ precentstarch }}
@@ -72,7 +72,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-btn rounded> ย้อนกลับ </v-btn>
+        <v-btn rounded href="../show-area"> ย้อนกลับ </v-btn>
       </v-row>
     </v-container>
   </div>
@@ -87,22 +87,18 @@ window.addEventListener("load", function () {
     type: "line",
     data: {
       labels: [
-        "Red",
-        "Blue",
-        "Yellow",
-        "Green",
-        "Purple",
-        "Orange",
-        "x",
-        "x",
-        "x",
-        "x",
-        "x",
+        "21/06/2563",
+        "22/06/2563",
+        "23/06/2563",
+        "26/06/2563",
+        "29/06/2563",
+        "6/07/2563",
+        "8/07/2563",
       ],
       datasets: [
         {
           label: "# of Votes",
-          data: [12, 19, 3, 5, 2, 3, 2, 3, 6, 4, 6],
+          data: [2, 9, 15, 25, 26, 27, 26, 25, 25.5, 26.5, 24],
           borderColor: "rgba(0, 0, 0, 1)",
           fill: false,
         },
@@ -125,6 +121,22 @@ export default {
     temputure: 35.25,
     cassvanaage: 12,
   }),
+  computed: {
+      computedDateFromFormatted () {
+        return this.formatDate(this.datefrom)
+      },
+      computedDatetoFormatted (){
+        return this.formatDate(this.dateto)
+      }
+    },
+  methods:{
+    formatDate (date) {
+        if (!date) return null
+
+        const [year, month, day] = date.split('-')
+        return `${day}/${month}/${year}`
+      },
+  },
 };
 </script>
 <style scoped>

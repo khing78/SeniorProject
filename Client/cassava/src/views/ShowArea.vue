@@ -1,16 +1,16 @@
 <template>
-  <div class="show-area">
+  <div id="show-area">
     <v-container>
       <v-row>
-        <v-col cols="2"
-          ><v-btn color="#1CE227" rounded
+        <v-col style="margin-right:1vh" cols="12" md="4" sm="4"
+          ><v-btn id="addbutton" rounded
             >+ เพิ่มข้อมูลมันสำปะหลัง</v-btn
           ></v-col
         >
-        <v-col cols="3" class="text-right">
+        <v-col cols="12" md="3" sm="3">
           <v-btn rounded>กราฟ</v-btn>
         </v-col>
-        <v-col cols="4">
+        <v-col cols="12" md="3" sm="3">
           <v-menu
             :close-on-content-click="true"
             :nudge-right="40"
@@ -35,13 +35,12 @@
           </v-menu>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row id="everythingisonfire">
         <v-col cols="9">
-          <GmapMap
+          <GmapMap id="showmap"
             :center="{ lat: latitude, lng: longitude }"
-            :zoom="7"
+            :zoom="16"
             map-type-id="terrain"
-            style="width: 100%; height: 100%"
           >
             <GmapMarker
               :key="index"
@@ -54,31 +53,25 @@
           </GmapMap>
           <!-- For Map -->
         </v-col>
-        <v-col cols="3">
+        <v-col cols="12" md="3" sm="3">
           <v-row align="center">
             <v-col cols="3"
-              ><v-img
+              ><v-img id="pin"
                 src="../assets/Agradeicon.png"
-                max-height="200px"
-                max-width="20px"
               ></v-img></v-col
             >เกรด A</v-row
           >
           <v-row align="center">
-            <v-col cols="3"
-              ><v-img
+            <v-col cols="12" md="3" sm="3"
+              ><v-img id="pin"
                 src="../assets/Bgradeicon.png"
-                max-height="200px"
-                max-width="20px"
               ></v-img></v-col
             >เกรด B</v-row
           >
           <v-row align="center">
-            <v-col cols="3"
-              ><v-img
+            <v-col cols="12" md="3" sm="3"
+              ><v-img id="pin"
                 src="../assets/Cgradeicon.png"
-                max-height="200px"
-                max-width="20px"
               ></v-img></v-col
             >เกรด C</v-row
           >
@@ -99,7 +92,7 @@
       </v-row>
       <v-row>
         <v-col class="text-right">
-          <v-btn rounded style="margin-end: 10px">ย้อนกลับ</v-btn>
+          <v-btn id="backbutton" rounded style="margin-end: 10px">ย้อนกลับ</v-btn>
           <v-btn color="#FFB200" rounded>จัดการแปลง</v-btn>
         </v-col>
       </v-row>
@@ -118,13 +111,31 @@ export default {
     gradeBtotal: 50,
     gradeCtotal: 40,
     totalstarch: 50,
-    latitude:30,
-    longitude:30,
+    latitude:16.4411261,
+    longitude:102.8644933,
   }),
 };
 </script>
 <style scoped>
 .detailtext {
   text-align: center;
+}
+#showmap{
+  width: 100%;
+  height: 100%;
+}
+#pin{
+  max-width: 1vw;
+  min-width: 1vw;
+}
+#backbutton{
+  margin-right: 10vw;
+  border-radius: 10vh;
+}
+#addbutton{
+  background-color: #1CE227;
+}
+#marginaddbutton{
+  margin-right: 1vw;
 }
 </style>

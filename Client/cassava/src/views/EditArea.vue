@@ -3,7 +3,7 @@
     <v-container>
       <v-btn>ลบแปลง</v-btn>
       <v-row>
-        <v-col cols="9">
+        <v-col cols="12" md="9" sm="9">
           <GmapMap
             :center="{ lat: latitude, lng: longitude }"
             :zoom="7"
@@ -21,7 +21,7 @@
           </GmapMap>
           <!-- For Map -->
         </v-col>
-        <v-col cols="3">
+        <v-col cols="12" md="3" sm="3">
           <v-text-field
             v-model="areaname"
             hint="กรุณาใส่ชื่อแปลง"
@@ -49,19 +49,14 @@
               @input="menu2 = false"
             ></v-date-picker>
           </v-menu>
-          <v-row style="margin-bottom: 10px">
-            <v-btn
-              rounded
-              style="
-                margin-right: 20px;
-                color: #ffffff;
-                background-color: #2643b6;
-                margin-bottom: 10px;
-              "
-            >
-              เพิ่มหมุด
-            </v-btn>
-            <v-btn rounded> ลบหมุด </v-btn>
+          <v-row>
+            <v-col cols="12" md="6" class="text-center">
+              <v-btn id="addpinbutton" rounded> เพิ่มหมุด </v-btn>
+            </v-col>
+            <v-col cols="12" md="6" class="text-center">
+              <v-btn rounded> ลบหมุด </v-btn>
+            </v-col>
+            
           </v-row>
           <v-row>
             <v-container fluid>
@@ -99,8 +94,8 @@
       </v-row>
       <v-row>
         <v-col class="text-right">
-          <v-btn rounded style="margin-end:10px">ย้อนกลับ</v-btn>
-          <v-btn color="#1CE227" rounded>บันทึก</v-btn>
+          <v-btn id="backbutton" rounded href="../show-area">ย้อนกลับ</v-btn>
+          <v-btn id="savebutton" rounded href="../show-area">บันทึก</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -114,8 +109,8 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
-    latitude: 0,
-    longitude: 0,
+    latitude: 16.4411261,
+    longitude: 102.8644933,
     areaname: "",
     selectstate: "",
     itemsstate: ["ขอนแก่น", "เลย", "เชียงใหม่", "อุบลราชธานี"],
@@ -125,4 +120,14 @@ export default {
 };
 </script>
 <style scoped>
+#addpinbutton {
+  color: #ffffff;
+  background-color: #2643b6;
+}
+#backbutton{
+  margin-right: 2vw;
+}
+#savebutton{
+  background-color: #1CE227;
+}
 </style>
