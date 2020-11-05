@@ -2,13 +2,13 @@
   <div class="data-save">
     <v-container>
       <v-row>
-        <v-col cols="3"> ข้อมูลผลตรวจคุณภาพ</v-col>
+        <v-col cols="12" md="3" sm="3"> ข้อมูลผลตรวจคุณภาพ</v-col>
         <v-col class="text-right">
-          <v-btn id="removebutton" rounded>ลบข้อมูล</v-btn>
+          <v-btn id="removebutton" rounded @click="moveto('deletearea')">ลบข้อมูล</v-btn>
         </v-col>
       </v-row>
       <v-row class="text-center" justify="start">
-        <v-col cols="2"
+        <v-col cols="12" md="3" sm="3"
           ><v-menu
             v-model="menu2"
             :close-on-content-click="true"
@@ -32,21 +32,21 @@
               @input="menu2 = false"
             ></v-date-picker> </v-menu
         ></v-col>
-        <v-col cols="2"
+        <v-col cols="12" md="3" sm="3"
           ><v-text-field
-            v-model="latitude"
+            v-model="this.mapcenter.lat"
             hint="กรุณาใส่ละติจูด"
             label="ละติจูด"
           ></v-text-field
         ></v-col>
-        <v-col cols="2"
+        <v-col cols="12" md="3" sm="3"
           ><v-text-field
-            v-model="longitude"
+            v-model="this.mapcenter.lng"
             hint="กรุณาใส่ลองจิจูด"
             label="ลองจิจูด"
           ></v-text-field
         ></v-col>
-        <v-col cols="2">
+        <v-col cols="12" md="2" sm="3">
           <v-btn>Map</v-btn>
         </v-col>
       </v-row>
@@ -73,7 +73,7 @@
               <td>
                 <v-row>
                   <v-col class="text-left"><div id="indexhead">หัวที่{{ index + 1 }}</div></v-col>
-                  <v-col class="text-right"><v-btn rounded id="removebutton">ลบ</v-btn></v-col>
+                  <v-col class="text-right"><v-btn rounded id="removebutton" @click="removecassvana(index)">ลบ</v-btn></v-col>
                 </v-row>
                 <v-row>
                 <v-col cols="2">
@@ -135,10 +135,10 @@
       </v-simple-table>
       <v-row>
         <v-col class="text-left">
-          <v-btn id="backbutton" rounded>ยกเลิก</v-btn>
+          <v-btn id="backbutton" rounded @click="moveto('back')">ยกเลิก</v-btn>
         </v-col>
         <v-col class="text-right">
-          <v-btn id="savebutton" rounded>บันทึก</v-btn>
+          <v-btn id="savebutton" rounded @click="moveto('save')">บันทึก</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -151,10 +151,10 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
-    latitude: "",
-    longitude: "",
+    mapcenter: {lat: 16.466022,lng: 102.898313},
     xdata: [
       {
+        id: 1,
         x1: 0.7568462,
         x2: 5.370551,
         x3: 10.28535,
@@ -164,6 +164,7 @@ export default {
         temputure: 32.02,
       },
       {
+        id: 2,
         x1: 1.892033,
         x2: 10.74111,
         x3: 20.5706,
@@ -173,6 +174,7 @@ export default {
         temputure: 31.01,
       },
       {
+        id: 3,
         x1: 1.922431,
         x2: 9.398447,
         x3: 17.14219,
@@ -182,6 +184,7 @@ export default {
         temputure: 29.42,
       },
       {
+        id: 4,
         x1: 2.270401,
         x2: 6.713198,
         x3: 15.1423,
@@ -198,6 +201,22 @@ export default {
       },
     },
   methods:{
+    moveto(i){
+      const vm = this
+      if (i == "back"){
+        vm.$router.push("/show-area")
+      }
+      if (i == "save"){
+        vm.$router.push("/show-area")
+      }
+      if (i == 'deletearea'){
+        vm.$router.push("/show-area")
+      }
+    },
+    removecassvana(index){
+      console.log(index+1)
+      this.xdata.remove(index)
+    },
     formatDate (date) {
         if (!date) return null
 

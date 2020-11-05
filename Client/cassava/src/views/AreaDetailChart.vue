@@ -72,7 +72,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-btn rounded href="../show-area"> ย้อนกลับ </v-btn>
+        <v-btn rounded @click="moveto('back')"> ย้อนกลับ </v-btn>
       </v-row>
     </v-container>
   </div>
@@ -115,8 +115,8 @@ export default {
     modal: false,
     menu2: false,
     areaname: "สมชาย",
-    gradecassvana: "A",
-    precentstarch: 5,
+    gradecassvana: "B",
+    precentstarch: 28.52,
     dategetdata: "26/5/2563",
     temputure: 35.25,
     cassvanaage: 12,
@@ -130,6 +130,12 @@ export default {
       }
     },
   methods:{
+    moveto(i){
+      const vm = this
+      if (i == "back"){
+        vm.$router.push("/show-area")
+      }
+    },
     formatDate (date) {
         if (!date) return null
 

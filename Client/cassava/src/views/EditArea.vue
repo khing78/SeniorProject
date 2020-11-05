@@ -4,21 +4,21 @@
       <v-btn>ลบแปลง</v-btn>
       <v-row>
         <v-col cols="12" md="9" sm="9">
-          <GmapMap
-            :center="{ lat: latitude, lng: longitude }"
-            :zoom="7"
-            map-type-id="terrain"
-            style="width: 100%; height: 100%"
+          <gmap-map
+            :center="mapcenter"
+            :zoom="18"
+            style="width: 100%; height: 500px"
+            map-type-id="satellite"
           >
-            <GmapMarker
+            <gmap-marker
               :key="index"
               v-for="(m, index) in markers"
               :position="m.position"
-              :clickable="true"
+              :clickable="false"
               :draggable="true"
               @click="center = m.position"
-            />
-          </GmapMap>
+            ></gmap-marker>
+          </gmap-map>
           <!-- For Map -->
         </v-col>
         <v-col cols="12" md="3" sm="3">
@@ -37,7 +37,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                 v-model="date"
-                label="วัน/เดือน/ปี ที่บันทึก"
+                label="วัน/เดือน/ปี ที่เริ่มปลูก"
                 prepend-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
@@ -51,10 +51,10 @@
           </v-menu>
           <v-row>
             <v-col cols="12" md="6" class="text-center">
-              <v-btn id="addpinbutton" rounded> เพิ่มหมุด </v-btn>
+              <v-btn id="addpinbutton" rounded @click="addpinfun()"> เพิ่มหมุด </v-btn>
             </v-col>
             <v-col cols="12" md="6" class="text-center">
-              <v-btn rounded> ลบหมุด </v-btn>
+              <v-btn rounded @click="deletedpinfun()"> ลบหมุด </v-btn>
             </v-col>
             
           </v-row>
@@ -81,12 +81,12 @@
             </v-container>
           </v-row>
           <v-text-field
-            v-model="latitude"
+            v-model="this.mapcenter.lat"
             hint="กรุณาใส่ละติจูด (หากมี)"
             label="ละติจูด (หากมี)"
           ></v-text-field>
           <v-text-field
-            v-model="longitude"
+            v-model="this.mapcenter.lng"
             hint="กรุณาใส่ลองจิจูด (หากมี)"
             label="ลองจิจูด (หากมี)"
           ></v-text-field>
@@ -109,14 +109,35 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
-    latitude: 16.4411261,
-    longitude: 102.8644933,
-    areaname: "",
-    selectstate: "",
+    mapcenter: {lat: 16.466022,lng: 102.898313},
+    areaname: "สมชาย",
+    selectstate: "ขอนแก่น",
     itemsstate: ["ขอนแก่น", "เลย", "เชียงใหม่", "อุบลราชธานี"],
-    selectdistrict: "",
-    itemsdistrict: ["เมือง", "เลย", "เชียงใหม่", "อุบลราชธานี"],
+    selectdistrict: "บ้านแฮด",
+    itemsdistrict: ["เมือง", "เวียงเก่า", "บ้านแฮด", "บ้านฝาง"],
+    markers: [
+        { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.898313 } },
+        { Id: 2, name: "2", position: { lat: 16.466037 , lng: 102.899724 } },
+        { Id: 3,  name: "3", position: { lat: 16.465616 , lng: 102.899717 }},
+        { Id: 4, name: "4", position: { lat: 16.465644,  lng: 102.898275 } },
+      ],
   }),
+  methods:{
+    addpinfun (){
+      const lenghtmarker = this.markers.length
+      const po = this.mapcenter
+      if (this.markers.length == 0){
+        this.markers.push ({Id: lenghtmarker+1, name: (lenghtmarker+1).toString(), position:po })
+      }
+      else{
+        this.markers.push ({Id: lenghtmarker+1, name: (lenghtmarker+1).toString(), position:this.mapcenter })
+      }
+    },
+    deletedpinfun(){
+      const lenghtmarker = this.markers.length
+      this.markers.pop ({Id: lenghtmarker+1})
+    },
+  }
 };
 </script>
 <style scoped>
@@ -129,5 +150,9 @@ export default {
 }
 #savebutton{
   background-color: #1CE227;
+}
+#map{
+  width: 100%; 
+  height: 500px
 }
 </style>

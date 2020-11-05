@@ -3,14 +3,14 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
-import * as VueGoogleMaps from 'vue2-google-maps'
+import * as VueGoogleMaps from 'gmap-vue'
 
 Vue.config.productionTip = false
 
 Vue.use(VueGoogleMaps,{
   load:{
     key:'AIzaSyBroHHjH5L5ukvmefyYx9qfkrAjJn2Y0a0',
-    libraries: 'places',
+    libraries: 'places,drawing',
   },
 })
 

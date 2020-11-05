@@ -1,14 +1,14 @@
 <template>
   <div id="show-area">
-    <v-container>
+    <v-container fluid>
       <v-row>
-        <v-col style="margin-right:1vh" cols="12" md="4" sm="4"
-          ><v-btn id="addbutton" rounded
+        <v-col cols="12" md="4" sm="4"
+          ><v-btn id="addbutton" rounded @click="moveto('pin')"
             >+ เพิ่มข้อมูลมันสำปะหลัง</v-btn
           ></v-col
         >
         <v-col cols="12" md="3" sm="3">
-          <v-btn rounded>กราฟ</v-btn>
+          <v-btn rounded href="../area-detail-chart">กราฟ</v-btn>
         </v-col>
         <v-col cols="12" md="3" sm="3">
           <v-menu
@@ -36,21 +36,22 @@
         </v-col>
       </v-row>
       <v-row id="everythingisonfire">
-        <v-col cols="9">
-          <GmapMap id="showmap"
-            :center="{ lat: latitude, lng: longitude }"
-            :zoom="16"
-            map-type-id="terrain"
+        <v-col cols="12" md="9">
+          <gmap-map
+            :center="mapcenter"
+            :zoom="17"
+            style="width: 100%; height: 500px"
+            map-type-id="satellite"
           >
-            <GmapMarker
+            <gmap-marker
               :key="index"
               v-for="(m, index) in markers"
               :position="m.position"
               :clickable="true"
-              :draggable="true"
-              @click="center = m.position"
-            />
-          </GmapMap>
+              :draggable="false"
+              @click="moveto('pin')"
+            ></gmap-marker>
+          </gmap-map>
           <!-- For Map -->
         </v-col>
         <v-col cols="12" md="3" sm="3">
@@ -92,8 +93,8 @@
       </v-row>
       <v-row>
         <v-col class="text-right">
-          <v-btn id="backbutton" rounded style="margin-end: 10px">ย้อนกลับ</v-btn>
-          <v-btn color="#FFB200" rounded>จัดการแปลง</v-btn>
+          <v-btn id="backbutton" rounded @click="moveto('back')">ย้อนกลับ</v-btn>
+          <v-btn color="#FFB200" rounded @click="moveto('editarea')">จัดการแปลง</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -111,9 +112,34 @@ export default {
     gradeBtotal: 50,
     gradeCtotal: 40,
     totalstarch: 50,
-    latitude:16.4411261,
-    longitude:102.8644933,
+    mapcenter:{lat: 16.466022,lng: 102.898313},
+    markers: [
+        { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.898313 } },
+        { Id: 2, name: "2", position: { lat: 16.466037 , lng: 102.899724 } },
+        { Id: 3,  name: "3", position: { lat: 16.465616 , lng: 102.899717 }},
+        { Id: 4, name: "4", position: { lat: 16.465644,  lng: 102.898275 } },
+      ],
   }),
+  methods:{
+    moveto(i){
+      const vm = this
+      if(i=="pin"){
+        vm.$router.push("/data-save");
+      }
+      else if(i=="addarea"){
+        vm.$router.push("/add-area");
+      }
+      else if(i=="editarea"){
+        vm.$router.push("/edit-area");
+      }
+      else if(i =="back"){
+        vm.$router.push("/show-all-area");
+      }
+      else if(i == "chart"){
+        vm.$router.push("/area-detail-chart");
+      }
+    }
+  }
 };
 </script>
 <style scoped>
@@ -129,7 +155,7 @@ export default {
   min-width: 1vw;
 }
 #backbutton{
-  margin-right: 10vw;
+  margin-right: 1vw;
   border-radius: 10vh;
 }
 #addbutton{
