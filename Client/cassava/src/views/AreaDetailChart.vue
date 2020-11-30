@@ -30,6 +30,7 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
+        <div id="todatelabel">ถึง</div>
         <v-col cols="12" md="2" sm="3">
           <v-menu
             :close-on-content-click="true"
@@ -54,19 +55,22 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
+        <v-col cols="12" md="2" sm="3" class="text-center">
+          <v-btn id="resetchartbutton"> ยืนยัน </v-btn>
+        </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" md="9">
-          <canvas id="myChart"></canvas>
+          <div id="showchart">
+            <canvas id="myChart"></canvas>
+          </div>
         </v-col>
         <v-col cols="12" md="3">
-          เกรดคุณภาพแป้ง: {{ gradecassvana }}
+          เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassvana }}
           <br />
-          เปอร์เซ็นต์แป้ง(%)เฉลี่ย: {{ precentstarch }}
+          เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarch }}
           <br />
-          วันที่ทำการวัด(ว/ด/ป): {{ dategetdata }}
-          <br />
-          อุณหภูมิ(เซลเซียส): {{ temputure }}
+          อุณหภูมิเฉลี่ย(เซลเซียส): {{ temputure }}
           <br />
           อายุของมันสำปะหลัง(เดือน): {{ cassvanaage }}
         </v-col>
@@ -97,14 +101,36 @@ window.addEventListener("load", function () {
       ],
       datasets: [
         {
-          label: "# of Votes",
+          label: "ปริมาณแป้งมันสำปะหลัง(%)",
           data: [2, 9, 15, 25, 26, 27, 26, 25, 25.5, 26.5, 24],
-          borderColor: "rgba(0, 0, 0, 1)",
-          fill: false,
+          pointRadius: 5,
+          pointHoverRadius:9
+
         },
       ],
     },
-    options: {},
+    options: {
+      borderJoinStyle: "bevel",
+      scales: {
+        yAxes: [
+          {
+            ticks: {},
+          },
+        ],
+        xAxes: [
+          {
+            ticks: {},
+          },
+        ],
+      },
+      elements: {
+        line: {
+          fill: false,
+          tension: 0,
+          borderColor: "rgba(76, 156, 0, 1)",
+        },
+      },
+    },
   });
 });
 export default {
@@ -122,28 +148,47 @@ export default {
     cassvanaage: 12,
   }),
   computed: {
-      computedDateFromFormatted () {
-        return this.formatDate(this.datefrom)
-      },
-      computedDatetoFormatted (){
-        return this.formatDate(this.dateto)
+    computedDateFromFormatted() {
+      return this.formatDate(this.datefrom);
+    },
+    computedDatetoFormatted() {
+      return this.formatDate(this.dateto);
+    },
+  },
+  methods: {
+    moveto(i) {
+      const vm = this;
+      if (i == "back") {
+        vm.$router.push("/show-area");
       }
     },
-  methods:{
-    moveto(i){
-      const vm = this
-      if (i == "back"){
-        vm.$router.push("/show-area")
-      }
-    },
-    formatDate (date) {
-        if (!date) return null
+    formatDate(date) {
+      if (!date) return null;
 
-        const [year, month, day] = date.split('-')
-        return `${day}/${month}/${year}`
-      },
+      const [year, month, day] = date.split("-");
+      const newyear = parseInt(year)+543
+      return `${day}/${month}/${newyear}`;
+    },
+    addDatachart(chart, label, data) {
+      chart.data.labels.push(label);
+      chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+      });
+      chart.update();
+    },
+    removeDatachart(chart) {
+      chart.data.labels.pop();
+      chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+      });
+      chart.update();
+    },
   },
 };
 </script>
 <style scoped>
+#todatelabel {
+  text-align: center;
+  padding: 3vh;
+}
 </style>

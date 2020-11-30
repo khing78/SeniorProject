@@ -51,7 +51,9 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-btn id="savebutton" rounded>เพิ่มต้น +</v-btn>
+        <v-col cols="12">
+          <v-btn id="savebutton" rounded>เพิ่มต้น +</v-btn>
+        </v-col>
       </v-row>
       <v-simple-table
         fixed-header
@@ -72,7 +74,6 @@
             >
               <td>
                 <v-row>
-                  <v-col class="text-left"><div id="indexhead">หัวที่{{ index + 1 }}</div></v-col>
                   <v-col class="text-right"><v-btn rounded id="removebutton" @click="removecassvana(index)">ลบ</v-btn></v-col>
                 </v-row>
                 <v-row>
@@ -217,12 +218,12 @@ export default {
       console.log(index+1)
       this.xdata.remove(index)
     },
-    formatDate (date) {
-        if (!date) return null
-
-        const [year, month, day] = date.split('-')
-        return `${day}/${month}/${year}`
-      },
+    formatDate(date) {
+      if (!date) return null;
+      const [year, month, day] = date.split("-");
+      const newyear = parseInt(year)+543
+      return `${day}/${month}/${newyear}`;
+    },
   },
 };
 </script>

@@ -5,7 +5,7 @@
         <v-col cols="1"> พื้นที่ {{ areanumber }} </v-col>
       </v-row>
       <v-row class="text-center" justify="center">
-        <v-col class="text-center"> เปอร์เซ็นต์แป้งเฉลี่ย(%): {{precentstarch}}
+        <v-col class="text-center"> เปอร์เซ็นต์แป้งเฉลี่ย(%): {{precentstarchavg}}
           <br>
           วันที่เก็บข้อมูล: {{datekeepdata}}
           <br>
@@ -16,9 +16,6 @@
     <template v-slot:default>
       <thead>
         <tr>
-          <th class="text-center" style="background-color:#FFA9A9">
-            หัวที่
-          </th>
           <th class="text-center" style="background-color:#FFA9A9">
             เปอร์เซ็นต์แป้ง(%)
           </th>
@@ -32,11 +29,12 @@
       </thead>
       <tbody>
         <tr class="text-center"
-          v-for="item in desserts"
+          v-for="(item) in detailpin"
           :key="item.name"
         >
-          <td>{{ item.name }}</td>
-          <td>{{ item.calories }}</td>
+          <td>{{ item.precentstarch }}</td>
+          <td>{{item.temperture}}</td>
+          <td>{{item.humidity}}</td>
         </tr>
       </tbody>
     </template>
@@ -57,49 +55,34 @@
 export default {
   data: () => ({
     areanumber: 1,
-    precentstarch: 35.02,
+    precentstarchavg: 26.02,
     datekeepdata: "13/1/2563" ,
     cassvanaage: 12,
-    desserts: [
+    detailpin: [
           {
-            name: 'Frozen Yogurt',
-            calories: 159,
+            precentstarch: 25.5,
+            temperture: 28.35,
+            humidity: 50
           },
           {
-            name: 'Ice cream sandwich',
-            calories: 237,
+            precentstarch: 28.09,
+            temperture: 28.32,
+            humidity: 50
           },
           {
-            name: 'Eclair',
-            calories: 262,
+            precentstarch: 31.07,
+            temperture: 28.12,
+            humidity: 50
           },
           {
-            name: 'Cupcake',
-            calories: 305,
+            precentstarch: 18.03,
+            temperture: 28.63,
+            humidity: 50
           },
           {
-            name: 'Gingerbread',
-            calories: 356,
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
+            precentstarch: 27.03,
+            temperture: 28.66,
+            humidity: 50
           },
         ],
   }),

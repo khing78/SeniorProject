@@ -2,6 +2,11 @@
   <div id="show-area">
     <v-container fluid>
       <v-row>
+        <v-col cols="12">
+          <div id="namearea">แปลง {{ areaname }}</div>
+        </v-col>
+      </v-row>
+      <v-row>
         <v-col cols="12" md="4" sm="4"
           ><v-btn id="addbutton" rounded @click="moveto('pin')"
             >+ เพิ่มข้อมูลมันสำปะหลัง</v-btn
@@ -20,7 +25,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                v-model="date"
+                v-model="computedDateFormatted"
                 label="วัน/เดือน/ปี ที่บันทึก"
                 prepend-icon="mdi-calendar"
                 readonly
@@ -49,7 +54,7 @@
               :position="m.position"
               :clickable="true"
               :draggable="false"
-              @click="moveto('pin')"
+              @click="moveto('pindetail')"
             ></gmap-marker>
           </gmap-map>
           <!-- For Map -->
@@ -57,23 +62,17 @@
         <v-col cols="12" md="3" sm="3">
           <v-row align="center">
             <v-col cols="3"
-              ><v-img id="pin"
-                src="../assets/Agradeicon.png"
-              ></v-img></v-col
+              ><v-img id="pin" src="../assets/Agradeicon.png"></v-img></v-col
             >เกรด A</v-row
           >
           <v-row align="center">
             <v-col cols="12" md="3" sm="3"
-              ><v-img id="pin"
-                src="../assets/Bgradeicon.png"
-              ></v-img></v-col
+              ><v-img id="pin" src="../assets/Bgradeicon.png"></v-img></v-col
             >เกรด B</v-row
           >
           <v-row align="center">
             <v-col cols="12" md="3" sm="3"
-              ><v-img id="pin"
-                src="../assets/Cgradeicon.png"
-              ></v-img></v-col
+              ><v-img id="pin" src="../assets/Cgradeicon.png"></v-img></v-col
             >เกรด C</v-row
           >
           <div class="detailtext">
@@ -93,8 +92,12 @@
       </v-row>
       <v-row>
         <v-col class="text-right">
-          <v-btn id="backbutton" rounded @click="moveto('back')">ย้อนกลับ</v-btn>
-          <v-btn color="#FFB200" rounded @click="moveto('editarea')">จัดการแปลง</v-btn>
+          <v-btn id="backbutton" rounded @click="moveto('back')"
+            >ย้อนกลับ</v-btn
+          >
+          <v-btn color="#FFB200" rounded @click="moveto('editarea')"
+            >จัดการแปลง</v-btn
+          >
         </v-col>
       </v-row>
     </v-container>
@@ -108,60 +111,71 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
+    areaname: "สมชาย",
     gradeAtotal: 10,
     gradeBtotal: 50,
     gradeCtotal: 40,
     totalstarch: 50,
-    mapcenter:{lat: 16.466022,lng: 102.898313},
+    mapcenter: { lat: 16.466022, lng: 102.898313 },
     markers: [
-        { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.898313 } },
-        { Id: 2, name: "2", position: { lat: 16.466037 , lng: 102.899724 } },
-        { Id: 3,  name: "3", position: { lat: 16.465616 , lng: 102.899717 }},
-        { Id: 4, name: "4", position: { lat: 16.465644,  lng: 102.898275 } },
-      ],
+      { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.898313 } },
+      { Id: 2, name: "2", position: { lat: 16.466037, lng: 102.899724 } },
+      { Id: 3, name: "3", position: { lat: 16.465616, lng: 102.899717 } },
+      { Id: 4, name: "4", position: { lat: 16.465644, lng: 102.898275 } },
+    ],
   }),
-  methods:{
-    moveto(i){
-      const vm = this
-      if(i=="pin"){
+  computed: {
+    computedDateFormatted() {
+      return this.formatDate(this.date);
+    },
+  },
+  methods: {
+    formatDate(date) {
+      if (!date) return null;
+
+      const [year, month, day] = date.split("-");
+      const newyear = parseInt(year)+543
+      return `${day}/${month}/${newyear}`;
+    },
+    moveto(i) {
+      const vm = this;
+      if (i == "pin") {
         vm.$router.push("/data-save");
-      }
-      else if(i=="addarea"){
+      } else if (i == "addarea") {
         vm.$router.push("/add-area");
-      }
-      else if(i=="editarea"){
+      } else if (i == "editarea") {
         vm.$router.push("/edit-area");
-      }
-      else if(i =="back"){
+      } else if (i == "back") {
         vm.$router.push("/show-all-area");
-      }
-      else if(i == "chart"){
+      } else if (i == "chart") {
         vm.$router.push("/area-detail-chart");
+      } else if (i == "pindetail") {
+        vm.$router.push("/pin-detail");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
 .detailtext {
   text-align: center;
 }
-#showmap{
+#showmap {
   width: 100%;
   height: 100%;
 }
-#pin{
+#pin {
   max-width: 1vw;
   min-width: 1vw;
 }
-#backbutton{
+#backbutton {
   margin-right: 1vw;
   border-radius: 10vh;
 }
-#addbutton{
-  background-color: #1CE227;
+#addbutton {
+  background-color: #1ce227;
 }
-#marginaddbutton{
+#marginaddbutton {
   margin-right: 1vw;
 }
 </style>

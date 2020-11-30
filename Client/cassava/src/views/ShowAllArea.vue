@@ -37,7 +37,7 @@
         <v-col cols="12" md="8" sm="8">
           <gmap-map
             :center="mapcenter"
-            :zoom="5"
+            :zoom="16"
             style="width: 100%; height: 500px"
             map-type-id="satellite"
           >
@@ -76,7 +76,7 @@
             </template>
           </v-simple-table>
           <v-col class="text-center">
-            <v-btn href="../show-area">ตกลง</v-btn>
+            <v-btn @click="moveto('Accepted')">ตกลง</v-btn>
           </v-col>
           
         </v-col>
@@ -120,12 +120,16 @@ export default {
   }),
   methods: {
     moveto(i){
-      //this.mapcenter = this.markers[i].position
+      console.log(i)
+      console.log(this.map)
       const vm = this
       if (i == 'addarea'){
         vm.$router.push("/add-area");
       }
-      else{
+      else if(typeof i == "number"){
+        this.mapcenter = this.markers[i].position
+      }
+      else if (i == "Accepted"){
         vm.$router.push("/show-area");
       }
       

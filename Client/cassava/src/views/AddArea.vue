@@ -7,7 +7,7 @@
           <gmap-map
           id="map"
             :center="mapcenter"
-            :zoom="12"
+            :zoom="16"
             style="width: 100%; height: 500px"
             map-type-id="satellite"
           >
@@ -37,7 +37,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                v-model="date"
+                v-model="computedDateFormatted"
                 label="วัน/เดือน/ปี ที่ปลูก"
                 prepend-icon="mdi-calendar"
                 readonly
@@ -50,14 +50,6 @@
               @input="menu2 = false"
             ></v-date-picker>
           </v-menu>
-          <v-row>
-            <v-col cols="12" md="6" class="text-center">
-              <v-btn id="addpinbutton" rounded @click="addpinfun()"> เพิ่มหมุด </v-btn>
-            </v-col>
-            <v-col cols="12" md="6" class="text-center">
-              <v-btn rounded @click="deletedpinfun()"> ลบหมุด </v-btn>
-            </v-col>
-          </v-row>
           <v-row>
             <v-container fluid>
               <v-row>
@@ -90,8 +82,18 @@
             hint="กรุณาใส่ลองจิจูด"
             label="ลองจิจูด"
           ></v-text-field>
+          <v-text-field
+            v-model="mapcenter.wide"
+            hint="กรุณาใส่ความกว้าง"
+            label="ความกว้าง"
+          ></v-text-field>
+          <v-text-field
+            v-model="mapcenter.long"
+            hint="กรุณาใส่ความยาว"
+            label="ความยาว"
+          ></v-text-field>
           <v-col cols="12">
-            <v-btn @click="changepositionmap(mapcenter.lat,mapcenter.lng)">New Center</v-btn>
+            <v-btn @click="changepositionmap(mapcenter.lat,mapcenter.lng)">ตั้งจุดใหม่</v-btn>
           </v-col>
         </v-col>
       </v-row>
@@ -112,15 +114,22 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
-    mapcenter: {lat: 16.4411261,lng: 102.8644933},
+    mapcenter: {lat: 16.4411261,lng: 102.8644933,wide: 100,long: 100},
     positiona:{},
-    markers: [],
+    markers: [{Id: 1, 
+          name: "1", 
+          position: { lat: 16.466022, lng: 102.898313 }}],
     areaname: "",
     selectstate: "",
     itemsstate: ["ขอนแก่น", "เลย", "เชียงใหม่", "อุบลราชธานี"],
     selectdistrict: "",
     itemsdistrict: ["เมือง", "เวียงเก่า", "บ้านแฮด", "บ้านฝาง"],
   }),
+  computed: {
+    computedDateFormatted() {
+      return this.formatDate(this.date);
+    },
+  },
   methods:{
     moveto(i){
       const vm = this
@@ -130,6 +139,13 @@ export default {
       else if (i == "save"){
         vm.$router.push("/show-all-area")
       }
+    },
+    formatDate(date) {
+      if (!date) return null;
+
+      const [year, month, day] = date.split("-");
+      const newyear = parseInt(year)+543
+      return `${day}/${month}/${newyear}`;
     },
     changepositionmap(newlat,newlng){
       this.mapcenter.lat = Number(newlat)
@@ -159,8 +175,18 @@ export default {
     navigator.geolocation.getCurrentPosition((position) => {
         this.mapcenter = {
           lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
+          lng: position.coords.longitude,
+          wide:100,
+          long: 100,
+          
+
+        },
+        this.markers = [{
+          Id: 1, 
+          name: "1", 
+          position: { lat: position.coords.latitude, lng: position.coords.longitude }
+        }];
+        console.log(this.markers)
       })
       if (this.mapcenter.lat == null){
         this.mapcenter.lat = 16.4411261

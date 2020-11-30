@@ -8,7 +8,7 @@
             :center="mapcenter"
             :zoom="18"
             style="width: 100%; height: 500px"
-            map-type-id="satellite"
+            map-type-id="terrain"
           >
             <gmap-marker
               :key="index"
@@ -36,7 +36,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                v-model="date"
+                v-model="computedDateFormatted"
                 label="วัน/เดือน/ปี ที่เริ่มปลูก"
                 prepend-icon="mdi-calendar"
                 readonly
@@ -122,7 +122,18 @@ export default {
         { Id: 4, name: "4", position: { lat: 16.465644,  lng: 102.898275 } },
       ],
   }),
+  computed: {
+      computedDateFormatted () {
+        return this.formatDate(this.date)
+      },
+    },
   methods:{
+    formatDate(date) {
+      if (!date) return null;
+      const [year, month, day] = date.split("-");
+      const newyear = parseInt(year)+543
+      return `${day}/${month}/${newyear}`;
+    },
     addpinfun (){
       const lenghtmarker = this.markers.length
       const po = this.mapcenter
