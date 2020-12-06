@@ -5,7 +5,7 @@
         <!-- For Map -->
         <v-col cols="12" md="9">
           <gmap-map
-          id="map"
+            id="map"
             :center="mapcenter"
             :zoom="16"
             style="width: 100%; height: 500px"
@@ -93,13 +93,17 @@
             label="ความยาว"
           ></v-text-field>
           <v-col cols="12">
-            <v-btn @click="changepositionmap(mapcenter.lat,mapcenter.lng)">ตั้งจุดใหม่</v-btn>
+            <v-btn @click="changepositionmap(mapcenter.lat, mapcenter.lng)"
+              >ตั้งจุดใหม่</v-btn
+            >
           </v-col>
         </v-col>
       </v-row>
       <v-row>
         <v-col class="text-right">
-          <v-btn rounded style="margin-end: 10px" @click="moveto('back')">ยกเลิก</v-btn>
+          <v-btn rounded style="margin-end: 10px" @click="moveto('back')"
+            >ยกเลิก</v-btn
+          >
           <v-btn color="#1CE227" rounded @click="moveto('save')">บันทึก</v-btn>
         </v-col>
       </v-row>
@@ -114,11 +118,11 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
-    mapcenter: {lat: 16.4411261,lng: 102.8644933,wide: 100,long: 100},
-    positiona:{},
-    markers: [{Id: 1, 
-          name: "1", 
-          position: { lat: 16.466022, lng: 102.898313 }}],
+    mapcenter: { lat: 16.4411261, lng: 102.8644933, wide: 100, long: 100 },
+    positiona: {},
+    markers: [
+      { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.898313 } },
+    ],
     areaname: "",
     selectstate: "",
     itemsstate: ["ขอนแก่น", "เลย", "เชียงใหม่", "อุบลราชธานี"],
@@ -130,70 +134,77 @@ export default {
       return this.formatDate(this.date);
     },
   },
-  methods:{
-    moveto(i){
-      const vm = this
-      if (i == "back"){
-        vm.$router.push("/show-all-area")
-      }
-      else if (i == "save"){
-        vm.$router.push("/show-all-area")
+  methods: {
+    moveto(i) {
+      const vm = this;
+      if (i == "back") {
+        vm.$router.push("/show-all-area");
+      } else if (i == "save") {
+        vm.$router.push("/show-all-area");
       }
     },
     formatDate(date) {
       if (!date) return null;
 
       const [year, month, day] = date.split("-");
-      const newyear = parseInt(year)+543
+      const newyear = parseInt(year) + 543;
       return `${day}/${month}/${newyear}`;
     },
-    changepositionmap(newlat,newlng){
-      this.mapcenter.lat = Number(newlat)
-      this.mapcenter.lng = Number(newlng)
+    changepositionmap(newlat, newlng) {
+      this.mapcenter.lat = Number(newlat);
+      this.mapcenter.lng = Number(newlng);
     },
-    checkmap(k){
-      this.positiona = k
-      console.log(k)
-      
+    checkmap(k) {
+      this.positiona = k;
+      console.log(k);
     },
-    addpinfun (){
-      const lenghtmarker = this.markers.length
-      const po = this.mapcenter
-      if (this.markers.length == 0){
-        this.markers.push ({Id: lenghtmarker+1, name: (lenghtmarker+1).toString(), position:po })
+    addpinfun() {
+      const lenghtmarker = this.markers.length;
+      const po = this.mapcenter;
+      if (this.markers.length == 0) {
+        this.markers.push({
+          Id: lenghtmarker + 1,
+          name: (lenghtmarker + 1).toString(),
+          position: po,
+        });
+      } else {
+        this.markers.push({
+          Id: lenghtmarker + 1,
+          name: (lenghtmarker + 1).toString(),
+          position: po,
+        });
       }
-      else{
-        this.markers.push ({Id: lenghtmarker+1, name: (lenghtmarker+1).toString(), position:po })
-      }
     },
-    deletedpinfun(){
-      const lenghtmarker = this.markers.length
-      this.markers.pop ({Id: lenghtmarker})
+    deletedpinfun() {
+      const lenghtmarker = this.markers.length;
+      this.markers.pop({ Id: lenghtmarker });
     },
   },
-  created(){
+  created() {
     navigator.geolocation.getCurrentPosition((position) => {
-        this.mapcenter = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-          wide:100,
-          long: 100,
-          
-
-        },
-        this.markers = [{
-          Id: 1, 
-          name: "1", 
-          position: { lat: position.coords.latitude, lng: position.coords.longitude }
-        }];
-        console.log(this.markers)
-      })
-      if (this.mapcenter.lat == null){
-        this.mapcenter.lat = 16.4411261
-        this.mapcenter.lng = 102.8644933
-      }
-  }
-  
+      (this.mapcenter = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+        wide: 100,
+        long: 100,
+      }),
+        (this.markers = [
+          {
+            Id: 1,
+            name: "1",
+            position: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            },
+          },
+        ]);
+      console.log(this.markers);
+    });
+    if (this.mapcenter.lat == null) {
+      this.mapcenter.lat = 16.4411261;
+      this.mapcenter.lng = 102.8644933;
+    }
+  },
 };
 </script>
 <style scoped>

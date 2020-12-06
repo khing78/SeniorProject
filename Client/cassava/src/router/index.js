@@ -8,6 +8,7 @@ import EditArea from '../views/EditArea.vue'
 import AddArea from '../views/AddArea.vue'
 import ShowAllArea from '../views/ShowAllArea.vue'
 import ShowArea from '../views/ShowArea.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -51,6 +52,11 @@ const routes = [
     path: '/show-area',
     name: 'showarea',
     component: ShowArea
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
   },
   {
     path: '/about',

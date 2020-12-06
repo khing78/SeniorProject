@@ -8,7 +8,7 @@
             :center="mapcenter"
             :zoom="18"
             style="width: 100%; height: 500px"
-            map-type-id="terrain"
+            map-type-id="satellite"
           >
             <gmap-marker
               :key="index"
@@ -50,15 +50,6 @@
             ></v-date-picker>
           </v-menu>
           <v-row>
-            <v-col cols="12" md="6" class="text-center">
-              <v-btn id="addpinbutton" rounded @click="addpinfun()"> เพิ่มหมุด </v-btn>
-            </v-col>
-            <v-col cols="12" md="6" class="text-center">
-              <v-btn rounded @click="deletedpinfun()"> ลบหมุด </v-btn>
-            </v-col>
-            
-          </v-row>
-          <v-row>
             <v-container fluid>
               <v-row>
                 <v-col>
@@ -81,14 +72,24 @@
             </v-container>
           </v-row>
           <v-text-field
-            v-model="this.mapcenter.lat"
-            hint="กรุณาใส่ละติจูด (หากมี)"
-            label="ละติจูด (หากมี)"
+            v-model="mapcenter.lat"
+            hint="กรุณาใส่ละติจูด"
+            label="ละติจูด"
           ></v-text-field>
           <v-text-field
-            v-model="this.mapcenter.lng"
-            hint="กรุณาใส่ลองจิจูด (หากมี)"
-            label="ลองจิจูด (หากมี)"
+            v-model="mapcenter.lng"
+            hint="กรุณาใส่ลองจิจูด"
+            label="ลองจิจูด"
+          ></v-text-field>
+          <v-text-field
+            v-model="mapcenter.wide"
+            hint="กรุณาใส่ความกว้าง"
+            label="ความกว้าง"
+          ></v-text-field>
+          <v-text-field
+            v-model="mapcenter.long"
+            hint="กรุณาใส่ความยาว"
+            label="ความยาว"
           ></v-text-field>
         </v-col>
       </v-row>
