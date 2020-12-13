@@ -1,5 +1,5 @@
 <template>
-  <div id="show-area">
+  <v-main id="show-area">
     <v-container fluid>
       <v-row>
         <v-col cols="12">
@@ -43,6 +43,7 @@
       <v-row id="everythingisonfire">
         <v-col cols="12" md="9">
           <gmap-map
+            ref="mapRef"
             :center="mapcenter"
             :zoom="17"
             style="width: 100%; height: 500px"
@@ -56,6 +57,15 @@
               :draggable="false"
               @click="moveto('pindetail')"
             ></gmap-marker>
+            <gmap-polyline
+              v-if="path.length > 0"
+              :path="path"
+              :editable="true"
+              @path_changed="updateEdited($event)"
+              @rightclick="handleClickForDelete"
+              ref="polyline"
+            >
+            </gmap-polyline>
           </gmap-map>
           <!-- For Map -->
         </v-col>
@@ -101,7 +111,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
+  </v-main>
 </template>
 
 <script>
@@ -116,17 +126,35 @@ export default {
     gradeBtotal: 50,
     gradeCtotal: 40,
     totalstarch: 50,
+    path: [
+      { lat: 1.33, lng: 103.75 },
+      { lat: 1.43, lng: 103.85 },
+    ],
+    mvcPath: null,
     mapcenter: { lat: 16.466022, lng: 102.898313 },
     markers: [
-      { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.898313 } },
-      { Id: 2, name: "2", position: { lat: 16.466037, lng: 102.899724 } },
-      { Id: 3, name: "3", position: { lat: 16.465616, lng: 102.899717 } },
-      { Id: 4, name: "4", position: { lat: 16.465644, lng: 102.898275 } },
+      {
+        Id: 1,
+        name: "1",
+        position: { lat: 16.466022, lng: 102.898313 },
+        wide: 100,
+        long: 100,
+      },
     ],
   }),
   computed: {
     computedDateFormatted() {
       return this.formatDate(this.date);
+    },
+    polylinePath() {
+      if (!this.mvcPath) return null;
+
+      let path = [];
+      for (let j = 0; j < this.mvcPath.getLength(); j++) {
+        let point = this.mvcPath.getAt(j);
+        path.push({ lat: point.lat(), lng: point.lng() });
+      }
+      return path;
     },
   },
   methods: {
@@ -134,7 +162,7 @@ export default {
       if (!date) return null;
 
       const [year, month, day] = date.split("-");
-      const newyear = parseInt(year)+543
+      const newyear = parseInt(year) + 543;
       return `${day}/${month}/${newyear}`;
     },
     moveto(i) {
@@ -153,6 +181,43 @@ export default {
         vm.$router.push("/pin-detail");
       }
     },
+    updateCenter: function (place) {
+      this.center = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      };
+    },
+    handleClickForDelete($event) {
+      if ($event.vertex) {
+        
+        this.$refs.polyline.$polylineObject
+          .getPaths()
+          .getAt($event.path)
+          .removeAt($event.vertex);
+      }
+    },
+    updateEdited: function (mvcPath) {
+      this.mvcPath = mvcPath;
+    },
+    readGeojson: function ($event) {
+      try {
+        this.polylineGeojson = $event.target.value;
+
+        var v = JSON.parse($event.target.value);
+
+        this.path = v.coordinates.map(([lng, lat]) => ({ lat, lng }));
+
+        this.errorMessage = null;
+      } catch (err) {
+        this.errorMessage = err.message;
+      }
+    },
+  },
+  mounted() {
+    //this Code not depandent in Mark map (can delete if you want)
+    this.$refs.mapRef.$mapPromise.then((map) => {
+      map.panTo({ lat: 1.38, lng: 103.8 });
+    });
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="pin-detail">
+  <v-main class="pin-detail">
     <v-container>
       <v-row>
         <v-col cols="1"> พื้นที่ {{ areanumber }} </v-col>
@@ -48,7 +48,7 @@
     </v-col>
   </v-row>
     </v-container>
-  </div>
+  </v-main>
 </template>
 
 <script>

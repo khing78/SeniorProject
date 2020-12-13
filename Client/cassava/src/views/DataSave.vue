@@ -1,5 +1,5 @@
 <template>
-  <div class="data-save">
+  <v-main class="data-save">
     <v-container>
       <v-row>
         <v-col cols="12" md="3" sm="3"> ข้อมูลผลตรวจคุณภาพ</v-col>
@@ -143,7 +143,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
+  </v-main>
 </template>
 <script>
 export default {

@@ -1,5 +1,5 @@
 <template>
-  <div class="show-all-area">
+  <v-main class="show-all-area">
     <v-container>
       <v-row>
         <v-col>
@@ -82,7 +82,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
+  </v-main>
 </template>
 
 <script>

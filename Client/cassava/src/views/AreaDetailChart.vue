@@ -1,5 +1,5 @@
 <template>
-  <div class="area-detail-chart">
+  <v-main class="area-detail-chart">
     <v-container>
       <v-row>
         <v-col cols="3"> แปลง {{ areaname }}</v-col>
@@ -79,7 +79,7 @@
         <v-btn rounded @click="moveto('back')"> ย้อนกลับ </v-btn>
       </v-row>
     </v-container>
-  </div>
+  </v-main>
 </template>
 
 <script>

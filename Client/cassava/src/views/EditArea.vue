@@ -1,5 +1,5 @@
 <template>
-  <div class="edit-area">
+  <v-main class="edit-area">
     <v-container>
       <v-btn>ลบแปลง</v-btn>
       <v-row>
@@ -8,7 +8,7 @@
             :center="mapcenter"
             :zoom="18"
             style="width: 100%; height: 500px"
-            map-type-id="satellite"
+            map-type-id="terrain"
           >
             <gmap-marker
               :key="index"
@@ -100,7 +100,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
+  </v-main>
 </template>
 
 <script>

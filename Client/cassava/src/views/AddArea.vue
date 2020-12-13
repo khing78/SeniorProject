@@ -1,5 +1,5 @@
 <template>
-  <div class="add-area">
+  <v-main class="add-area">
     <v-container>
       <v-row>
         <!-- For Map -->
@@ -108,7 +108,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
+  </v-main>
 </template>
 
 <script>

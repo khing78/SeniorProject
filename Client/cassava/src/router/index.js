@@ -9,6 +9,8 @@ import AddArea from '../views/AddArea.vue'
 import ShowAllArea from '../views/ShowAllArea.vue'
 import ShowArea from '../views/ShowArea.vue'
 import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
+import Forgetpassword from '../views/ForgetPassword.vue'
 
 Vue.use(VueRouter)
 
@@ -57,6 +59,16 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: Register
+  },
+  {
+    path: '/forgetpassword',
+    name: 'forgetpassword',
+    component: Forgetpassword
   },
   {
     path: '/about',
