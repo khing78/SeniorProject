@@ -1,15 +1,12 @@
 <template>
   <v-main class="login">
-    <v-container fill-height style="width: 100%">
+    <v-container id="mainbackground" fill-height fluid style="width: 100%">
       <v-card width="400" class="mx-auto mt-5">
         <div id="formlogin">
           <div id="titlelogin">เข้าสู่ระบบ</div>
           <div id="inputlogin">
             อีเมล
-            <v-text-field
-              v-model="id"
-              :rules="[rules.email]"
-            ></v-text-field>
+            <v-text-field v-model="email" :rules="[rules.email]"></v-text-field>
             รหัสผ่าน
             <v-text-field
               v-model="password"
@@ -23,7 +20,7 @@
             <v-btn id="forgotbutton" text> ลืมรหัสผ่าน </v-btn>
             <v-btn id="signupbutton" text> สร้างบัญชี </v-btn>
           </div>
-          <v-btn id="loginbutton"> เข้าสู่ระบบ </v-btn>
+          <v-btn id="loginbutton" @click="loginfun(email,password)"> เข้าสู่ระบบ </v-btn>
         </div>
       </v-card>
       <v-row id="loginfield" justify="center" align="center"> </v-row>
@@ -32,23 +29,42 @@
 </template>
 
 <script>
+import firebase from "firebase/app";
+import "firebase/auth";
 export default {
   data: () => ({
     reg: /\S+@\S+\.\S+/,
-    id: "",
+    email: "",
     password: "",
     show1: false,
     rules: {
       required: (value) => !!value || "Required.",
       min: (v) => v.length >= 8 || "Min 8 characters",
       emailMatch: () => `The email and password you entered don't match`,
-      email: value => {
-            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            return pattern.test(value) || 'Invalid e-mail.'
-          },
+      email: (value) => {
+        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return pattern.test(value) || "Invalid e-mail.";
+      },
     },
   }),
-  methods: {},
+  methods: {
+    loginfun(email,password) {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then((user) => {
+          // Signed in
+          console.log(user)
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // ..
+          console.log(errorCode)
+          console.log(errorMessage)
+        });
+    },
+  },
 };
 </script>
 <style scoped>
@@ -63,5 +79,8 @@ export default {
 }
 #forgotbutton {
   margin-bottom: 1vh;
+}
+#mainbackground {
+  background: darkred;
 }
 </style>
