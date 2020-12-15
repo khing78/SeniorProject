@@ -5,15 +5,16 @@
         <div id="formregister">
           <div id="titleregister">ลืมรหัสผ่าน</div>
           <div id="inputregister">
+            {{errormessage}}
             อีเมล
             <v-text-field
-              v-model="id"
+              v-model="email"
               :rules="[rules.email]"
             ></v-text-field>
           </div>
           <div id="suandfobuttongroup">
             <v-btn id="cancelbutton" > ยกเลิก </v-btn>
-            <v-btn id="confirmbutton" > ยืนยัน </v-btn>
+            <v-btn id="confirmbutton" :disabled = "!email"> ยืนยัน </v-btn>
           </div>
         </div>
       </v-card>
@@ -25,9 +26,8 @@
 export default {
   data: () => ({
     reg: /\S+@\S+\.\S+/,
-    id: "",
-    password: "",
-    confirmpassword:"",
+    errorM:"",
+    email: "",
     show1: false,
     show2: false,
     rules: {

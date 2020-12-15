@@ -4,6 +4,7 @@
       <v-card width="400" class="mx-auto mt-5">
         <div id="formlogin">
           <div id="titlelogin">เข้าสู่ระบบ</div>
+          <div id="errormessager">{{ errorM }}</div>
           <div id="inputlogin">
             อีเมล
             <v-text-field v-model="email" :rules="[rules.email]"></v-text-field>
@@ -20,7 +21,9 @@
             <v-btn id="forgotbutton" text> ลืมรหัสผ่าน </v-btn>
             <v-btn id="signupbutton" text> สร้างบัญชี </v-btn>
           </div>
-          <v-btn id="loginbutton" @click="loginfun(email,password)"> เข้าสู่ระบบ </v-btn>
+          <v-btn id="loginbutton" @click="loginfun(email, password)">
+            เข้าสู่ระบบ
+          </v-btn>
         </div>
       </v-card>
       <v-row id="loginfield" justify="center" align="center"> </v-row>
@@ -36,7 +39,9 @@ export default {
     reg: /\S+@\S+\.\S+/,
     email: "",
     password: "",
+    errorM: "",
     show1: false,
+    user: "",
     rules: {
       required: (value) => !!value || "Required.",
       min: (v) => v.length >= 8 || "Min 8 characters",
@@ -48,20 +53,24 @@ export default {
     },
   }),
   methods: {
-    loginfun(email,password) {
+    loginfun(email, password) {
+      const vm = this;
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then((user) => {
-          // Signed in
-          console.log(user)
+          this.$store.commit({
+            type: "setName",
+            name: "UncleJohn",
+          });
+          this.user = user;
+          vm.$router.push("/show-all-area");
         })
         .catch((error) => {
-          var errorCode = error.code;
+          //var errorCode = error.code;
           var errorMessage = error.message;
           // ..
-          console.log(errorCode)
-          console.log(errorMessage)
+          this.errorM = errorMessage;
         });
     },
   },
@@ -77,7 +86,7 @@ export default {
 #formlogin {
   padding: 30px;
 }
-#forgotbutton {
+#suandfobuttongroup {
   margin-bottom: 1vh;
 }
 #mainbackground {

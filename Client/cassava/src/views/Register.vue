@@ -4,7 +4,7 @@
       <v-card width="400" class="mx-auto mt-5">
         <div id="formregister">
           <div id="titleregister">สมัครสมาชิก</div>
-          <div id="inputregister">
+          <v-form id="inputregister" v-model="inputregi">
             อีเมล
             <v-text-field v-model="email" :rules="[rules.email]"></v-text-field>
             รหัสผ่าน
@@ -23,10 +23,10 @@
               :rules="[rules.required, rules.min]"
               @click:append="show2 = !show2"
             ></v-text-field>
-          </div>
+          </v-form>
           <div id="suandfobuttongroup">
             <v-btn id="cancelbutton"> ยกเลิก </v-btn>
-            <v-btn id="confirmbutton" @click="registerfun(email,password)"> ยืนยัน </v-btn>
+            <v-btn id="confirmbutton" @click="registerfun(email,password)" :disabled = "!inputregi"> ยืนยัน </v-btn>
           </div>
         </div>
       </v-card>
@@ -39,6 +39,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 export default {
   data: () => ({
+    inputregi: false,
     reg: /\S+@\S+\.\S+/,
     email: "",
     password: "",
