@@ -23,15 +23,6 @@
             dense
           ></v-combobox>
         </v-col>
-        <v-col cols="12" md="2" sm="3">
-          <v-combobox
-            v-model="selectgrade"
-            :items="itemsgrade"
-            label="สถานะ"
-            outlined
-            dense
-          ></v-combobox>
-        </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" md="8" sm="8">

@@ -47,7 +47,7 @@
             :center="mapcenter"
             :zoom="17"
             style="width: 100%; height: 500px"
-            map-type-id="satellite"
+            map-type-id="terrain"
           >
             <gmap-marker
               :key="index"

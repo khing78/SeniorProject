@@ -59,11 +59,11 @@ export default {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then((user) => {
+          console.log(user)
           this.$store.commit({
             type: "setName",
-            name: "UncleJohn",
+            name: email,
           });
-          this.user = user;
           vm.$router.push("/show-all-area");
         })
         .catch((error) => {

@@ -5,6 +5,8 @@
         <div id="formregister">
           <div id="titleregister">สมัครสมาชิก</div>
           <v-form id="inputregister" v-model="inputregi">
+            ชื่อผู้ใช้
+            <v-text-field v-model="username" ></v-text-field>
             อีเมล
             <v-text-field v-model="email" :rules="[rules.email]"></v-text-field>
             รหัสผ่าน
@@ -26,7 +28,13 @@
           </v-form>
           <div id="suandfobuttongroup">
             <v-btn id="cancelbutton"> ยกเลิก </v-btn>
-            <v-btn id="confirmbutton" @click="registerfun(email,password)" :disabled = "!inputregi"> ยืนยัน </v-btn>
+            <v-btn
+              id="confirmbutton"
+              @click="registerfun(email, password)"
+              :disabled="!inputregi"
+            >
+              ยืนยัน
+            </v-btn>
           </div>
         </div>
       </v-card>
@@ -40,7 +48,7 @@ import "firebase/auth";
 export default {
   data: () => ({
     inputregi: false,
-    reg: /\S+@\S+\.\S+/,
+    username: "",
     email: "",
     password: "",
     confirmpassword: "",
@@ -57,19 +65,25 @@ export default {
     },
   }),
   methods: {
-    registerfun(email,password) {
+    registerfun(email, password) {
+      const vm = this;
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then((user) => {
           console.log(user)
+          this.$store.commit({
+            type: "setName",
+            name: this.username,
+          });
+          vm.$router.push("/show-all-area");
         })
         .catch((error) => {
           var errorCode = error.code;
           var errorMessage = error.message;
           // ..
-          console.log(errorCode)
-          console.log(errorMessage)
+          console.log(errorCode);
+          console.log(errorMessage);
         });
     },
   },

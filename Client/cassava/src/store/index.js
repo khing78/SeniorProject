@@ -8,13 +8,13 @@ export default new Vuex.Store({
     name:""
   },
   getters:{
-    getname(state){
+    getName(state){
       return state.name
     }
   },
   mutations: {
-    setUsername(state ,payload){
-      state.username = payload.username
+    setName(state ,payload){
+      state.name = payload.name
   },
   },
   actions: {

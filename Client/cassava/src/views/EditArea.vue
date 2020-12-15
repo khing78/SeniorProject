@@ -95,8 +95,8 @@
       </v-row>
       <v-row>
         <v-col class="text-right">
-          <v-btn id="backbutton" rounded href="../show-area">ย้อนกลับ</v-btn>
-          <v-btn id="savebutton" rounded href="../show-area">บันทึก</v-btn>
+          <v-btn id="backbutton" rounded @click="moveto('back')">ย้อนกลับ</v-btn>
+          <v-btn id="savebutton" rounded @click="moveto('save')">บันทึก</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -110,46 +110,61 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
-    mapcenter: {lat: 16.466022,lng: 102.898313},
+    mapcenter: { lat: 16.466022, lng: 102.898313 },
     areaname: "สมชาย",
     selectstate: "ขอนแก่น",
     itemsstate: ["ขอนแก่น", "เลย", "เชียงใหม่", "อุบลราชธานี"],
     selectdistrict: "บ้านแฮด",
     itemsdistrict: ["เมือง", "เวียงเก่า", "บ้านแฮด", "บ้านฝาง"],
     markers: [
-        { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.898313 } },
-        { Id: 2, name: "2", position: { lat: 16.466037 , lng: 102.899724 } },
-        { Id: 3,  name: "3", position: { lat: 16.465616 , lng: 102.899717 }},
-        { Id: 4, name: "4", position: { lat: 16.465644,  lng: 102.898275 } },
-      ],
+      { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.898313 } },
+      { Id: 2, name: "2", position: { lat: 16.466037, lng: 102.899724 } },
+      { Id: 3, name: "3", position: { lat: 16.465616, lng: 102.899717 } },
+      { Id: 4, name: "4", position: { lat: 16.465644, lng: 102.898275 } },
+    ],
   }),
   computed: {
-      computedDateFormatted () {
-        return this.formatDate(this.date)
-      },
+    computedDateFormatted() {
+      return this.formatDate(this.date);
     },
-  methods:{
+  },
+  methods: {
+    moveto(i) {
+      const vm = this;
+      if (i == "back") {
+        vm.$router.push("/show-area");
+      } else if (i == "save") {
+        vm.$router.push("/show-area");
+      }
+    },
     formatDate(date) {
       if (!date) return null;
       const [year, month, day] = date.split("-");
-      const newyear = parseInt(year)+543
+      const newyear = parseInt(year) + 543;
       return `${day}/${month}/${newyear}`;
     },
-    addpinfun (){
-      const lenghtmarker = this.markers.length
-      const po = this.mapcenter
-      if (this.markers.length == 0){
-        this.markers.push ({Id: lenghtmarker+1, name: (lenghtmarker+1).toString(), position:po })
-      }
-      else{
-        this.markers.push ({Id: lenghtmarker+1, name: (lenghtmarker+1).toString(), position:this.mapcenter })
+    addpinfun() {
+      const lenghtmarker = this.markers.length;
+      const po = this.mapcenter;
+      if (this.markers.length == 0) {
+        this.markers.push({
+          Id: lenghtmarker + 1,
+          name: (lenghtmarker + 1).toString(),
+          position: po,
+        });
+      } else {
+        this.markers.push({
+          Id: lenghtmarker + 1,
+          name: (lenghtmarker + 1).toString(),
+          position: this.mapcenter,
+        });
       }
     },
-    deletedpinfun(){
-      const lenghtmarker = this.markers.length
-      this.markers.pop ({Id: lenghtmarker+1})
+    deletedpinfun() {
+      const lenghtmarker = this.markers.length;
+      this.markers.pop({ Id: lenghtmarker + 1 });
     },
-  }
+  },
 };
 </script>
 <style scoped>
@@ -157,14 +172,14 @@ export default {
   color: #ffffff;
   background-color: #2643b6;
 }
-#backbutton{
+#backbutton {
   margin-right: 2vw;
 }
-#savebutton{
-  background-color: #1CE227;
+#savebutton {
+  background-color: #1ce227;
 }
-#map{
-  width: 100%; 
-  height: 500px
+#map {
+  width: 100%;
+  height: 500px;
 }
 </style>
