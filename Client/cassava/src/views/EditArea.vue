@@ -18,6 +18,15 @@
               :draggable="true"
               @click="center = m.position"
             ></gmap-marker>
+            <gmap-polyline
+              v-if="path.length > 0"
+              :path="path"
+              :editable="true"
+              @path_changed="updateEdited($event)"
+              @rightclick="handleClickForDelete"
+              ref="polyline"
+            >
+            </gmap-polyline>
           </gmap-map>
           <!-- For Map -->
         </v-col>
@@ -111,6 +120,10 @@ export default {
     modal: false,
     menu2: false,
     mapcenter: { lat: 16.466022, lng: 102.898313 },
+    path: [
+      { lat: 1.33, lng: 103.75 },
+      { lat: 1.43, lng: 103.85 },
+    ],
     areaname: "สมชาย",
     selectstate: "ขอนแก่น",
     itemsstate: ["ขอนแก่น", "เลย", "เชียงใหม่", "อุบลราชธานี"],
