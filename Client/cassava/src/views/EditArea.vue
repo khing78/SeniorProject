@@ -21,7 +21,7 @@
             <gmap-polyline
               v-if="path.length > 0"
               :path="path"
-              :editable="true"
+              :editable="disabled"
               @path_changed="updateEdited($event)"
               @rightclick="handleClickForDelete"
               ref="polyline"
@@ -63,8 +63,8 @@
               <v-row>
                 <v-col>
                   <v-combobox
-                    v-model="selectstate"
-                    :items="itemsstate"
+                    v-model="selectprovince"
+                    :items="province"
                     label="จังหวัด"
                     outlined
                     dense
@@ -113,6 +113,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
@@ -121,25 +122,25 @@ export default {
     menu2: false,
     mapcenter: { lat: 16.466022, lng: 102.898313 },
     path: [
-      { lat: 1.33, lng: 103.75 },
-      { lat: 1.43, lng: 103.85 },
+      { lat: 16.466022, lng: 102.899313 },
+      { lat: 16.466022, lng: 102.898313 },
+      { lat: 16.465022, lng: 102.898313 },
     ],
     areaname: "สมชาย",
-    selectstate: "ขอนแก่น",
-    itemsstate: ["ขอนแก่น", "เลย", "เชียงใหม่", "อุบลราชธานี"],
+    selectprovince: "ขอนแก่น",
     selectdistrict: "บ้านแฮด",
     itemsdistrict: ["เมือง", "เวียงเก่า", "บ้านแฮด", "บ้านฝาง"],
     markers: [
       { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.898313 } },
-      { Id: 2, name: "2", position: { lat: 16.466037, lng: 102.899724 } },
-      { Id: 3, name: "3", position: { lat: 16.465616, lng: 102.899717 } },
-      { Id: 4, name: "4", position: { lat: 16.465644, lng: 102.898275 } },
     ],
   }),
   computed: {
     computedDateFormatted() {
       return this.formatDate(this.date);
     },
+    ...mapGetters({
+      province: "getProvince",
+    }),
   },
   methods: {
     moveto(i) {

@@ -85,7 +85,7 @@
               ><v-img id="pin" src="../assets/Cgradeicon.png"></v-img></v-col
             >เกรด C</v-row
           >
-          <div class="detailtext">
+          <div id="detailtext">
             คุณภาพโดยรวมทั้งแปลง
             <br />
             เกรด A: {{ gradeAtotal }} %
@@ -127,8 +127,9 @@ export default {
     gradeCtotal: 40,
     totalstarch: 50,
     path: [
-      { lat: 16.465022, lng: 102.888313 },
+      { lat: 16.466022, lng: 102.899313 },
       { lat: 16.466022, lng: 102.898313 },
+      { lat: 16.465022, lng: 102.898313 },
     ],
     mvcPath: null,
     mapcenter: { lat: 16.466022, lng: 102.898313 },
@@ -222,8 +223,9 @@ export default {
 };
 </script>
 <style scoped>
-.detailtext {
+#detailtext {
   text-align: center;
+  size: 10px;
 }
 #showmap {
   width: 100%;

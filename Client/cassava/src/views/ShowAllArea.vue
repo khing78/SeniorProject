@@ -7,8 +7,8 @@
         </v-col>
         <v-col cols="12" md="2" sm="3">
           <v-combobox
-            v-model="selectstate"
-            :items="itemsstate"
+            v-model="selectprovince"
+            :items="province"
             label="จังหวัด"
             outlined
             dense
@@ -77,10 +77,10 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 export default {
   data: () => ({
-    selectstate: "",
-    itemsstate: ["ขอนแก่น", "เลย", "เชียงใหม่", "อุบลราชธานี"],
+    selectprovince: "",
     selectdistrict: "",
     itemsdistrict: ["เมือง", "เวียงเก่า", "บ้านแฮด", "บ้านฝาง"],
     selectgrade: "",
@@ -109,6 +109,11 @@ export default {
         { Id: 2,  name: "แปลงมารี",desciption: "อ.บ้านแฮด จ.ขอนแก่น", position: { lat: 15.465616 , lng: 102.899717 }},
       ],
   }),
+  computed:{
+    ...mapGetters({
+      province: "getProvince",
+    }),
+  },
   methods: {
     moveto(i){
       console.log(i)
