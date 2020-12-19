@@ -60,7 +60,7 @@
             <gmap-polyline
               v-if="path.length > 0"
               :path="path"
-              :editable="true"
+              :editable="false"
               @path_changed="updateEdited($event)"
               @rightclick="handleClickForDelete"
               ref="polyline"
@@ -127,8 +127,8 @@ export default {
     gradeCtotal: 40,
     totalstarch: 50,
     path: [
-      { lat: 1.33, lng: 103.75 },
-      { lat: 1.43, lng: 103.85 },
+      { lat: 16.465022, lng: 102.888313 },
+      { lat: 16.466022, lng: 102.898313 },
     ],
     mvcPath: null,
     mapcenter: { lat: 16.466022, lng: 102.898313 },
@@ -215,9 +215,9 @@ export default {
   },
   mounted() {
     //this Code not depandent in Mark map (can delete if you want)
-    this.$refs.mapRef.$mapPromise.then((map) => {
+    /*this.$refs.mapRef.$mapPromise.then((map) => {
       map.panTo({ lat: 1.38, lng: 103.8 });
-    });
+    });*/
   },
 };
 </script>
