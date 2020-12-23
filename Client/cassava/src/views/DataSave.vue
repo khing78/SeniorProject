@@ -46,9 +46,6 @@
             label="ลองจิจูด"
           ></v-text-field
         ></v-col>
-        <v-col cols="12" md="2" sm="3">
-          <v-btn>Map</v-btn>
-        </v-col>
       </v-row>
       <v-row>
         <v-col cols="12">

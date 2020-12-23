@@ -8,7 +8,7 @@
         <v-col cols="12" md="2" sm="3">
           <v-combobox
             v-model="selectprovince"
-            :items="province"
+            :items="allprovince"
             label="จังหวัด"
             outlined
             dense
@@ -84,37 +84,48 @@ export default {
     selectdistrict: "",
     itemsdistrict: ["เมือง", "เวียงเก่า", "บ้านแฮด", "บ้านฝาง"],
     selectgrade: "",
-    itemsgrade: ["A", "B", "C"],
     mapcenter: { lat: 16.4411261, lng: 102.8644933 },
     detailarea: [
       {
         id: 1,
         name: "แปลงสมชาย",
+        province: "ขอนแก่น",
+        district: "เมือง",
         desciption: "อ.เมือง จ.ขอนแก่น",
       },
       {
         id: 2,
         name: "แปลงสมศรี",
+        province: "ขอนแก่น",
+        district: "เวียงเก่า",
         desciption: "อ.เวียงเก่า จ.ขอนแก่น",
       },
       {
         id: 3,
         name: "แปลงมารี",
+        province: "ขอนแก่น",
+        district: "บ้านแฮด",
         desciption: "อ.บ้านแฮด จ.ขอนแก่น",
       },
     ],
     markers: [
-        { Id: 0, name: "แปลงสมชาย",desciption: "อ.เมือง จ.ขอนแก่น", position: { lat: 18.466022, lng: 102.898313 } },
+        { Id: 0, name: "แปลงสมชาย",desciption: "อ.เมือง จ.ขอนแก่น",position: { lat: 18.466022, lng: 102.898313 } },
         { Id: 1, name: "แปลงสมศรี",desciption: "อ.เวียงเก่า จ.ขอนแก่น", position: { lat: 16.466037 , lng: 99.899724 } },
         { Id: 2,  name: "แปลงมารี",desciption: "อ.บ้านแฮด จ.ขอนแก่น", position: { lat: 15.465616 , lng: 102.899717 }},
       ],
   }),
+  created:{
+    //ทุกครั้งที่เข้าหน้ามาให้โหลดข้อมูลแปลงทั้งหมดจาก Database ใหม่
+  },
   computed:{
     ...mapGetters({
-      province: "getProvince",
+      allprovince: "getProvince",
     }),
   },
   methods: {
+    selectfilter(){
+      //กรองเฉพาะที่เป็นจังหวัดนี้, อำเภอที่เลือก
+    },
     moveto(i){
       console.log(i)
       console.log(this.map)
@@ -126,6 +137,7 @@ export default {
         this.mapcenter = this.markers[i].position
       }
       else if (i == "Accepted"){
+        //เอ่ข้อมูลID ของแปลงไปดึงแปลงใน Database
         vm.$router.push("/show-area");
       }
       

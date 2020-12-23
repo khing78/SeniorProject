@@ -5,7 +5,6 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import * as VueGoogleMaps from 'gmap-vue'
 import firebase from 'firebase'
-import VueThailandAddress from 'vue-thailand-address';
 
 Vue.config.productionTip = false
 
@@ -27,7 +26,6 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
-Vue.use(VueThailandAddress);
 
 new Vue({
   router,

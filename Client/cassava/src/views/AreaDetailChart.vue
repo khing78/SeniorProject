@@ -162,6 +162,9 @@ export default {
         vm.$router.push("/show-area");
       }
     },
+    afterselectdate(){
+      //แสดงข้อมูลตั้งแต่วันที่ถึงวันที่
+    },
     formatDate(date) {
       if (!date) return null;
 

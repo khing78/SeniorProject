@@ -134,10 +134,12 @@ export default {
     mvcPath: null,
     mapcenter: { lat: 16.466022, lng: 102.898313 },
     markers: [
+      // Marker เป็นตัวบอกคุณภาพ
+      // ดึงข้อมูลมาจากฐานข้อมูล
       {
         Id: 1,
         name: "1",
-        position: { lat: 16.466022, lng: 102.898313 },
+        position: { lat: 16.465522, lng: 102.898513 },
         wide: 100,
         long: 100,
       },
