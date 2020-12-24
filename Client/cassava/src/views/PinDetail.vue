@@ -41,10 +41,10 @@
   </v-simple-table>
   <v-row>
     <v-col class="text-left">
-      <v-btn color="#F2F2F2" rounded>ยกเลิก</v-btn>
+      <v-btn color="#F2F2F2" rounded @click="moveto('back')">ยกเลิก</v-btn>
     </v-col>
     <v-col class="text-right">
-      <v-btn color="#FFB200" rounded>แก้ไข</v-btn>
+      <v-btn color="#FFB200" rounded @click="editdata()">แก้ไข</v-btn>
     </v-col>
   </v-row>
     </v-container>
@@ -86,6 +86,19 @@ export default {
           },
         ],
   }),
+  methods:{
+    moveto(i){
+      const vm = this
+      if (i == "back"){
+        vm.$router.back()
+      }
+    },
+    editdata(){
+      //ไปดึงที่หน้าเพิ่มข้อมูลมันสำปะหลัง พร้อมดึง ID จากฐานข้อมูล
+      const vm = this
+      vm.$router.push("/data-save")
+    }
+  }
 };
 </script>
 <style scoped>

@@ -13,7 +13,7 @@
           ></v-col
         >
         <v-col cols="12" md="3" sm="3">
-          <v-btn rounded href="../area-detail-chart">กราฟ</v-btn>
+          <v-btn rounded @click="moveto('chart')">กราฟ</v-btn>
         </v-col>
         <v-col cols="12" md="3" sm="3">
           <v-menu
