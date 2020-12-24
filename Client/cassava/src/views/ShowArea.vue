@@ -13,7 +13,7 @@
           ></v-col
         >
         <v-col cols="12" md="3" sm="3">
-          <v-btn rounded href="../area-detail-chart">กราฟ</v-btn>
+          <v-btn rounded @click="moveto('chart')">กราฟ</v-btn>
         </v-col>
         <v-col cols="12" md="3" sm="3">
           <v-menu
@@ -60,7 +60,7 @@
             <gmap-polyline
               v-if="path.length > 0"
               :path="path"
-              :editable="true"
+              :editable="false"
               @path_changed="updateEdited($event)"
               @rightclick="handleClickForDelete"
               ref="polyline"
@@ -85,7 +85,7 @@
               ><v-img id="pin" src="../assets/Cgradeicon.png"></v-img></v-col
             >เกรด C</v-row
           >
-          <div class="detailtext">
+          <div id="detailtext">
             คุณภาพโดยรวมทั้งแปลง
             <br />
             เกรด A: {{ gradeAtotal }} %
@@ -127,16 +127,19 @@ export default {
     gradeCtotal: 40,
     totalstarch: 50,
     path: [
-      { lat: 1.33, lng: 103.75 },
-      { lat: 1.43, lng: 103.85 },
+      { lat: 16.466022, lng: 102.899313 },
+      { lat: 16.466022, lng: 102.898313 },
+      { lat: 16.465022, lng: 102.898313 },
     ],
     mvcPath: null,
     mapcenter: { lat: 16.466022, lng: 102.898313 },
     markers: [
+      // Marker เป็นตัวบอกคุณภาพ
+      // ดึงข้อมูลมาจากฐานข้อมูล
       {
         Id: 1,
         name: "1",
-        position: { lat: 16.466022, lng: 102.898313 },
+        position: { lat: 16.465522, lng: 102.898513 },
         wide: 100,
         long: 100,
       },
@@ -215,15 +218,16 @@ export default {
   },
   mounted() {
     //this Code not depandent in Mark map (can delete if you want)
-    this.$refs.mapRef.$mapPromise.then((map) => {
+    /*this.$refs.mapRef.$mapPromise.then((map) => {
       map.panTo({ lat: 1.38, lng: 103.8 });
-    });
+    });*/
   },
 };
 </script>
 <style scoped>
-.detailtext {
+#detailtext {
   text-align: center;
+  size: 10px;
 }
 #showmap {
   width: 100%;

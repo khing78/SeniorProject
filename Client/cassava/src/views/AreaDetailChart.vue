@@ -62,7 +62,8 @@
       <v-row>
         <v-col cols="12" md="9">
           <div id="showchart">
-            <canvas id="myChart"></canvas>
+            <line-chart></line-chart>
+            <!--<canvas id="myChart"></canvas>-->
           </div>
         </v-col>
         <v-col cols="12" md="3">
@@ -81,59 +82,12 @@
     </v-container>
   </v-main>
 </template>
-
 <script>
-import Chart from "chart.js";
-window.addEventListener("load", function () {
-  var ctx = document.getElementById("myChart");
-  // eslint-disable-next-line no-unused-vars
-  var myChart = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: [
-        "21/06/2563",
-        "22/06/2563",
-        "23/06/2563",
-        "26/06/2563",
-        "29/06/2563",
-        "6/07/2563",
-        "8/07/2563",
-      ],
-      datasets: [
-        {
-          label: "ปริมาณแป้งมันสำปะหลัง(%)",
-          data: [2, 9, 15, 25, 26, 27, 26, 25, 25.5, 26.5, 24],
-          pointRadius: 5,
-          pointHoverRadius:9
-
-        },
-      ],
-    },
-    options: {
-      borderJoinStyle: "bevel",
-      scales: {
-        yAxes: [
-          {
-            ticks: {},
-          },
-        ],
-        xAxes: [
-          {
-            ticks: {},
-          },
-        ],
-      },
-      elements: {
-        line: {
-          fill: false,
-          tension: 0,
-          borderColor: "rgba(76, 156, 0, 1)",
-        },
-      },
-    },
-  });
-});
+import LineChart from '@/components/LineChart'
 export default {
+  components:{
+    LineChart
+  },
   data: () => ({
     datefrom: new Date().toISOString().substr(0, 10),
     dateto: new Date().toISOString().substr(0, 10),
@@ -146,6 +100,7 @@ export default {
     dategetdata: "26/5/2563",
     temputure: 35.25,
     cassvanaage: 12,
+    
   }),
   computed: {
     computedDateFromFormatted() {
@@ -154,6 +109,7 @@ export default {
     computedDatetoFormatted() {
       return this.formatDate(this.dateto);
     },
+    
   },
   methods: {
     moveto(i) {
@@ -161,6 +117,9 @@ export default {
       if (i == "back") {
         vm.$router.push("/show-area");
       }
+    },
+    afterselectdate(){
+      //แสดงข้อมูลตั้งแต่วันที่ถึงวันที่
     },
     formatDate(date) {
       if (!date) return null;
@@ -183,6 +142,9 @@ export default {
       });
       chart.update();
     },
+    updatechart(chart){
+      chart.update()
+    }
   },
 };
 </script>

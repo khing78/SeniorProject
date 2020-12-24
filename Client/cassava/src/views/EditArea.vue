@@ -1,7 +1,7 @@
 <template>
   <v-main class="edit-area">
     <v-container>
-      <v-btn>ลบแปลง</v-btn>
+      <v-btn id="deletebutton" @click="deletearea()">ลบแปลง</v-btn>
       <v-row>
         <v-col cols="12" md="9" sm="9">
           <gmap-map
@@ -18,6 +18,13 @@
               :draggable="true"
               @click="center = m.position"
             ></gmap-marker>
+            <gmap-polyline
+              v-if="newpath.length > 0"
+              :path="newpath"
+              :editable="false"
+              ref="polyline"
+            >
+            </gmap-polyline>
           </gmap-map>
           <!-- For Map -->
         </v-col>
@@ -54,8 +61,8 @@
               <v-row>
                 <v-col>
                   <v-combobox
-                    v-model="selectstate"
-                    :items="itemsstate"
+                    v-model="selectprovince"
+                    :items="province"
                     label="จังหวัด"
                     outlined
                     dense
@@ -91,12 +98,27 @@
             hint="กรุณาใส่ความยาว"
             label="ความยาว"
           ></v-text-field>
+          <v-col cols="12">
+            <v-btn
+              @click="
+                changepositionmap(
+                  mapcenter.lat,
+                  mapcenter.lng,
+                  mapcenter.wide,
+                  mapcenter.long
+                )
+              "
+              >ตั้งจุดใหม่</v-btn
+            >
+          </v-col>
         </v-col>
       </v-row>
       <v-row>
         <v-col class="text-right">
-          <v-btn id="backbutton" rounded @click="moveto('back')">ย้อนกลับ</v-btn>
-          <v-btn id="savebutton" rounded @click="moveto('save')">บันทึก</v-btn>
+          <v-btn id="backbutton" rounded @click="moveto('back')"
+            >ย้อนกลับ</v-btn
+          >
+          <v-btn id="savebutton" rounded @click="savedata()">บันทึก</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -104,36 +126,50 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
     menu: false,
     modal: false,
     menu2: false,
-    mapcenter: { lat: 16.466022, lng: 102.898313 },
+    mapcenter: { lat: 16.466022, lng: 102.898313, wide: 100, long: 100 },
+    newpath: [
+      { lat: 16.466022, lng: 102.899313 },
+      { lat: 16.466022, lng: 102.898313 },
+      { lat: 16.465022, lng: 102.898313 },
+    ],
+    path: [
+      //ดึงข้อมูลจากDatabase มา
+      { lat: 16.466022, lng: 102.899313 },
+      { lat: 16.466022, lng: 102.898313 },
+      { lat: 16.465022, lng: 102.898313 },
+    ],
     areaname: "สมชาย",
-    selectstate: "ขอนแก่น",
-    itemsstate: ["ขอนแก่น", "เลย", "เชียงใหม่", "อุบลราชธานี"],
+    selectprovince: "ขอนแก่น",
     selectdistrict: "บ้านแฮด",
     itemsdistrict: ["เมือง", "เวียงเก่า", "บ้านแฮด", "บ้านฝาง"],
     markers: [
-      { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.898313 } },
-      { Id: 2, name: "2", position: { lat: 16.466037, lng: 102.899724 } },
-      { Id: 3, name: "3", position: { lat: 16.465616, lng: 102.899717 } },
-      { Id: 4, name: "4", position: { lat: 16.465644, lng: 102.898275 } },
+      { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.899313 } },
+      { Id: 2, name: "2", position: { lat: 16.466022, lng: 102.898313 } },
+      { Id: 3, name: "3", position: { lat: 16.465022, lng: 102.898313 } },
     ],
   }),
+  created:{
+    //ดึงข้อมูลจาก Database
+  },
   computed: {
     computedDateFormatted() {
       return this.formatDate(this.date);
     },
+    ...mapGetters({
+      province: "getProvince",
+    }),
   },
   methods: {
     moveto(i) {
       const vm = this;
       if (i == "back") {
-        vm.$router.push("/show-area");
-      } else if (i == "save") {
         vm.$router.push("/show-area");
       }
     },
@@ -143,26 +179,96 @@ export default {
       const newyear = parseInt(year) + 543;
       return `${day}/${month}/${newyear}`;
     },
-    addpinfun() {
-      const lenghtmarker = this.markers.length;
-      const po = this.mapcenter;
-      if (this.markers.length == 0) {
-        this.markers.push({
-          Id: lenghtmarker + 1,
-          name: (lenghtmarker + 1).toString(),
-          position: po,
-        });
-      } else {
-        this.markers.push({
-          Id: lenghtmarker + 1,
-          name: (lenghtmarker + 1).toString(),
-          position: this.mapcenter,
-        });
-      }
+    deletearea() {
+      //ทำการเอา ID ของแปลงลบแปลงออกจากDatabase และกลับไปที่หน้า Show all area
+      const vm = this;
+      vm.$router.push("/show-all-area");
     },
-    deletedpinfun() {
-      const lenghtmarker = this.markers.length;
-      this.markers.pop({ Id: lenghtmarker + 1 });
+    savedata(){
+      //ทำการใส่ข้อมูลใหม่เข้าไปแทนที่ใน Database และกลับไปหน้า Showa area
+      const vm = this;
+      vm.$router.push("/show-area");
+    },
+    changefrommetertolatlong(width, long) {
+      //เปลี่ยน กว้างยาว เป็น lat long
+      var R = 6371e3; // Radius of the Earth in meter
+      var rlat1 = this.path[2].lat * (Math.PI / 180); // Convert degrees to radians
+      var rlat2 = this.path[1].lat * (Math.PI / 180); // Convert degrees to radians
+      var difflat = rlat2 - rlat1; // Radian difference (latitudes)
+      var difflon = (this.path[1].lng - this.path[2].lng) * (Math.PI / 180); // Radian difference (longitudes)
+
+      var d =
+        2 *
+        R *
+        Math.asin(
+          Math.sqrt(
+            Math.sin(difflat / 2) * Math.sin(difflat / 2) +
+              Math.cos(rlat1) *
+                Math.cos(rlat2) *
+                Math.sin(difflon / 2) *
+                Math.sin(difflon / 2)
+          )
+        );
+
+      var rationlat = width / d;
+      var rationlng = long / d;
+      console.log(rationlat);
+      console.log(rationlng);
+      var newlat =
+        this.path[1].lat + (this.path[0].lat - this.path[1].lat) * rationlat;
+      var newlng =
+        this.path[1].lng + (this.path[2].lng - this.path[1].lng) * rationlng;
+      (this.newpath = [
+        {
+          lat: newlat, //เปลี่ยน 0.01 เป็นที่หลังคำนวณ
+          lng: this.path[0].lng,
+        },
+        {
+          lat: this.path[1].lat,
+          lng: this.path[1].lng,
+        },
+        {
+          lat: this.path[2].lat,
+          lng: newlng, //เปลี่ยน 0.01 เป็นที่หลังคำนวณ
+        },
+      ]),
+        (this.markers = [
+          {
+            Id: 1,
+            name: "1",
+            position: { lat: newlat, lng: this.path[0].lng },
+          },
+          {
+            Id: 2,
+            name: "2",
+            position: { lat: this.path[1].lat, lng: this.path[1].lng },
+          },
+          {
+            Id: 3,
+            name: "3",
+            position: { lat: this.path[2].lat, lng: newlng },
+          },
+        ]);
+    },
+    changepositionmap(newlat, newlng, wide, long) {
+      this.mapcenter.lat = Number(newlat);
+      this.mapcenter.lng = Number(newlng);
+      (this.path = [
+        {
+          lat: Number(newlat) - 0.0009, //เปลี่ยน 0.01 เป็นที่หลังคำนวณ
+          lng: Number(newlng),
+        },
+        {
+          lat: Number(newlat),
+          lng: Number(newlng),
+        },
+        {
+          lat: Number(newlat),
+          lng: Number(newlng) + 0.00094, //เปลี่ยน 0.01 เป็นที่หลังคำนวณ
+        },
+      ]),
+        // Function calculation new distance
+        this.changefrommetertolatlong(wide, long);
     },
   },
 };

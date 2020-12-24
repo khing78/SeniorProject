@@ -10,7 +10,7 @@ Vue.config.productionTip = false
 
 Vue.use(VueGoogleMaps,{
   load:{
-    key:'AIzaSyBroHHjH5L5ukvmefyYx9qfkrAjJn2Y0a0',
+    key:'AIzaSyCyoUxesPldKEQINItocHKt7ELaGfXSHWc',
     libraries: 'places,drawing',
   },
 })
@@ -26,6 +26,7 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
+
 new Vue({
   router,
   store,

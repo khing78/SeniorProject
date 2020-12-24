@@ -4,7 +4,7 @@
       <v-row>
         <v-col cols="12" md="3" sm="3"> ข้อมูลผลตรวจคุณภาพ</v-col>
         <v-col class="text-right">
-          <v-btn id="removebutton" rounded @click="moveto('deletearea')">ลบข้อมูล</v-btn>
+          <v-btn id="removebutton" rounded @click="deletearea()">ลบข้อมูล</v-btn>
         </v-col>
       </v-row>
       <v-row class="text-center" justify="start">
@@ -46,9 +46,6 @@
             label="ลองจิจูด"
           ></v-text-field
         ></v-col>
-        <v-col cols="12" md="2" sm="3">
-          <v-btn>Map</v-btn>
-        </v-col>
       </v-row>
       <v-row>
         <v-col cols="12">
@@ -210,13 +207,15 @@ export default {
       if (i == "save"){
         vm.$router.push("/show-area")
       }
-      if (i == 'deletearea'){
-        vm.$router.push("/show-area")
-      }
     },
     removecassvana(index){
       console.log(index+1)
       this.xdata.remove(index)
+    },
+    deletearea(){
+      //เอา ID ของหมุดไปลบออกจาก Database แล้วกลับไปหน้า Showarea
+      const vm = this
+      vm.$router.push("/show-area")
     },
     formatDate(date) {
       if (!date) return null;
