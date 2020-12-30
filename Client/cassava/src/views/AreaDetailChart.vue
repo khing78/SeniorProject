@@ -83,10 +83,10 @@
   </v-main>
 </template>
 <script>
-import LineChart from '@/components/LineChart'
+import LineChart from "@/components/LineChart";
 export default {
-  components:{
-    LineChart
+  components: {
+    LineChart,
   },
   data: () => ({
     datefrom: new Date().toISOString().substr(0, 10),
@@ -100,7 +100,6 @@ export default {
     dategetdata: "26/5/2563",
     temputure: 35.25,
     cassvanaage: 12,
-    
   }),
   computed: {
     computedDateFromFormatted() {
@@ -109,7 +108,6 @@ export default {
     computedDatetoFormatted() {
       return this.formatDate(this.dateto);
     },
-    
   },
   methods: {
     moveto(i) {
@@ -118,14 +116,14 @@ export default {
         vm.$router.push("/show-area");
       }
     },
-    afterselectdate(){
+    afterselectdate() {
       //แสดงข้อมูลตั้งแต่วันที่ถึงวันที่
     },
     formatDate(date) {
       if (!date) return null;
 
       const [year, month, day] = date.split("-");
-      const newyear = parseInt(year)+543
+      const newyear = parseInt(year) + 543;
       return `${day}/${month}/${newyear}`;
     },
     addDatachart(chart, label, data) {
@@ -142,9 +140,9 @@ export default {
       });
       chart.update();
     },
-    updatechart(chart){
-      chart.update()
-    }
+    updatechart(chart) {
+      chart.update();
+    },
   },
 };
 </script>
