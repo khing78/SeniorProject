@@ -25,6 +25,13 @@ export default {
         ],
       },
       options: {
+        tooltip: {
+          callbacks: {
+            title: function (tooltipItem, data) {
+              return data["labels"][tooltipItem[0]["index"]];
+            },
+          },
+        },
         scales: {
           yAxes: [
             {

@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
+import VueThailandAddress from 'vue-thailand-address';
 import * as VueGoogleMaps from 'gmap-vue'
 import firebase from 'firebase'
 
@@ -14,7 +15,7 @@ Vue.use(VueGoogleMaps,{
     libraries: 'places,drawing',
   },
 })
-
+Vue.use(VueThailandAddress)
 const firebaseConfig = {
   apiKey: "AIzaSyBeronCsNPS_TdrgUPV-3nYK68PKnq0WMM",
   authDomain: "cassava-8ae86.firebaseapp.com",
