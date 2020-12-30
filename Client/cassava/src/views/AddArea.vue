@@ -299,10 +299,4 @@ export default {
   background-color: #2643b6;
   margin-bottom: 1vh;
 }
-#provinceselecter{
-  aria-haspopup: 10;
-}
-#districtselecter{
-
-}
 </style>
