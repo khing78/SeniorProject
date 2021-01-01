@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 import PinDetail from '../views/PinDetail.vue'
 import DataSave from '../views/DataSave.vue'
 import AreaDetailChart from '../views/AreaDetailChart.vue'
@@ -17,8 +16,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: Home
+    name: 'login',
+    component: Login
   },
   {
     path: '/pin-detail',
