@@ -69,22 +69,20 @@
             <v-container fluid>
               <v-row>
                 <v-col>
-                  <addressinput-province
-                    id="provinceselecter"
-                    v-model="province"
-                  />
-                  <addressinput-district
-                    id="districtselecter"
-                    v-model="district"
-                  />
                   <v-combobox
-                    class="th-address-input"
-                    v-model="selectdistrict"
-                    :items="itemsdistrict"
-                    label="อำเภอ"
+                    v-model="selectprovince"
+                    :items="province"
+                    label="จังหวัด"
                     outlined
                     dense
                   ></v-combobox>
+                  <v-text-field
+                    v-model="selectdistrict"
+                    hint="กรุณาใส่อำเภอ"
+                    label="อำเภอ"
+                    outlined
+                    dense
+                  ></v-text-field>
                 </v-col>
               </v-row>
             </v-container>
@@ -137,6 +135,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
@@ -148,20 +147,20 @@ export default {
     path: [],
     newpath: [],
     positiona: {},
-    province: "",
-    district: "",
     markers: [
       { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.898313 } },
-    ],
+    ],  
     areaname: "",
     selectprovince: "",
     selectdistrict: "",
-    itemsdistrict: ["เมือง", "เวียงเก่า", "บ้านแฮด", "บ้านฝาง"],
   }),
   computed: {
     computedDateFormatted() {
       return this.formatDate(this.date);
     },
+    ...mapGetters({
+      province: "getProvince",
+    }),
   },
   methods: {
     moveto(i) {

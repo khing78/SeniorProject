@@ -15,13 +15,12 @@
           ></v-combobox>
         </v-col>
         <v-col cols="12" md="2" sm="3">
-          <v-combobox
+          <v-text-field
             v-model="selectdistrict"
-            :items="itemsdistrict"
             label="อำเภอ"
             outlined
             dense
-          ></v-combobox>
+          ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
@@ -34,7 +33,7 @@
           >
             <gmap-marker
               :key="index"
-              v-for="(m, index) in markers"
+              v-for="(m, index) in detailarea"
               :position="m.position"
               :clickable="false"
               :draggable="false"
@@ -55,10 +54,10 @@
               <tbody>
                 <tr
                   class="elevation-1"
-                  v-for="item in markers"
-                  :key="item.name"
+                  v-for="item in detailarea"
+                  :key="item.Id"
                   style="text: center"
-                  @click="moveto(item.Id)"
+                  @click="moveto(item.id)"
                 >
                   <td>{{ item.name }}</td>
                   <td>{{ item.desciption }}</td>
@@ -87,32 +86,33 @@ export default {
     mapcenter: { lat: 16.4411261, lng: 102.8644933 },
     detailarea: [
       {
-        id: 1,
+        id: 0,
         name: "แปลงสมชาย",
         province: "ขอนแก่น",
         district: "เมือง",
         desciption: "อ.เมือง จ.ขอนแก่น",
+        position: { lat: 18.466022, lng: 102.898313 },
+        uid:""
       },
       {
-        id: 2,
+        id: 1,
         name: "แปลงสมศรี",
         province: "ขอนแก่น",
         district: "เวียงเก่า",
         desciption: "อ.เวียงเก่า จ.ขอนแก่น",
+        position: { lat: 16.466037 , lng: 99.899724 },
+        uid:""
       },
       {
-        id: 3,
+        id: 2,
         name: "แปลงมารี",
         province: "ขอนแก่น",
         district: "บ้านแฮด",
         desciption: "อ.บ้านแฮด จ.ขอนแก่น",
+        position: { lat: 15.465616 , lng: 102.899717 },
+        uid:""
       },
     ],
-    markers: [
-        { Id: 0, name: "แปลงสมชาย",desciption: "อ.เมือง จ.ขอนแก่น",position: { lat: 18.466022, lng: 102.898313 } },
-        { Id: 1, name: "แปลงสมศรี",desciption: "อ.เวียงเก่า จ.ขอนแก่น", position: { lat: 16.466037 , lng: 99.899724 } },
-        { Id: 2,  name: "แปลงมารี",desciption: "อ.บ้านแฮด จ.ขอนแก่น", position: { lat: 15.465616 , lng: 102.899717 }},
-      ],
   }),
   created:{
     //ทุกครั้งที่เข้าหน้ามาให้โหลดข้อมูลแปลงทั้งหมดจาก Database ใหม่
@@ -128,13 +128,13 @@ export default {
     },
     moveto(i){
       console.log(i)
-      console.log(this.map)
+      console.log(this.mapcenter.lat , this.mapcenter.lng)
       const vm = this
       if (i == 'addarea'){
         vm.$router.push("/add-area");
       }
       else if(typeof i == "number"){
-        this.mapcenter = this.markers[i].position
+        this.mapcenter = this.detailarea[i].position
       }
       else if (i == "Accepted"){
         //เอ่ข้อมูลID ของแปลงไปดึงแปลงใน Database
