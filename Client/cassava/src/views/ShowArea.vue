@@ -7,7 +7,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="4" sm="4"
+        <v-col cols="12" md="3" sm="3"
           ><v-btn id="addbutton" rounded @click="moveto('pin')"
             >+ เพิ่มข้อมูลมันสำปะหลัง</v-btn
           ></v-col
@@ -38,6 +38,9 @@
               @input="menu2 = false"
             ></v-date-picker>
           </v-menu>
+        </v-col>
+        <v-col cols="12" md="3" sm="3">
+          <v-btn rounded id="selectdatebutton" @click="changedate(computedDateFormatted)"> ตกลง </v-btn>
         </v-col>
       </v-row>
       <v-row id="everythingisonfire">
@@ -140,22 +143,22 @@ export default {
     ],
     mvcPath: null,
     mapcenter: { lat: 16.466022, lng: 102.898313 },
-    data:[{
+    datapin:[{
         id: 0,
         position: { lat: 16.465522, lng: 102.898513 },
-        dategetdata: "26/12/2564",
+        dategetdata: "26/12/2563",
         icon: "green"
       },
       {
         id: 1,
         position: { lat: 16.465822, lng: 102.898513 },
-        dategetdata: "26/12/2564",
+        dategetdata: "24/12/2563",
         icon: "yellow"
       },
       {
         id: 2,
         position: { lat: 16.465522, lng: 102.898913 },
-        dategetdata: "26/12/2564",
+        dategetdata: "22/12/2563",
         icon: "red"
       },],
     markers: [
@@ -164,13 +167,13 @@ export default {
       {
         id: 0,
         position: { lat: 16.465522, lng: 102.898513 },
-        dategetdata: "26/12/2564",
+        dategetdata: "26/12/2563",
         icon: "green"
       },
       {
         id: 1,
         position: { lat: 16.465822, lng: 102.898513 },
-        dategetdata: "26/12/2564",
+        dategetdata: "26/12/2563",
         icon: "yellow"
       },
       {
@@ -228,8 +231,15 @@ export default {
         vm.$router.push("/pin-detail");
       }
     },
-    changedate(){
-      
+    changedate(selectdate){
+      var i = 0
+      this.markers = []
+      while(i < this.datapin.length){
+        if(this.datapin[i].dategetdata == selectdate){
+          this.markers.push(this.datapin[i])
+        }
+        i++
+      }
     }
   },
 };
