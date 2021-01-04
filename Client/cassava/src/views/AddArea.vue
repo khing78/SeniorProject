@@ -142,7 +142,7 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
-    mapcenter: { lat: 16.4411261, lng: 102.8644933, wide: 100, long: 100 },
+    mapcenter: { lat: 16.466022, lng: 102.898313, wide: 100, long: 100 },
     //lat = กว้าง lng = ยาว
     path: [],
     newpath: [],
@@ -318,16 +318,16 @@ export default {
       ];
       this.path = [
         {
-          lat: 16.4411261 - 0.0009, // = 100 meter
-          lng: 102.8644933,
+          lat: 16.466022 - 0.0009, // = 100 meter
+          lng: 102.898313,
         },
         {
-          lat: 16.4411261,
-          lng: 102.8644933,
+          lat: 16.466022,
+          lng: 102.898313,
         },
         {
-          lat: 16.4411261,
-          lng: 102.8644933 + 0.00094, // = 100 meter
+          lat: 16.466022,
+          lng: 102.898313 + 0.00094, // = 100 meter
         },
       ];
     }

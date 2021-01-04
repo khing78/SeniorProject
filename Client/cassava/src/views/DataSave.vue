@@ -4,7 +4,9 @@
       <v-row>
         <v-col cols="12" md="3" sm="3"> ข้อมูลผลตรวจคุณภาพ</v-col>
         <v-col class="text-right">
-          <v-btn id="removebutton" rounded @click="deletearea()">ลบข้อมูล</v-btn>
+          <v-btn id="removebutton" rounded @click="deletearea()"
+            >ลบข้อมูล</v-btn
+          >
         </v-col>
       </v-row>
       <v-row class="text-center" justify="start">
@@ -34,14 +36,14 @@
         ></v-col>
         <v-col cols="12" md="3" sm="3"
           ><v-text-field
-            v-model="this.mapcenter.lat"
+            v-model="this.datapin[0].position.lat"
             hint="กรุณาใส่ละติจูด"
             label="ละติจูด"
           ></v-text-field
         ></v-col>
         <v-col cols="12" md="3" sm="3"
           ><v-text-field
-            v-model="this.mapcenter.lng"
+            v-model="this.datapin[0].position.lng"
             hint="กรุณาใส่ลองจิจูด"
             label="ลองจิจูด"
           ></v-text-field
@@ -49,14 +51,34 @@
       </v-row>
       <v-row>
         <v-col cols="12">
+          <gmap-map
+            id="map"
+            :center="mapcenter"
+            :zoom="18"
+            style="width: 100%; height: 500px"
+            map-type-id="terrain"
+          >
+            <gmap-marker
+              :key="index"
+              v-for="(m, index) in datapin"
+              :position="m.position"
+              :clickable="true"
+              :draggable="true"
+              @dragend="
+                changepositionmap(
+                  $event.latLng.lat(),
+                  $event.latLng.lng(),
+                )
+              "
+              @click="checkmap(m.position)"
+            ></gmap-marker>
+          </gmap-map>
+        </v-col>
+        <v-col cols="12">
           <v-btn id="savebutton" rounded>เพิ่มต้น +</v-btn>
         </v-col>
       </v-row>
-      <v-simple-table
-        fixed-header
-        height="50vh"
-        id="table"
-      >
+      <v-simple-table fixed-header height="50vh" id="table">
         <template v-slot:default>
           <thead>
             <tr>
@@ -71,60 +93,67 @@
             >
               <td>
                 <v-row>
-                  <v-col class="text-right"><v-btn rounded id="removebutton" @click="removecassvana(index)">ลบ</v-btn></v-col>
+                  <v-col class="text-right"
+                    ><v-btn
+                      rounded
+                      id="removebutton"
+                      @click="removecassvana(index)"
+                      >ลบ</v-btn
+                    ></v-col
+                  >
                 </v-row>
                 <v-row>
-                <v-col cols="2">
-                  <v-text-field
-                  v-model="item.x1"
-                  hint="X1"
-                  label="X1"
-                ></v-text-field>
-                </v-col>
-                <v-col cols="2">
-                  <v-text-field
-                  v-model="item.x2"
-                  hint="X2"
-                  label="X2"
-                ></v-text-field>
-                </v-col>
-                <v-col cols="2">
-                  <v-text-field
-                  v-model="item.x3"
-                  hint="X3"
-                  label="X3"
-                ></v-text-field>
-                </v-col>
-                <v-col cols="2">
-                  <v-text-field
-                  v-model="item.temputure"
-                  hint="อุณหภูมิ"
-                  label="อุณหภูมิ"
-                ></v-text-field>
-                </v-col>
+                  <v-col cols="2">
+                    <v-text-field
+                      v-model="item.x1"
+                      hint="X1"
+                      label="X1"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="2">
+                    <v-text-field
+                      v-model="item.x2"
+                      hint="X2"
+                      label="X2"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="2">
+                    <v-text-field
+                      v-model="item.x3"
+                      hint="X3"
+                      label="X3"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="2">
+                    <v-text-field
+                      v-model="item.temputure"
+                      hint="อุณหภูมิ"
+                      label="อุณหภูมิ"
+                    ></v-text-field>
+                  </v-col>
                 </v-row>
                 <v-row>
-                <v-col cols="2">
-                  <v-text-field
-                  v-model="item.x4"
-                  hint="X4"
-                  label="X4"
-                ></v-text-field>
-                </v-col>
-                <v-col cols="2">
-                  <v-text-field
-                  v-model="item.x5"
-                  hint="X5"
-                  label="X5"
-                ></v-text-field>
-                </v-col>
-                <v-col cols="2">
-                  <v-text-field
-                  v-model="item.x6"
-                  hint="X6"
-                  label="X6"
-                ></v-text-field>
-                </v-col>
+                  <v-col cols="2">
+                    <v-text-field
+                      v-model="item.x4"
+                      hint="X4"
+                      label="X4"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="2">
+                    <v-text-field
+                      v-model="item.x5"
+                      hint="X5"
+                      label="X5"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="2">
+                    <v-text-field
+                      v-model="item.x6"
+                      hint="X6"
+                      label="X6"
+                    ></v-text-field>
+                  </v-col>
                 </v-row>
               </td>
             </tr>
@@ -149,7 +178,17 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
-    mapcenter: {lat: 16.466022,lng: 102.898313},
+    mapcenter: { lat: 16.466022, lng: 102.898313 },
+    datapin: [
+      // Marker เป็นตัวบอกคุณภาพ
+      // ดึงข้อมูลมาจากฐานข้อมูล
+      {
+        id: 0,
+        position: { lat: 16.466022, lng: 102.898313 },
+        dategetdata: "26/12/2563",
+        icon: "green",
+      },
+    ],
     xdata: [
       {
         id: 1,
@@ -194,53 +233,59 @@ export default {
     ],
   }),
   computed: {
-      computedDateFormatted () {
-        return this.formatDate(this.date)
-      },
+    computedDateFormatted() {
+      return this.formatDate(this.date);
     },
-  methods:{
-    moveto(i){
-      const vm = this
-      if (i == "back"){
-        vm.$router.push("/show-area")
+  },
+  methods: {
+    moveto(i) {
+      const vm = this;
+      if (i == "back") {
+        vm.$router.push("/show-area");
       }
-      if (i == "save"){
-        vm.$router.push("/show-area")
+      if (i == "save") {
+        vm.$router.push("/show-area");
       }
     },
-    removecassvana(index){
-      console.log(index+1)
-      this.xdata.remove(index)
+    removecassvana(index) {
+      console.log(index + 1);
+      this.xdata.remove(index);
     },
-    deletearea(){
+    deletearea() {
       //เอา ID ของหมุดไปลบออกจาก Database แล้วกลับไปหน้า Showarea
-      const vm = this
-      vm.$router.push("/show-area")
+      const vm = this;
+      vm.$router.push("/show-area");
     },
     formatDate(date) {
       if (!date) return null;
       const [year, month, day] = date.split("-");
-      const newyear = parseInt(year)+543
+      const newyear = parseInt(year) + 543;
       return `${day}/${month}/${newyear}`;
     },
+    changepositionmap(newlat, newlng) {
+      this.mapcenter.lat = Number(newlat);
+      this.mapcenter.lng = Number(newlng);
+      this.datapin[0].position.lat = Number(newlat);
+      this.datapin[0].position.lng = Number(newlng);
   },
+  }
 };
 </script>
 <style scoped>
-#backbutton{
-  background-color: #F2F2F2;
+#backbutton {
+  background-color: #f2f2f2;
 }
-#savebutton{
-  background-color: #1CE227;
+#savebutton {
+  background-color: #1ce227;
 }
-#removebutton{
-  background-color: #E21C1C;
+#removebutton {
+  background-color: #e21c1c;
 }
-#table{
-  padding-bottom: 2vh; 
+#table {
+  padding-bottom: 2vh;
   padding-top: 2vh;
 }
-#indexhead{
+#indexhead {
   padding-right: 2vw;
 }
 </style>

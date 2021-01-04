@@ -35,9 +35,9 @@
               :key="index"
               v-for="(m, index) in detailarea"
               :position="m.position"
-              :clickable="false"
+              :clickable="true"
               :draggable="false"
-              @click="center = m.position"
+              @click="moveto('Accepted',m.id)"
             ></gmap-marker>
           </gmap-map>
           <!-- For Map -->

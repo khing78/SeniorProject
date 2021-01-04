@@ -12,7 +12,7 @@
             >+ เพิ่มข้อมูลมันสำปะหลัง</v-btn
           ></v-col
         >
-        <v-col cols="12" md="3" sm="3">
+        <v-col cols="12" md="3" sm="3" class="text-center">
           <v-btn rounded @click="moveto('chart')">กราฟ</v-btn>
         </v-col>
         <v-col cols="12" md="3" sm="3">
@@ -39,8 +39,12 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
-        <v-col cols="12" md="3" sm="3">
+        <v-col cols="12" md="2" sm="2">
           <v-btn rounded id="selectdatebutton" @click="changedate(computedDateFormatted)"> ตกลง </v-btn>
+          <v-btn rounded id="showallpin" @click="showallpindate()"> ทั้งหมด </v-btn>
+        </v-col>
+        <v-col cols="12" md="2" sm="2">
+          
         </v-col>
       </v-row>
       <v-row id="everythingisonfire">
@@ -72,7 +76,7 @@
         </v-col>
         <v-col cols="12" md="3" sm="3">
           <v-row align="center">
-            <v-col cols="3"
+            <v-col cols="12" md="3" sm="3"
               ><v-img id="pin" src="../assets/Agradeicon.png"></v-img></v-col
             >เกรด A</v-row
           >
@@ -240,6 +244,9 @@ export default {
         }
         i++
       }
+    },
+    showallpindate(){
+      this.markers = this. datapin
     }
   },
 };
@@ -266,5 +273,9 @@ export default {
 }
 #marginaddbutton {
   margin-right: 1vw;
+}
+#selectdatebutton{
+  margin-right: 1vw;
+  margin-bottom: 1vh;
 }
 </style>
