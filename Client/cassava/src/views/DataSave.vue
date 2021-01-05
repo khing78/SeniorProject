@@ -48,6 +48,13 @@
             label="ลองจิจูด"
           ></v-text-field
         ></v-col>
+        <v-col cols="12" md="3" sm="3"
+          ><v-text-field
+            v-model="lenghtofarea"
+            hint="กรุณาใส่ความกว้างของขอบเขต"
+            label="ขอบเขต (เมตร)"
+          ></v-text-field
+        ></v-col>
       </v-row>
       <v-row>
         <v-col cols="12">
@@ -103,28 +110,28 @@
                   >
                 </v-row>
                 <v-row>
-                  <v-col cols="2">
+                  <v-col cols="12" sm="3" md="3">
                     <v-text-field
                       v-model="item.x1"
                       hint="X1"
                       label="X1"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="2">
+                  <v-col cols="12" sm="3" md="3">
                     <v-text-field
                       v-model="item.x2"
                       hint="X2"
                       label="X2"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="2">
+                  <v-col cols="12" sm="3" md="3">
                     <v-text-field
                       v-model="item.x3"
                       hint="X3"
                       label="X3"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="2">
+                  <v-col cols="12" sm="3" md="3">
                     <v-text-field
                       v-model="item.temputure"
                       hint="อุณหภูมิ"
@@ -133,21 +140,21 @@
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col cols="2">
+                  <v-col cols="12" sm="3" md="3">
                     <v-text-field
                       v-model="item.x4"
                       hint="X4"
                       label="X4"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="2">
+                  <v-col cols="12" sm="3" md="3">
                     <v-text-field
                       v-model="item.x5"
                       hint="X5"
                       label="X5"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="2">
+                  <v-col cols="12" sm="3" md="3">
                     <v-text-field
                       v-model="item.x6"
                       hint="X6"
@@ -178,6 +185,7 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
+    lenghtofarea: 5,
     mapcenter: { lat: 16.466022, lng: 102.898313 },
     datapin: [
       // Marker เป็นตัวบอกคุณภาพ

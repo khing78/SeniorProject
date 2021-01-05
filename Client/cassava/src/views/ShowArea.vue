@@ -15,7 +15,7 @@
         <v-col cols="12" md="3" sm="3" class="text-center">
           <v-btn rounded @click="moveto('chart')">กราฟ</v-btn>
         </v-col>
-        <v-col cols="12" md="3" sm="3">
+        <v-col cols="12" md="2" sm="2">
           <v-menu
             :close-on-content-click="true"
             :nudge-right="40"
@@ -39,12 +39,9 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
-        <v-col cols="12" md="2" sm="2">
-          <v-btn rounded id="selectdatebutton" @click="changedate(computedDateFormatted)"> ตกลง </v-btn>
+        <v-col cols="12" md="3" sm="3">
+          <v-btn rounded id="selectdatebutton" @click="changedate(computedDateFormatted)"> ค้นหา </v-btn>
           <v-btn rounded id="showallpin" @click="showallpindate()"> ทั้งหมด </v-btn>
-        </v-col>
-        <v-col cols="12" md="2" sm="2">
-          
         </v-col>
       </v-row>
       <v-row id="everythingisonfire">

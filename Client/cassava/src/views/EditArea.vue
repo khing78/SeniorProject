@@ -162,7 +162,7 @@ export default {
       { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.898313 } },
     ],
   }),
-  created:{
+  created(){
     //ดึงข้อมูลจาก Database
   },
   computed: {

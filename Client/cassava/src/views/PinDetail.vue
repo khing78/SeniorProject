@@ -10,6 +10,8 @@
           วันที่เก็บข้อมูล: {{datekeepdata}}
           <br>
           อายุของมันสำปะหลัง(ณ เวลาที่เก็บข้อมูล): {{cassvanaage}} เดือน
+          <br>
+          ระยะขอบเขต: {{widtharea}} เมตร
         </v-col>
       </v-row>
   <v-simple-table fixed-header height="400px" style="padding-bottom:20px">
@@ -58,6 +60,7 @@ export default {
     precentstarchavg: 26.02,
     datekeepdata: "13/1/2563" ,
     cassvanaage: 12,
+    widtharea: 5,
     detailpin: [
           {
             precentstarch: 25.5,
