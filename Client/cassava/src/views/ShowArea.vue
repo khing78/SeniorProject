@@ -58,7 +58,7 @@
               v-for="(m, index) in markers"
               :position="m.position"
               :clickable="true"
-              :icon="changeocolormarker(m.icon)"
+              :icon="changeocolormarker(m.qulitypercent)"
               @click="moveto('pindetail')"
             ></gmap-marker>
             <gmap-polyline
@@ -148,19 +148,19 @@ export default {
         id: 0,
         position: { lat: 16.465522, lng: 102.898513 },
         dategetdata: "26/12/2563",
-        icon: "green"
+        qulitypercent: 31
       },
       {
         id: 1,
         position: { lat: 16.465822, lng: 102.898513 },
         dategetdata: "24/12/2563",
-        icon: "yellow"
+        qulitypercent: 22
       },
       {
         id: 2,
         position: { lat: 16.465522, lng: 102.898913 },
         dategetdata: "22/12/2563",
-        icon: "red"
+        qulitypercent: 19
       },],
     markers: [
       // Marker เป็นตัวบอกคุณภาพ
@@ -169,19 +169,19 @@ export default {
         id: 0,
         position: { lat: 16.465522, lng: 102.898513 },
         dategetdata: "26/12/2563",
-        icon: "green"
+        qulitypercent: 31
       },
       {
         id: 1,
         position: { lat: 16.465822, lng: 102.898513 },
         dategetdata: "26/12/2563",
-        icon: "yellow"
+        qulitypercent: 25
       },
       {
         id: 2,
         position: { lat: 16.465522, lng: 102.898913 },
         dategetdata: "26/12/2564",
-        icon: "red"
+        qulitypercent: 19
       },
     ],
   }),
@@ -191,7 +191,17 @@ export default {
     },
   },
   methods: {
-    changeocolormarker(colormarker) {
+    changeocolormarker(qulity) {
+      var colormarker = ""
+      if (qulity < 25){
+        colormarker = "red"
+      }
+      else if (qulity < 30){
+        colormarker = "yellow"
+      }
+      else if (qulity >= 30){
+        colormarker = "green"
+      }
       if (colormarker == "green") {
         return {
           url: require("../assets/Agradeicon.png"),

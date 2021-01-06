@@ -102,6 +102,9 @@ export default {
     cassvanaage: 12,
   }),
   computed: {
+    dateRangeText () {
+        return this.dates.join(' ~ ')
+      },
     computedDateFromFormatted() {
       return this.formatDate(this.datefrom);
     },
