@@ -72,17 +72,14 @@
               :clickable="true"
               :draggable="true"
               @dragend="
-                changepositionmap(
-                  $event.latLng.lat(),
-                  $event.latLng.lng(),
-                )
+                changepositionmap($event.latLng.lat(), $event.latLng.lng())
               "
               @click="checkmap(m.position)"
             ></gmap-marker>
           </gmap-map>
         </v-col>
         <v-col cols="12">
-          <v-btn id="savebutton" rounded>เพิ่มต้น +</v-btn>
+          <v-btn id="savebutton" rounded @click="addcassava()">เพิ่มต้น +</v-btn>
         </v-col>
       </v-row>
       <v-simple-table fixed-header height="50vh" id="table">
@@ -104,7 +101,7 @@
                     ><v-btn
                       rounded
                       id="removebutton"
-                      @click="removecassvana(index)"
+                      @click="removecassava(index)"
                       >ลบ</v-btn
                     ></v-col
                   >
@@ -255,9 +252,20 @@ export default {
         vm.$router.push("/show-area");
       }
     },
-    removecassvana(index) {
+    removecassava(index) {
       console.log(index + 1);
-      this.xdata.remove(index);
+      this.xdata.splice(index,1)
+    },
+    addcassava(){
+      this.xdata.push({
+        id: this.xdata.length+1,
+        x1: 0,
+        x2: 0,
+        x3: 0,
+        x4: 0,
+        x5: 0,
+        x6: 0,
+        temputure: 0,})
     },
     deletearea() {
       //เอา ID ของหมุดไปลบออกจาก Database แล้วกลับไปหน้า Showarea
