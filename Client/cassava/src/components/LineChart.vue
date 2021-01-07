@@ -66,8 +66,13 @@ export default {
       },
     };
   },
+  methods:{
+    refreashchart(){
+      this.renderChart(this.datacollection, this.options);
+    }
+  },
   mounted() {
     this.renderChart(this.datacollection, this.options);
   },
 };
-</script>s
+</script>

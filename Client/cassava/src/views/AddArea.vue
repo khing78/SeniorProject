@@ -175,10 +175,10 @@ export default {
     changefrommetertolatlong(width, long) {
       //เปลี่ยน กว้างยาว เป็น lat long
       var R = 6371e3; // Radius of the Earth in meter
-      var rlat1 = this.path[2].lat * (Math.PI / 180); // Convert degrees to radians
-      var rlat2 = this.path[1].lat * (Math.PI / 180); // Convert degrees to radians
+      var rlat1 = this.path[1].lat * (Math.PI / 180); // Convert degrees to radians
+      var rlat2 = this.path[0].lat * (Math.PI / 180); // Convert degrees to radians
       var difflat = rlat2 - rlat1; // Radian difference (latitudes)
-      var difflon = (this.path[1].lng - this.path[2].lng) * (Math.PI / 180); // Radian difference (longitudes)
+      var difflon = (this.path[0].lng - this.path[1].lng) * (Math.PI / 180); // Radian difference (longitudes)
 
       var d =
         2 *
@@ -198,28 +198,36 @@ export default {
       console.log(rationlat);
       console.log(rationlng);
       var newlat =
-        this.path[1].lat + (this.path[0].lat - this.path[1].lat) * rationlat;
+        this.path[0].lat + (this.path[1].lat - this.path[0].lat) * rationlat;
       var newlng =
-        this.path[1].lng + (this.path[2].lng - this.path[1].lng) * rationlng;
+        this.path[0].lng + (this.path[1].lng - this.path[0].lng) * rationlng;
       (this.newpath = [
+        {
+          lat: this.path[0].lat,
+          lng: this.path[0].lng,
+        },
         {
           lat: newlat, //เปลี่ยน 0.01 เป็นที่หลังคำนวณ
           lng: this.path[0].lng,
         },
         {
-          lat: this.path[1].lat,
-          lng: this.path[1].lng,
+          lat: newlat,
+          lng: newlng,
         },
         {
-          lat: this.path[2].lat,
+          lat: this.path[0].lat,
           lng: newlng, //เปลี่ยน 0.01 เป็นที่หลังคำนวณ
+        },
+        {
+          lat: this.path[0].lat,
+          lng: this.path[0].lng,
         },
       ]),
         (this.markers = [
           {
             Id: 1,
             name: "1",
-            position: { lat: this.path[1].lat, lng: this.path[1].lng },
+            position: { lat: this.path[0].lat, lng: this.path[0].lng },
           },
         ]);
     },
@@ -235,16 +243,12 @@ export default {
       this.mapcenter.lng = Number(newlng);
       (this.path = [
         {
+          lat: Number(newlat),
+          lng: Number(newlng),
+        },
+        {
           lat: Number(newlat) - 0.0009, //เปลี่ยน 0.01 เป็นที่หลังคำนวณ
-          lng: Number(newlng),
-        },
-        {
-          lat: Number(newlat),
-          lng: Number(newlng),
-        },
-        {
-          lat: Number(newlat),
-          lng: Number(newlng) + 0.00094, //เปลี่ยน 0.01 เป็นที่หลังคำนวณ
+          lng: Number(newlng) + 0.00094,
         },
       ]),
         // Function calculation new distance
@@ -275,30 +279,34 @@ export default {
         ]),
         (this.path = [
           {
-            lat: position.coords.latitude - 0.0009, // = 100 meter
-            lng: position.coords.longitude,
-          },
-          {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           },
           {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude + 0.00094, // = 100 meter
+            lat: position.coords.latitude - 0.0009,
+            lng: position.coords.longitude + 0.00094,
           },
         ]),
         (this.newpath = [
           {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          },
+          {
             lat: position.coords.latitude - 0.0009, // = 100 meter
             lng: position.coords.longitude,
           },
           {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
+            lat: position.coords.latitude - 0.0009,
+            lng: position.coords.longitude + 0.00094,
           },
           {
             lat: position.coords.latitude,
             lng: position.coords.longitude + 0.00094, // = 100 meter
+          },
+          {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
           },
         ]),
         console.log(this.markers);
@@ -318,16 +326,46 @@ export default {
       ];
       this.path = [
         {
+          lat: 16.466022,
+          lng: 102.898313,
+        },
+        {
           lat: 16.466022 - 0.0009, // = 100 meter
           lng: 102.898313,
         },
         {
-          lat: 16.466022,
-          lng: 102.898313,
+          lat: 16.466022 - 0.0009,
+          lng: 102.898313 + 0.00094,
         },
         {
           lat: 16.466022,
           lng: 102.898313 + 0.00094, // = 100 meter
+        },
+        {
+          lat: 16.466022,
+          lng: 102.898313,
+        },
+      ];
+      this.newpath = [
+        {
+          lat: 16.466022,
+          lng: 102.898313,
+        },
+        {
+          lat: 16.466022 - 0.0009, // = 100 meter
+          lng: 102.898313,
+        },
+        {
+          lat: 16.466022 - 0.0009,
+          lng: 102.898313 + 0.00094,
+        },
+        {
+          lat: 16.466022,
+          lng: 102.898313 + 0.00094, // = 100 meter
+        },
+        {
+          lat: 16.466022,
+          lng: 102.898313,
         },
       ];
     }

@@ -144,15 +144,16 @@ export default {
     date: "2020-11-16",
     mapcenter: { lat: 16.466022, lng: 102.898313, wide: 100, long: 100 },
     newpath: [
-      { lat: 16.466022, lng: 102.899313 },
       { lat: 16.466022, lng: 102.898313 },
+      { lat: 16.466022, lng: 102.899313 },
+      { lat: 16.465022, lng: 102.899313 },
       { lat: 16.465022, lng: 102.898313 },
+      { lat: 16.466022, lng: 102.898313 },
     ],
     path: [
       //ดึงข้อมูลจากDatabase มา
-      { lat: 16.466022, lng: 102.899313 },
       { lat: 16.466022, lng: 102.898313 },
-      { lat: 16.465022, lng: 102.898313 },
+      { lat: 16.465122, lng: 102.898713 },
     ],
     areaname: "สมชาย",
     selectprovince: "ขอนแก่น",
@@ -206,10 +207,10 @@ export default {
     changefrommetertolatlong(width, long) {
       //เปลี่ยน กว้างยาว เป็น lat long
       var R = 6371e3; // Radius of the Earth in meter
-      var rlat1 = this.path[2].lat * (Math.PI / 180); // Convert degrees to radians
-      var rlat2 = this.path[1].lat * (Math.PI / 180); // Convert degrees to radians
+      var rlat1 = this.path[1].lat * (Math.PI / 180); // Convert degrees to radians
+      var rlat2 = this.path[0].lat * (Math.PI / 180); // Convert degrees to radians
       var difflat = rlat2 - rlat1; // Radian difference (latitudes)
-      var difflon = (this.path[1].lng - this.path[2].lng) * (Math.PI / 180); // Radian difference (longitudes)
+      var difflon = (this.path[0].lng - this.path[1].lng) * (Math.PI / 180); // Radian difference (longitudes)
 
       var d =
         2 *
@@ -229,28 +230,36 @@ export default {
       console.log(rationlat);
       console.log(rationlng);
       var newlat =
-        this.path[1].lat + (this.path[0].lat - this.path[1].lat) * rationlat;
+        this.path[0].lat + (this.path[1].lat - this.path[0].lat) * rationlat;
       var newlng =
-        this.path[1].lng + (this.path[2].lng - this.path[1].lng) * rationlng;
+        this.path[0].lng + (this.path[1].lng - this.path[0].lng) * rationlng;
       (this.newpath = [
+        {
+          lat: this.path[0].lat,
+          lng: this.path[0].lng,
+        },
         {
           lat: newlat, //เปลี่ยน 0.01 เป็นที่หลังคำนวณ
           lng: this.path[0].lng,
         },
         {
-          lat: this.path[1].lat,
-          lng: this.path[1].lng,
+          lat: newlat,
+          lng: newlng,
         },
         {
-          lat: this.path[2].lat,
+          lat: this.path[0].lat,
           lng: newlng, //เปลี่ยน 0.01 เป็นที่หลังคำนวณ
+        },
+        {
+          lat: this.path[0].lat,
+          lng: this.path[0].lng,
         },
       ]),
         (this.markers = [
           {
             Id: 1,
             name: "1",
-            position: { lat: this.path[1].lat, lng: this.path[1].lng },
+            position: { lat: this.path[0].lat, lng: this.path[0].lng },
           },
         ]);
     },
@@ -259,16 +268,12 @@ export default {
       this.mapcenter.lng = Number(newlng);
       (this.path = [
         {
+          lat: Number(newlat),
+          lng: Number(newlng),
+        },
+        {
           lat: Number(newlat) - 0.0009, //เปลี่ยน 0.01 เป็นที่หลังคำนวณ
-          lng: Number(newlng),
-        },
-        {
-          lat: Number(newlat),
-          lng: Number(newlng),
-        },
-        {
-          lat: Number(newlat),
-          lng: Number(newlng) + 0.00094, //เปลี่ยน 0.01 เป็นที่หลังคำนวณ
+          lng: Number(newlng) + 0.00094,
         },
       ]),
         // Function calculation new distance
