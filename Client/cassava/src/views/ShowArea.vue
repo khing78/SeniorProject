@@ -7,15 +7,15 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="4" sm="4"
+        <v-col cols="12" md="3" sm="3"
           ><v-btn id="addbutton" rounded @click="moveto('pin')"
             >+ เพิ่มข้อมูลมันสำปะหลัง</v-btn
           ></v-col
         >
-        <v-col cols="12" md="3" sm="3">
+        <v-col cols="12" md="3" sm="3" class="text-center">
           <v-btn rounded @click="moveto('chart')">กราฟ</v-btn>
         </v-col>
-        <v-col cols="12" md="3" sm="3">
+        <v-col cols="12" md="2" sm="2">
           <v-menu
             :close-on-content-click="true"
             :nudge-right="40"
@@ -39,6 +39,10 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
+        <v-col cols="12" md="3" sm="3">
+          <v-btn rounded id="selectdatebutton" @click="changedate(computedDateFormatted)"> ค้นหา </v-btn>
+          <v-btn rounded id="showallpin" @click="showallpindate()"> ทั้งหมด </v-btn>
+        </v-col>
       </v-row>
       <v-row id="everythingisonfire">
         <v-col cols="12" md="9">
@@ -54,15 +58,13 @@
               v-for="(m, index) in markers"
               :position="m.position"
               :clickable="true"
-              :draggable="false"
+              :icon="changeocolormarker(m.qulitypercent)"
               @click="moveto('pindetail')"
             ></gmap-marker>
             <gmap-polyline
               v-if="path.length > 0"
               :path="path"
               :editable="false"
-              @path_changed="updateEdited($event)"
-              @rightclick="handleClickForDelete"
               ref="polyline"
             >
             </gmap-polyline>
@@ -71,7 +73,7 @@
         </v-col>
         <v-col cols="12" md="3" sm="3">
           <v-row align="center">
-            <v-col cols="3"
+            <v-col cols="12" md="3" sm="3"
               ><v-img id="pin" src="../assets/Agradeicon.png"></v-img></v-col
             >เกรด A</v-row
           >
@@ -121,27 +123,65 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
+    iconsetting: {
+      url: require("../assets/Agradeicon.png"),
+      size: { width: 46, height: 46, f: "px", b: "px" },
+      scaledSize: { width: 23, height: 28, f: "px", b: "px" },
+    },
+    agreenmarker: "../assets/Agradeicon.png",
+    byellowmarker: "../assets/Bgradeicon.png",
+    credmarker: "../assets/Cgradeicon.png",
     areaname: "สมชาย",
     gradeAtotal: 10,
     gradeBtotal: 50,
     gradeCtotal: 40,
     totalstarch: 50,
     path: [
+      //ดึงข้อมูลจากฐานข้อมูล วาดรูปแปลง
       { lat: 16.466022, lng: 102.899313 },
       { lat: 16.466022, lng: 102.898313 },
       { lat: 16.465022, lng: 102.898313 },
     ],
     mvcPath: null,
     mapcenter: { lat: 16.466022, lng: 102.898313 },
+    datapin:[{
+        id: 0,
+        position: { lat: 16.465522, lng: 102.898513 },
+        dategetdata: "26/12/2563",
+        qulitypercent: 31
+      },
+      {
+        id: 1,
+        position: { lat: 16.465822, lng: 102.898513 },
+        dategetdata: "24/12/2563",
+        qulitypercent: 22
+      },
+      {
+        id: 2,
+        position: { lat: 16.465522, lng: 102.898913 },
+        dategetdata: "22/12/2563",
+        qulitypercent: 19
+      },],
     markers: [
       // Marker เป็นตัวบอกคุณภาพ
       // ดึงข้อมูลมาจากฐานข้อมูล
       {
-        Id: 1,
-        name: "1",
+        id: 0,
         position: { lat: 16.465522, lng: 102.898513 },
-        wide: 100,
-        long: 100,
+        dategetdata: "26/12/2563",
+        qulitypercent: 31
+      },
+      {
+        id: 1,
+        position: { lat: 16.465822, lng: 102.898513 },
+        dategetdata: "26/12/2563",
+        qulitypercent: 25
+      },
+      {
+        id: 2,
+        position: { lat: 16.465522, lng: 102.898913 },
+        dategetdata: "26/12/2564",
+        qulitypercent: 19
       },
     ],
   }),
@@ -149,18 +189,36 @@ export default {
     computedDateFormatted() {
       return this.formatDate(this.date);
     },
-    polylinePath() {
-      if (!this.mvcPath) return null;
-
-      let path = [];
-      for (let j = 0; j < this.mvcPath.getLength(); j++) {
-        let point = this.mvcPath.getAt(j);
-        path.push({ lat: point.lat(), lng: point.lng() });
-      }
-      return path;
-    },
   },
   methods: {
+    changeocolormarker(qulity) {
+      var colormarker = ""
+      if (qulity < 25){
+        colormarker = "red"
+      }
+      else if (qulity < 30){
+        colormarker = "yellow"
+      }
+      else if (qulity >= 30){
+        colormarker = "green"
+      }
+      if (colormarker == "green") {
+        return {
+          url: require("../assets/Agradeicon.png"),
+          scaledSize: { width: 23, height: 28, f: "px", b: "px" },
+        };
+      } else if (colormarker == "yellow") {
+        return {
+          url: require("../assets/Bgradeicon.png"),
+          scaledSize: { width: 23, height: 28, f: "px", b: "px" },
+        };
+      } else if (colormarker == "red") {
+        return {
+          url: require("../assets/Cgradeicon.png"),
+          scaledSize: { width: 23, height: 28, f: "px", b: "px" },
+        };
+      }
+    },
     formatDate(date) {
       if (!date) return null;
 
@@ -184,43 +242,19 @@ export default {
         vm.$router.push("/pin-detail");
       }
     },
-    updateCenter: function (place) {
-      this.center = {
-        lat: place.geometry.location.lat(),
-        lng: place.geometry.location.lng(),
-      };
-    },
-    handleClickForDelete($event) {
-      if ($event.vertex) {
-        
-        this.$refs.polyline.$polylineObject
-          .getPaths()
-          .getAt($event.path)
-          .removeAt($event.vertex);
+    changedate(selectdate){
+      var i = 0
+      this.markers = []
+      while(i < this.datapin.length){
+        if(this.datapin[i].dategetdata == selectdate){
+          this.markers.push(this.datapin[i])
+        }
+        i++
       }
     },
-    updateEdited: function (mvcPath) {
-      this.mvcPath = mvcPath;
-    },
-    readGeojson: function ($event) {
-      try {
-        this.polylineGeojson = $event.target.value;
-
-        var v = JSON.parse($event.target.value);
-
-        this.path = v.coordinates.map(([lng, lat]) => ({ lat, lng }));
-
-        this.errorMessage = null;
-      } catch (err) {
-        this.errorMessage = err.message;
-      }
-    },
-  },
-  mounted() {
-    //this Code not depandent in Mark map (can delete if you want)
-    /*this.$refs.mapRef.$mapPromise.then((map) => {
-      map.panTo({ lat: 1.38, lng: 103.8 });
-    });*/
+    showallpindate(){
+      this.markers = this. datapin
+    }
   },
 };
 </script>
@@ -246,5 +280,9 @@ export default {
 }
 #marginaddbutton {
   margin-right: 1vw;
+}
+#selectdatebutton{
+  margin-right: 1vw;
+  margin-bottom: 1vh;
 }
 </style>

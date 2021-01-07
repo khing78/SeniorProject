@@ -25,6 +25,13 @@ export default {
         ],
       },
       options: {
+        tooltip: {
+          callbacks: {
+            title: function (tooltipItem, data) {
+              return data["labels"][tooltipItem[0]["index"]];
+            },
+          },
+        },
         scales: {
           yAxes: [
             {
@@ -59,8 +66,13 @@ export default {
       },
     };
   },
+  methods:{
+    refreashchart(){
+      this.renderChart(this.datacollection, this.options);
+    }
+  },
   mounted() {
     this.renderChart(this.datacollection, this.options);
   },
 };
-</script>s
+</script>
