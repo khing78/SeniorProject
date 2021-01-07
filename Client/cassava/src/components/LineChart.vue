@@ -25,6 +25,22 @@ export default {
         ],
       },
       options: {
+        /*onClick: function (e) {
+          var activePoints = this.getElementsAtEvent(e);
+          var selectedIndex = activePoints[0]._index;
+          alert(this.data.datasets[0].data[selectedIndex]);
+        },*/
+        tooltips: {
+          enabled: true,
+          callbacks: {
+            label: function (tooltipItem, data) {
+              let dataset = data.datasets[tooltipItem.datasetIndex];
+              let currentValue = dataset.data[tooltipItem.index];
+              var allword ="เปอร์เซ็นต์แป้ง = "+  currentValue + "%"
+              return allword
+            },
+          },
+        },
         scales: {
           yAxes: [
             {
@@ -53,10 +69,14 @@ export default {
       },
     };
   },
-  methods:{
-    refreashchart(){
+  methods: {
+    refreashchart() {
       this.renderChart(this.datacollection, this.options);
-    }
+    },
+    cat(event, array) {
+      console.log(event);
+      console.log(array);
+    },
   },
   mounted() {
     this.renderChart(this.datacollection, this.options);
