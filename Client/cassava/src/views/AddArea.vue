@@ -233,7 +233,6 @@ export default {
     },
     formatDate(date) {
       if (!date) return null;
-
       const [year, month, day] = date.split("-");
       const newyear = parseInt(year) + 543;
       return `${day}/${month}/${newyear}`;

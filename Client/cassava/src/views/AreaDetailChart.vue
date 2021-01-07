@@ -64,7 +64,7 @@
       <v-row>
         <v-col cols="12" md="9">
           <div id="showchart">
-            <line-chart id="chartee" ref="chartee"></line-chart>
+            <line-chart id="chartee" ref="chartee" style="height:400px"></line-chart>
             <!--<canvas id="myChart"></canvas>-->
           </div>
         </v-col>
@@ -103,16 +103,52 @@ export default {
     temputure: 35.25,
     cassavaage: 12,
     addDatachartw: [0, 1, 2, 3],
-    myChart: document.getElementById("Chartee"),
     datachart:{
-      day:["21/06/2563",
-          "22/06/2563",
-          "23/06/2563",
-          "26/06/2563",
-          "29/06/2563",
-          "6/07/2563",
-          "8/07/2563",],
-      precentstarch:[2, 9, 15, 25, 26, 27, 26, 25, 25.5, 26.5, 24]
+      day:["15/6/2563",
+          "11/7/2563",
+          "12/7/2563",
+          "18/8/2563",
+          "11/8/2563",
+          "6/9/2563",
+          "8/9/2563",],
+      precentstarch:[22, 19, 22, 25, 26, 27, 26],
+      pindtail:[
+        {
+          id:0,
+          daygetdata:"15/6/2563",
+          precentstarch: 10.45
+        },
+        {
+          id:1,
+          daygetdata:"18/6/2563",
+          precentstarch: 13.43
+        },
+        {
+          id:2,
+          daygetdata:"15/6/2563",
+          precentstarch: 18.85
+        },
+        {
+          id:3,
+          daygetdata:"15/6/2563",
+          precentstarch: 22.15
+        },
+        {
+          id:4,
+          daygetdata:"15/6/2563",
+          precentstarch: 25.12
+        },
+        {
+          id:5,
+          daygetdata:"15/6/2563",
+          precentstarch: 24.53
+        },
+        {
+          id:6,
+          daygetdata:"15/6/2563",
+          precentstarch: 21.25
+        },
+      ]
     },
   }),
   computed: {
@@ -151,15 +187,13 @@ export default {
     changechart() {
       var chart = this.$refs.chartee;
       //console.log(chart.datacollection.labels.length)
-      var i = 0;
-      var m = chart.datacollection.labels.length
-      while (i < m) {
-        chart.datacollection.labels.pop();
-        chart.datacollection.datasets.forEach((dataset) => {
-          dataset.data.pop();
-        });
-        i++
-      }
+      chart.datacollection.labels = this.datachart.day
+      chart.datacollection.datasets[0].data = this.datachart.precentstarch
+      console.log(this.datachart.day)
+      console.log(chart.datacollection.datasets.data)
+      /*chart.datacollection.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+      });*/
       console.log(chart.datacollection.datasets.length)
 
       chart.refreashchart();

@@ -215,7 +215,13 @@ export default {
       var red = 0
       var yellow = 0
       var green = 0
-      while (i < this.markers.length) {
+      if (this.markers.length == 0){
+        this.gradeAtotal = 0
+        this.gradeBtotal = 0
+        this.gradeCtotal = 0
+        this.totalstarch = 0
+      }else {
+        while (i < this.markers.length) {
         totalqulity += this.markers[i].qulitypercent;
         if (this.markers[i].qulitypercent < 25) {
           red++
@@ -231,6 +237,8 @@ export default {
       this.gradeCtotal = (red*100/this.markers.length).toFixed(2)
       this.totalstarch = (totalqulity / this.markers.length).toFixed(2)
       console.log(totalqulity);
+      }
+       
     },
     changeocolormarker(qulity) {
       var colormarker = "";
