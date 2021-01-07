@@ -20,9 +20,9 @@ from service import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('FarmsViewSet/', include('service.urls')),
-    path('Email-list/', views.List, name="email-list"),
-    path('email-only/<str:id>/', views.Detail, name="email-only"),
-    path('email-update/<str:id>/', views.Update, name="email-update"),  
-    path('email-Delete/<str:id>/', views.Delete, name="email-Delete"),  
+    path('uids/', views.uid_collected, name="uid-get&crate"),
+    path('uids/<str:pk>/', views.uid_editor, name="uid-edit"),
+    path('farms/', views.farm_list, name="farmlist-get&post"),
+    path('farms/<str:pk>/', views.farm_detail, name="farmlist-get&post"),
+    path('result', views.result, name="show-result")
 ]
