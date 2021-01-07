@@ -40,8 +40,16 @@
           </v-menu>
         </v-col>
         <v-col cols="12" md="3" sm="3">
-          <v-btn rounded id="selectdatebutton" @click="changedate(computedDateFormatted)"> ค้นหา </v-btn>
-          <v-btn rounded id="showallpin" @click="showallpindate()"> ทั้งหมด </v-btn>
+          <v-btn
+            rounded
+            id="selectdatebutton"
+            @click="changedate(computedDateFormatted)"
+          >
+            ค้นหา
+          </v-btn>
+          <v-btn rounded id="showallpin" @click="showallpindate()">
+            ทั้งหมด
+          </v-btn>
         </v-col>
       </v-row>
       <v-row id="everythingisonfire">
@@ -96,7 +104,7 @@
             <br />
             เกรด C: {{ gradeCtotal }} %
             <br />
-            เปอร์เซ็นต์แปลงโดยเฉลี่ย
+            เปอร์เซ็นต์แป้งโดยเฉลี่ย
             <br />
             {{ totalstarch }} %
           </div>
@@ -138,30 +146,34 @@ export default {
     totalstarch: 50,
     path: [
       //ดึงข้อมูลจากฐานข้อมูล วาดรูปแปลง
-      { lat: 16.466022, lng: 102.899313 },
       { lat: 16.466022, lng: 102.898313 },
       { lat: 16.465022, lng: 102.898313 },
+      { lat: 16.465022, lng: 102.899313 },
+      { lat: 16.466022, lng: 102.899313 },
+      { lat: 16.466022, lng: 102.898313 },
     ],
     mvcPath: null,
     mapcenter: { lat: 16.466022, lng: 102.898313 },
-    datapin:[{
+    datapin: [
+      {
         id: 0,
         position: { lat: 16.465522, lng: 102.898513 },
         dategetdata: "26/12/2563",
-        qulitypercent: 31
+        qulitypercent: 31,
       },
       {
         id: 1,
         position: { lat: 16.465822, lng: 102.898513 },
         dategetdata: "24/12/2563",
-        qulitypercent: 22
+        qulitypercent: 25,
       },
       {
         id: 2,
         position: { lat: 16.465522, lng: 102.898913 },
         dategetdata: "22/12/2563",
-        qulitypercent: 19
-      },],
+        qulitypercent: 19,
+      },
+    ],
     markers: [
       // Marker เป็นตัวบอกคุณภาพ
       // ดึงข้อมูลมาจากฐานข้อมูล
@@ -169,19 +181,19 @@ export default {
         id: 0,
         position: { lat: 16.465522, lng: 102.898513 },
         dategetdata: "26/12/2563",
-        qulitypercent: 31
+        qulitypercent: 31,
       },
       {
         id: 1,
         position: { lat: 16.465822, lng: 102.898513 },
         dategetdata: "26/12/2563",
-        qulitypercent: 25
+        qulitypercent: 25,
       },
       {
         id: 2,
         position: { lat: 16.465522, lng: 102.898913 },
         dategetdata: "26/12/2564",
-        qulitypercent: 19
+        qulitypercent: 19,
       },
     ],
   }),
@@ -190,17 +202,44 @@ export default {
       return this.formatDate(this.date);
     },
   },
+  updated() {
+    this.totalstarchfinder();
+  },
+  mounted() {
+    this.totalstarchfinder();
+  },
   methods: {
+    totalstarchfinder() {
+      var i = 0;
+      var totalqulity = 0;
+      var red = 0
+      var yellow = 0
+      var green = 0
+      while (i < this.markers.length) {
+        totalqulity += this.markers[i].qulitypercent;
+        if (this.markers[i].qulitypercent < 25) {
+          red++
+        } else if (this.markers[i].qulitypercent < 30) {
+          yellow++
+        } else if (this.markers[i].qulitypercent >= 30) {
+          green++
+        }
+        i++;
+      }
+      this.gradeAtotal = (green*100/this.markers.length).toFixed(2)
+      this.gradeBtotal = (yellow*100/this.markers.length).toFixed(2)
+      this.gradeCtotal = (red*100/this.markers.length).toFixed(2)
+      this.totalstarch = (totalqulity / this.markers.length).toFixed(2)
+      console.log(totalqulity);
+    },
     changeocolormarker(qulity) {
-      var colormarker = ""
-      if (qulity < 25){
-        colormarker = "red"
-      }
-      else if (qulity < 30){
-        colormarker = "yellow"
-      }
-      else if (qulity >= 30){
-        colormarker = "green"
+      var colormarker = "";
+      if (qulity < 25) {
+        colormarker = "red";
+      } else if (qulity < 30) {
+        colormarker = "yellow";
+      } else if (qulity >= 30) {
+        colormarker = "green";
       }
       if (colormarker == "green") {
         return {
@@ -242,19 +281,19 @@ export default {
         vm.$router.push("/pin-detail");
       }
     },
-    changedate(selectdate){
-      var i = 0
-      this.markers = []
-      while(i < this.datapin.length){
-        if(this.datapin[i].dategetdata == selectdate){
-          this.markers.push(this.datapin[i])
+    changedate(selectdate) {
+      var i = 0;
+      this.markers = [];
+      while (i < this.datapin.length) {
+        if (this.datapin[i].dategetdata == selectdate) {
+          this.markers.push(this.datapin[i]);
         }
-        i++
+        i++;
       }
     },
-    showallpindate(){
-      this.markers = this. datapin
-    }
+    showallpindate() {
+      this.markers = this.datapin;
+    },
   },
 };
 </script>
@@ -281,7 +320,7 @@ export default {
 #marginaddbutton {
   margin-right: 1vw;
 }
-#selectdatebutton{
+#selectdatebutton {
   margin-right: 1vw;
   margin-bottom: 1vh;
 }
