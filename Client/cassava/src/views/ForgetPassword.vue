@@ -5,16 +5,13 @@
         <div id="formregister">
           <div id="titleregister">ลืมรหัสผ่าน</div>
           <div id="inputregister">
-            {{errormessage}}
+            {{errorM}}
             อีเมล
-            <v-text-field
-              v-model="email"
-              :rules="[rules.email]"
-            ></v-text-field>
+            <v-text-field v-model="email" :rules="[rules.email]"></v-text-field>
           </div>
           <div id="suandfobuttongroup">
-            <v-btn id="cancelbutton" > ยกเลิก </v-btn>
-            <v-btn id="confirmbutton" :disabled = "!email"> ยืนยัน </v-btn>
+            <v-btn id="cancelbutton" @click="moveto('back')"> ยกเลิก </v-btn>
+            <v-btn id="confirmbutton" :disabled="!email" @click="forgetpasswordfunction()"> ยืนยัน </v-btn>
           </div>
         </div>
       </v-card>
@@ -23,23 +20,46 @@
 </template>
 
 <script>
+import firebase from "firebase/app";
 export default {
   data: () => ({
     reg: /\S+@\S+\.\S+/,
-    errorM:"",
+    errorM: "",
     email: "",
     show1: false,
     show2: false,
     rules: {
       required: (value) => !!value || "Required.",
-      email: value => {
-            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            return pattern.test(value) || 'Invalid e-mail.'
-          },
-
+      email: (value) => {
+        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return pattern.test(value) || "Invalid e-mail.";
+      },
     },
   }),
-  methods: {},
+  methods: {
+    moveto(i) {
+      const vm = this;
+      if (i == "back") {
+        vm.$router.push("/");
+      }
+    },
+    forgetpasswordfunction() {
+      var auth = firebase.auth()
+      var emailAddress = this.email
+
+      auth
+        .sendPasswordResetEmail(emailAddress)
+        .then(
+          // Email sent.
+          this.errorM = "ส่งอีเมลสำเร็จ โปรดตรวจสอบอีเมลเพื่อรีเซ็ทรหัสผ่าน"
+        )
+        .catch((error) => {
+          var errorMessage = error.message;
+          // ..
+          this.errorM = errorMessage;
+        });
+    },
+  },
 };
 </script>
 <style scoped>

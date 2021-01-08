@@ -24,22 +24,21 @@
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker
-              v-model="dateto"
-              range
-            ></v-date-picker>
+            <v-date-picker v-model="dateto" range></v-date-picker>
           </v-menu>
         </v-col>
         <v-col cols="12" md="2" sm="3" class="text-center">
-          <v-btn id="resetchartbutton" @click="changechart()">
-            ยืนยัน
-          </v-btn>
+          <v-btn id="resetchartbutton" @click="changechart()"> ยืนยัน </v-btn>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" md="9">
           <div id="showchart">
-            <line-chart id="chartee" ref="chartee" style="height:400px"></line-chart>
+            <line-chart
+              id="chartee"
+              ref="chartee"
+              style="height: 400px"
+            ></line-chart>
             <!--<canvas id="myChart"></canvas>-->
           </div>
         </v-col>
@@ -66,9 +65,12 @@ export default {
     LineChart,
   },
   data: () => ({
-    dateto: [new Date().toISOString().substr(0, 10), new Date().toISOString().substr(0, 10)],
-    fromdate:"",
-    todate:"",
+    dateto: [
+      new Date().toISOString().substr(0, 10),
+      new Date().toISOString().substr(0, 10),
+    ],
+    fromdate: "",
+    todate: "",
     menu: false,
     modal: false,
     menu2: false,
@@ -79,60 +81,62 @@ export default {
     temputure: 35.25,
     cassavaage: 12,
     addDatachartw: [0, 1, 2, 3],
-    datachart:{
-      day:["15/6/2563",
-          "11/7/2563",
-          "12/7/2563",
-          "18/8/2563",
-          "11/8/2563",
-          "6/9/2563",
-          "8/9/2563",],
-      precentstarch:[22, 19, 22, 25, 26, 27, 26],
-    },
-    pindetail:[
-        {
-          id:0,
-          daygetdata:"15/11/2563",
-          precentstarch: 10.45,
-          temputure: 25.05
-        },
-        {
-          id:1,
-          daygetdata:"18/11/2563",
-          precentstarch: 13.43,
-          temputure: 32.02
-        },
-        {
-          id:2,
-          daygetdata:"27/11/2563",
-          precentstarch: 18.85,
-          temputure: 31.12
-        },
-        {
-          id:3,
-          daygetdata:"5/12/2563",
-          precentstarch: 22.15,
-          temputure: 28.04
-        },
-        {
-          id:4,
-          daygetdata:"8/12/2563",
-          precentstarch: 25.12,
-          temputure: 27.03
-        },
-        {
-          id:5,
-          daygetdata:"19/12/2563",
-          precentstarch: 24.53,
-          temputure: 26.15
-        },
-        {
-          id:6,
-          daygetdata:"20/12/2563",
-          precentstarch: 21.25,
-          temputure: 24.05
-        },
+    datachart: {
+      day: [
+        "15/06/2563",
+        "11/07/2563",
+        "12/07/2563",
+        "18/08/2563",
+        "11/08/2563",
+        "06/09/2563",
+        "08/09/2563",
       ],
+      precentstarch: [22, 19, 22, 25, 26, 27, 26],
+    },
+    pindetail: [
+      {
+        id: 0,
+        daygetdata: "15/11/2563",
+        precentstarch: 10.45,
+        temputure: 25.05,
+      },
+      {
+        id: 1,
+        daygetdata: "18/11/2563",
+        precentstarch: 13.43,
+        temputure: 32.02,
+      },
+      {
+        id: 2,
+        daygetdata: "27/11/2563",
+        precentstarch: 18.85,
+        temputure: 31.12,
+      },
+      {
+        id: 3,
+        daygetdata: "05/12/2563",
+        precentstarch: 22.15,
+        temputure: 28.04,
+      },
+      {
+        id: 4,
+        daygetdata: "08/12/2563",
+        precentstarch: 25.12,
+        temputure: 27.03,
+      },
+      {
+        id: 5,
+        daygetdata: "19/12/2563",
+        precentstarch: 24.53,
+        temputure: 26.15,
+      },
+      {
+        id: 6,
+        daygetdata: "20/12/2563",
+        precentstarch: 21.25,
+        temputure: 24.05,
+      },
+    ],
   }),
   computed: {
     computedDatetoFormatted() {
@@ -147,98 +151,93 @@ export default {
       }
     },
     formatDate(date) {
-      var fromday = date[0]
-      var today = date[1]
-      if(date[0]>date[1]){
-        this.dateto[0] = today
-        this.dateto[1] = fromday
+      var fromday = date[0];
+      var today = date[1];
+      if (date[0] > date[1]) {
+        this.dateto[0] = today;
+        this.dateto[1] = fromday;
       }
-      var i = 0
-      var finsheddate = ""
+      var i = 0;
+      var finsheddate = "";
       if (!date) return null;
-      while(i < date.length){
+      while (i < date.length) {
         const [year, month, day] = date[i].split("-");
         const newyear = parseInt(year) + 543;
-        finsheddate += `${day}/${month}/${newyear}`
-        if(i+1 != date.length){
-          finsheddate += " - "
-          this.fromdate = `${day}/${month}/${newyear}`
-          console.log(this.fromdate)
+        finsheddate += `${day}/${month}/${newyear}`;
+        if (i + 1 != date.length) {
+          finsheddate += " - ";
+          this.fromdate = `${day}/${month}/${newyear}`;
+          console.log(this.fromdate);
+        } else {
+          this.todate = `${day}/${month}/${newyear}`;
+          console.log(this.todate);
         }
-        else{
-          this.todate = `${day}/${month}/${newyear}`
-          console.log(this.todate)
-        }
-        i++
+        i++;
       }
-      
+
       return finsheddate;
     },
-    checkday(){
-      var [fromday,frommonth,fromyear] = this.fromdate.split("/")
-      fromday = parseInt(fromday)
-      frommonth = parseInt(frommonth)
-      fromyear = parseInt(fromyear)
-      var [today,tomonth,toyear] = this.todate.split("/")
-      today = parseInt(today)
-      tomonth = parseInt(tomonth)
-      toyear = parseInt(toyear)
-      var i = 0
-      var dayforchart = []
-      var precentforchart = []
-      var tempforcal = []
-      console.log(tomonth)
-      console.log(frommonth)
-      while(i < this.pindetail.length){
-        var [selecteday,selectmonth,selectyear] = this.pindetail[i].daygetdata.split("/")
-        selecteday = parseInt(selecteday)
-        selectmonth = parseInt(selectmonth)
-        selectyear = parseInt(selectyear)
-        if (fromday <= selecteday && selecteday <= today){
-          if(frommonth <= selectmonth && selectmonth <= tomonth){
-            if(fromyear <= selectyear && selectyear <= toyear){
-              dayforchart.push(this.pindetail[i].daygetdata)
-              precentforchart.push(this.pindetail[i].precentstarch)
-              tempforcal.push(this.pindetail[i].temputure)
-            }
-          }
+    checkday() {
+      var newfromdate;
+      var newtodate;
+      var newselectdate;
+      var [fromday, frommonth, fromyear] = this.fromdate.split("/");
+      newfromdate = fromyear + frommonth + fromday;
+      newfromdate = parseInt(newfromdate);
+      var [today, tomonth, toyear] = this.todate.split("/");
+      newtodate = toyear + tomonth + today;
+      newtodate = parseInt(newtodate);
+      var i = 0;
+      var dayforchart = [];
+      var precentforchart = [];
+      var tempforcal = [];
+      console.log(tomonth);
+      console.log(frommonth);
+      while (i < this.pindetail.length) {
+        var [selectday, selectmonth, selectyear] = this.pindetail[
+          i
+        ].daygetdata.split("/");
+        newselectdate = selectyear + selectmonth + selectday;
+        newselectdate = parseInt(newselectdate);
+        if (newfromdate <= newselectdate && newselectdate <= newtodate) {
+          dayforchart.push(this.pindetail[i].daygetdata);
+          precentforchart.push(this.pindetail[i].precentstarch);
+          tempforcal.push(this.pindetail[i].temputure);
         }
-        i++
+        i++;
       }
-      return [dayforchart,precentforchart,tempforcal]
+      return [dayforchart, precentforchart, tempforcal];
     },
-    changedetailside(precentforchart,tempforcal){
-      var i = 0
-      var totalprecent = 0
-      var avgprecent = 0
-      var tempall = 0
-      while(i < precentforchart.length){
-        totalprecent += precentforchart[i]
-        tempall += tempforcal[i]
-        i++
+    changedetailside(precentforchart, tempforcal) {
+      var i = 0;
+      var totalprecent = 0;
+      var avgprecent = 0;
+      var tempall = 0;
+      while (i < precentforchart.length) {
+        totalprecent += precentforchart[i];
+        tempall += tempforcal[i];
+        i++;
       }
-      avgprecent = totalprecent/precentforchart.length
-      this.precentstarchaverage = avgprecent.toFixed(2)
-      this.temputure = (tempall/tempforcal.length).toFixed(2)
-      if(avgprecent < 25){
-        this.gradecassava = "C"
-      }
-      else if(avgprecent < 30){
-        this.gradecassava = "B"
-      }
-      else if(avgprecent >= 30){
-        this.gradecassava = "A"
+      avgprecent = totalprecent / precentforchart.length;
+      this.precentstarchaverage = avgprecent.toFixed(2);
+      this.temputure = (tempall / tempforcal.length).toFixed(2);
+      if (avgprecent < 25) {
+        this.gradecassava = "C";
+      } else if (avgprecent < 30) {
+        this.gradecassava = "B";
+      } else if (avgprecent >= 30) {
+        this.gradecassava = "A";
       }
     },
     changechart() {
-      var [dayforchart,precentforchart,tempforcal] = this.checkday()
-      this.changedetailside(precentforchart,tempforcal)
-      console.log(dayforchart)
-      console.log(precentforchart)
+      var [dayforchart, precentforchart, tempforcal] = this.checkday();
+      this.changedetailside(precentforchart, tempforcal);
+      console.log(dayforchart);
+      console.log(precentforchart);
       var chart = this.$refs.chartee;
       //console.log(chart.datacollection.labels.length)
-      chart.datacollection.labels = dayforchart
-      chart.datacollection.datasets[0].data = precentforchart
+      chart.datacollection.labels = dayforchart;
+      chart.datacollection.datasets[0].data = precentforchart;
       /*chart.datacollection.datasets.forEach((dataset) => {
         dataset.data.push(data);
       });*/

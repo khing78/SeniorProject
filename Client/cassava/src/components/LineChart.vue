@@ -73,10 +73,6 @@ export default {
     refreashchart() {
       this.renderChart(this.datacollection, this.options);
     },
-    cat(event, array) {
-      console.log(event);
-      console.log(array);
-    },
   },
   mounted() {
     this.renderChart(this.datacollection, this.options);

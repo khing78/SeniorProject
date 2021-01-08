@@ -18,8 +18,8 @@
             ></v-text-field>
           </div>
           <div id="suandfobuttongroup">
-            <v-btn id="forgotbutton" text> ลืมรหัสผ่าน </v-btn>
-            <v-btn id="signupbutton" text> สร้างบัญชี </v-btn>
+            <v-btn id="forgotbutton" text @click="moveto('forgetpassword')"> ลืมรหัสผ่าน </v-btn>
+            <v-btn id="signupbutton" text @click="moveto('register')"> สร้างบัญชี </v-btn>
           </div>
           <v-btn id="loginbutton" @click="loginfun(email, password)">
             เข้าสู่ระบบ
@@ -53,6 +53,16 @@ export default {
     },
   }),
   methods: {
+    moveto(i) {
+      console.log(i)
+      const vm = this;
+      if (i == "register") {
+        vm.$router.push("/register");
+      }
+      else if(i == "forgetpassword"){
+        vm.$router.push("/forgetpassword");
+      }
+    },
     loginfun(email, password) {
       const vm = this;
       firebase

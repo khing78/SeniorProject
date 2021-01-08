@@ -236,7 +236,6 @@ export default {
       this.gradeBtotal = (yellow*100/this.markers.length).toFixed(2)
       this.gradeCtotal = (red*100/this.markers.length).toFixed(2)
       this.totalstarch = (totalqulity / this.markers.length).toFixed(2)
-      console.log(totalqulity);
       }
        
     },
