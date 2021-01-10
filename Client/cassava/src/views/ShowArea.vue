@@ -251,17 +251,17 @@ export default {
       if (colormarker == "green") {
         return {
           url: require("../assets/Agradeicon.png"),
-          scaledSize: { width: 23, height: 28, f: "px", b: "px" },
+          scaledSize: { width: 23, height: 40, f: "px", b: "px" },
         };
       } else if (colormarker == "yellow") {
         return {
           url: require("../assets/Bgradeicon.png"),
-          scaledSize: { width: 23, height: 28, f: "px", b: "px" },
+          scaledSize: { width: 23, height: 40, f: "px", b: "px" },
         };
       } else if (colormarker == "red") {
         return {
           url: require("../assets/Cgradeicon.png"),
-          scaledSize: { width: 23, height: 28, f: "px", b: "px" },
+          scaledSize: { width: 23, height: 40, f: "px", b: "px" },
         };
       }
     },
