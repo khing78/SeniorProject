@@ -7,15 +7,15 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="3" sm="3"
+        <v-col cols="12" md="2" sm="3"
           ><v-btn id="addbutton" rounded @click="moveto('pin')"
             >+ เพิ่มข้อมูลมันสำปะหลัง</v-btn
           ></v-col
         >
-        <v-col cols="12" md="3" sm="3" class="text-center">
+        <v-col cols="12" md="2" sm="3" class="text-center">
           <v-btn rounded @click="moveto('chart')">กราฟ</v-btn>
         </v-col>
-        <v-col cols="12" md="2" sm="2">
+        <v-col cols="12" md="2" sm="3">
           <v-menu
             :close-on-content-click="true"
             :nudge-right="40"
@@ -79,7 +79,7 @@
           </gmap-map>
           <!-- For Map -->
         </v-col>
-        <v-col cols="12" md="3" sm="3">
+        <v-col cols="12" md="3" sm="12">
           <v-row align="center">
             <v-col cols="12" md="3" sm="3"
               ><v-img id="pin" src="../assets/Agradeicon.png"></v-img></v-col
@@ -236,7 +236,6 @@ export default {
       this.gradeBtotal = (yellow*100/this.markers.length).toFixed(2)
       this.gradeCtotal = (red*100/this.markers.length).toFixed(2)
       this.totalstarch = (totalqulity / this.markers.length).toFixed(2)
-      console.log(totalqulity);
       }
        
     },
@@ -252,17 +251,17 @@ export default {
       if (colormarker == "green") {
         return {
           url: require("../assets/Agradeicon.png"),
-          scaledSize: { width: 23, height: 28, f: "px", b: "px" },
+          scaledSize: { width: 23, height: 40, f: "px", b: "px" },
         };
       } else if (colormarker == "yellow") {
         return {
           url: require("../assets/Bgradeicon.png"),
-          scaledSize: { width: 23, height: 28, f: "px", b: "px" },
+          scaledSize: { width: 23, height: 40, f: "px", b: "px" },
         };
       } else if (colormarker == "red") {
         return {
           url: require("../assets/Cgradeicon.png"),
-          scaledSize: { width: 23, height: 28, f: "px", b: "px" },
+          scaledSize: { width: 23, height: 40, f: "px", b: "px" },
         };
       }
     },
@@ -309,6 +308,7 @@ export default {
 #detailtext {
   text-align: center;
   size: 10px;
+  line-height: 2.5
 }
 #showmap {
   width: 100%;
@@ -317,6 +317,8 @@ export default {
 #pin {
   max-width: 1vw;
   min-width: 1vw;
+  max-height: 4vh;
+  min-height: 4vh;
 }
 #backbutton {
   margin-right: 1vw;

@@ -27,7 +27,7 @@
             ></v-text-field>
           </v-form>
           <div id="suandfobuttongroup">
-            <v-btn id="cancelbutton"> ยกเลิก </v-btn>
+            <v-btn id="cancelbutton" @click="moveto('back')"> ยกเลิก </v-btn>
             <v-btn
               id="confirmbutton"
               @click="registerfun(email, password)"
@@ -65,6 +65,12 @@ export default {
     },
   }),
   methods: {
+    moveto(i) {
+      const vm = this;
+      if (i == "back") {
+        vm.$router.push("/");
+      }
+    },
     registerfun(email, password) {
       const vm = this;
       firebase

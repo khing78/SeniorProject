@@ -89,7 +89,7 @@ export default {
   data: () => ({
     selectprovince: "",
     selectdistrict: "",
-    itemsdistrict: ["เมือง", "เวียงเก่า", "บ้านแฮด", "บ้านฝาง"],
+    selectid: 0,
     selectgrade: "",
     mapcenter: { lat: 16.4411261, lng: 102.8644933 },
     detailarea: [
@@ -170,8 +170,6 @@ export default {
   },
   methods: {
     selectfilter(province, district) {
-      console.log(district)
-      console.log(province)
       //กรองเฉพาะที่เป็นจังหวัดนี้, อำเภอที่เลือก
       var i = 0
       this.areashow = []
@@ -196,12 +194,11 @@ export default {
       this.areashow = this.detailarea
     },
     moveto(i) {
-      console.log(i);
-      console.log(this.mapcenter.lat, this.mapcenter.lng);
       const vm = this;
       if (i == "addarea") {
         vm.$router.push("/add-area");
       } else if (typeof i == "number") {
+        this.selectid = this.detailarea[i].id
         this.mapcenter = this.detailarea[i].position;
       } else if (i == "Accepted") {
         //เอ่ข้อมูลID ของแปลงไปดึงแปลงใน Database
