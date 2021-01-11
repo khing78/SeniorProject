@@ -82,6 +82,9 @@
 
 <script>
 import { mapGetters } from "vuex";
+import firebase from "firebase/app";
+import "firebase/auth";
+import axios from "axios";
 export default {
   data: () => ({
     selectprovince: "",
@@ -150,6 +153,15 @@ export default {
   }),
   created() {
     //ทุกครั้งที่เข้าหน้ามาให้โหลดข้อมูลแปลงทั้งหมดจาก Database ใหม่
+    axios
+    .get("http://127.0.0.1:8000/farms/",
+     { params: {UId: firebase.auth().currentUser} })
+    .then(response => {
+      console.log(firebase.auth().currentUser + "response: ", response)
+    })
+    .catch(err => {
+      console.error(err)
+    })
   },
   computed: {
     ...mapGetters({
