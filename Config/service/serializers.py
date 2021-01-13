@@ -15,12 +15,12 @@ class FarmSerializer(serializers.ModelSerializer):
 class ResultSerializers(serializers.ModelSerializer):
     class Meta:
         model = Result
-        fields = ('_all_')
+        fields = ('__all__')
 
 class CassavaCheckSerializers(serializers.ModelSerializer):
     class Meta:
         model = CassavaCheck
-        fields = ('_all_')
+        fields = ('__all__')
 
 class CassavaAreaSerializer(serializers.ModelSerializer):
     class Meta:

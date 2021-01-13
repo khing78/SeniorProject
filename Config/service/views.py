@@ -127,6 +127,20 @@ def cassava_check_editor(request, pk) :
         checked_data.delete()
         return Response(print(pk + ' is deleted') ,status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET', 'POST'])
+def area_check_get(request):
+    if request.method == 'GET' :
+        areas_data = CassavaArea.objects.all()
+        serializer = CassavaAreaSerializer(areas_data, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = CassavaAreaSerializer(data=request.data)
+        if serializer.is_valid() :
+            HttpResponse(print(serializer)) 
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 api_view(['PUT', 'DELETE'])
 def area_check(request, pk) :
     try:
