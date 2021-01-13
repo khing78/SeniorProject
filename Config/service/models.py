@@ -5,7 +5,7 @@ import uuid
 # Create your models here.
 class UidStore (models.Model) :
     email = models.EmailField(max_length=40)
-    uId = models.CharField(max_length=30, primary_key=True)
+    uId = models.CharField(max_length=30)
 
 class FarmStore (models.Model) :
     uidStore = models.ForeignKey(UidStore, on_delete=models.CASCADE)

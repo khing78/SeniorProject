@@ -24,5 +24,5 @@ urlpatterns = [
     path('uids/<str:pk>/', views.uid_editor, name="uid-edit"),
     path('farms/', views.farm_list, name="farmlist-get&post"),
     path('farms/<str:pk>/', views.farm_detail, name="farmlist-get&post"),
-    path('result', views.result, name="show-result")
+    path('result/', views.result, name="show-result")
 ]

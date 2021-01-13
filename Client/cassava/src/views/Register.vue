@@ -45,6 +45,7 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/auth";
+import axios from "axios";
 export default {
   data: () => ({
     inputregi: false,
@@ -83,6 +84,15 @@ export default {
             name: this.username,
           });
           vm.$router.push("/show-all-area");
+          axios({
+            method: 'post',
+            url: 'http://127.0.0.1:8000/uids/',
+            data: {
+              email : "test@gmail.com",
+              username : 'test'
+            }
+          })
+          .then(response => (this.info = response.data))
         })
         .catch((error) => {
           var errorCode = error.code;
