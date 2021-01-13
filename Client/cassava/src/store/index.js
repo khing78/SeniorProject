@@ -8,6 +8,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    idfarm:"Hellow",
     name:"",
     path:[],
     province: [
@@ -99,6 +100,9 @@ export default new Vuex.Store({
     },
     getProvince(state){
       return state.province
+    },
+    getIdFarm(state){
+      return state.idfarm
     }
   },
   mutations: {
@@ -107,7 +111,10 @@ export default new Vuex.Store({
   },
     setPath(state ,payload){
     state.path = payload.path
-},
+  },
+    setIdFarm(state ,payload){
+      state.idfarm = payload.idfarm
+    }
   },
   actions: {
     async fetchFood({ commit }) {
