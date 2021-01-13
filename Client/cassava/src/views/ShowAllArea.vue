@@ -66,7 +66,7 @@
                   @click="moveto(item.id)"
                 >
                   <td>{{ item.name }}</td>
-                  <td>{{ item.desciption }}</td>
+                  <td>อ.{{ item.district }} จ.{{item.province}}</td>
                 </tr>
               </tbody>
             </template>
@@ -95,6 +95,7 @@ export default {
     detailarea: [
       {
         id: 0,
+        idfarm:0,
         name: "แปลงสมชาย",
         province: "ขอนแก่น",
         district: "เมือง",
@@ -104,6 +105,7 @@ export default {
       },
       {
         id: 1,
+        idfarm:1,
         name: "แปลงสมศรี",
         province: "ขอนแก่น",
         district: "เวียงเก่า",
@@ -113,6 +115,7 @@ export default {
       },
       {
         id: 2,
+        idfarm:2,
         name: "แปลงมารี",
         province: "ขอนแก่น",
         district: "บ้านแฮด",
@@ -124,28 +127,28 @@ export default {
     areashow: [
       {
         id: 0,
+        idfarm:0,
         name: "แปลงสมชาย",
         province: "ขอนแก่น",
         district: "เมือง",
-        desciption: "อ.เมือง จ.ขอนแก่น",
         position: { lat: 18.466022, lng: 102.898313 },
         uid: "",
       },
       {
         id: 1,
+        idfarm:1,
         name: "แปลงสมศรี",
         province: "ขอนแก่น",
         district: "เวียงเก่า",
-        desciption: "อ.เวียงเก่า จ.ขอนแก่น",
         position: { lat: 16.466037, lng: 99.899724 },
         uid: "",
       },
       {
         id: 2,
+        idfarm:2,
         name: "แปลงมารี",
         province: "ขอนแก่น",
         district: "บ้านแฮด",
-        desciption: "อ.บ้านแฮด จ.ขอนแก่น",
         position: { lat: 15.465616, lng: 102.899717 },
         uid: "",
       },
@@ -157,7 +160,24 @@ export default {
     .get("http://127.0.0.1:8000/farms/",
      { params: {UId: firebase.auth().currentUser} })
     .then(response => {
+      var i = 0
+      this.detailarea = []
+      this.areashow = []
       console.log(firebase.auth().currentUser + "response: ", response)
+      while(i < response.data.length){
+        var id = i
+        var idfarm = response.data[i].farmId
+        var name = response.data[i].farmName
+        var province = response.data[i].province
+        var district = response.data[i].district
+        var latitude = response.data[i].latitude 
+        var longtitude = response.data[i].longtitude
+        var position = {lat: Number(latitude), lng: Number(longtitude)}
+        this.areashow.push({id,idfarm,name,province,district,position})
+        this.detailarea.push({id,idfarm,name,province,district,position})
+        i++
+      }
+      console.log(this.areashow)
     })
     .catch(err => {
       console.error(err)
