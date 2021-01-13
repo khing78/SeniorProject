@@ -5,7 +5,7 @@ import uuid
 # Create your models here.
 class UidStore (models.Model) :
     email = models.EmailField(max_length=40)
-    uId = models.CharField(max_length=30)
+    uId = models.CharField(max_length=30, primary_key=True)
 
 class FarmStore (models.Model) :
     uidStore = models.ForeignKey(UidStore, on_delete=models.CASCADE)
@@ -19,7 +19,6 @@ class FarmStore (models.Model) :
 
 class Result (models.Model) :
     farmStore = models.ForeignKey(FarmStore, default=None, on_delete=models.CASCADE)
-    grade = models.CharField(max_length=1)
     starch_percentage = models.FloatField(max_length=6)
     checkDate = models.DateField(default=timezone.localdate)
     temperature = models.DecimalField(max_digits=10, decimal_places=2)
@@ -43,4 +42,5 @@ class CassavaCheck (models.Model) :
     spectrum3 = models.FloatField(max_length=20)
     spectrum4 = models.FloatField(max_length=20)
     semperature = models.FloatField(max_length=20)
+    starchPercentage = models.FloatField(max_length=20)
     humidity = models.DecimalField(max_digits=10, decimal_places=2)
