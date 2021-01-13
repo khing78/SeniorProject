@@ -25,7 +25,12 @@
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="3" sm="3">
-          <v-btn id="filterprovincebutton" @click="selectfilter(selectprovince,selectdistrict)"> ค้นหา </v-btn>
+          <v-btn
+            id="filterprovincebutton"
+            @click="selectfilter(selectprovince, selectdistrict)"
+          >
+            ค้นหา
+          </v-btn>
           <v-btn id="showeverything" @click="showeveryarea()"> ทั้งหมด </v-btn>
         </v-col>
       </v-row>
@@ -53,7 +58,7 @@
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-center" id="areaname">ชื่อแปลง</th>
+                  <th class="text-center" id="areaname">ชื่อแปลง {{newidfarm}}</th>
                   <th class="text-center" id="areaname">รายละเอียด</th>
                 </tr>
               </thead>
@@ -66,7 +71,7 @@
                   @click="moveto(item.id)"
                 >
                   <td>{{ item.name }}</td>
-                  <td>อ.{{ item.district }} จ.{{item.province}}</td>
+                  <td>อ.{{ item.district }} จ.{{ item.province }}</td>
                 </tr>
               </tbody>
             </template>
@@ -95,7 +100,7 @@ export default {
     detailarea: [
       {
         id: 0,
-        idfarm:0,
+        idfarm: 0,
         name: "แปลงสมชาย",
         province: "ขอนแก่น",
         district: "เมือง",
@@ -105,7 +110,7 @@ export default {
       },
       {
         id: 1,
-        idfarm:1,
+        idfarm: 1,
         name: "แปลงสมศรี",
         province: "ขอนแก่น",
         district: "เวียงเก่า",
@@ -115,7 +120,7 @@ export default {
       },
       {
         id: 2,
-        idfarm:2,
+        idfarm: 2,
         name: "แปลงมารี",
         province: "ขอนแก่น",
         district: "บ้านแฮด",
@@ -127,7 +132,7 @@ export default {
     areashow: [
       {
         id: 0,
-        idfarm:0,
+        idfarm: 0,
         name: "แปลงสมชาย",
         province: "ขอนแก่น",
         district: "เมือง",
@@ -136,7 +141,7 @@ export default {
       },
       {
         id: 1,
-        idfarm:1,
+        idfarm: 1,
         name: "แปลงสมศรี",
         province: "ขอนแก่น",
         district: "เวียงเก่า",
@@ -145,7 +150,7 @@ export default {
       },
       {
         id: 2,
-        idfarm:2,
+        idfarm: 2,
         name: "แปลงมารี",
         province: "ขอนแก่น",
         district: "บ้านแฮด",
@@ -156,73 +161,97 @@ export default {
   }),
   created() {
     //ทุกครั้งที่เข้าหน้ามาให้โหลดข้อมูลแปลงทั้งหมดจาก Database ใหม่
-    axios
-    .get("http://127.0.0.1:8000/farms/",
-     { params: {UId: firebase.auth().currentUser} })
-    .then(response => {
-      var i = 0
-      this.detailarea = []
-      this.areashow = []
-      console.log(firebase.auth().currentUser + "response: ", response)
-      while(i < response.data.length){
-        var id = i
-        var idfarm = response.data[i].farmId
-        var name = response.data[i].farmName
-        var province = response.data[i].province
-        var district = response.data[i].district
-        var latitude = response.data[i].latitude 
-        var longtitude = response.data[i].longtitude
-        var position = {lat: Number(latitude), lng: Number(longtitude)}
-        this.areashow.push({id,idfarm,name,province,district,position})
-        this.detailarea.push({id,idfarm,name,province,district,position})
-        i++
-      }
-      console.log(this.areashow)
-    })
-    .catch(err => {
-      console.error(err)
-    })
+    this.fetchdatafromdatabase()
   },
   computed: {
     ...mapGetters({
       allprovince: "getProvince",
+      newidfarm: "getIdFarm"
     }),
   },
   methods: {
+    fetchdatafromdatabase() {
+      axios
+        .get("http://127.0.0.1:8000/farms/", {
+          params: { UId: firebase.auth().currentUser },
+        })
+        .then((response) => {
+          var i = 0;
+          this.detailarea = [];
+          this.areashow = [];
+          //console.log(firebase.auth().currentUser + "response: ", response);
+          while (i < response.data.length) {
+            var id = i;
+            var idfarm = response.data[i].farmId;
+            var name = response.data[i].farmName;
+            var province = response.data[i].province;
+            var district = response.data[i].district;
+            var latitude = response.data[i].latitude;
+            var longtitude = response.data[i].longtitude;
+            var position = { lat: Number(latitude), lng: Number(longtitude) };
+            this.areashow.push({
+              id,
+              idfarm,
+              name,
+              province,
+              district,
+              position,
+            });
+            this.detailarea.push({
+              id,
+              idfarm,
+              name,
+              province,
+              district,
+              position,
+            });
+            i++;
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
     selectfilter(province, district) {
       //กรองเฉพาะที่เป็นจังหวัดนี้, อำเภอที่เลือก
-      var i = 0
-      this.areashow = []
-      if (district != ""){
-        while (i < this.detailarea.length){
-        if (province == this.detailarea[i].province && district == this.detailarea[i].district){
-          this.areashow.push(this.detailarea[i])
+      var i = 0;
+      this.areashow = [];
+      if (district != "") {
+        while (i < this.detailarea.length) {
+          if (
+            province == this.detailarea[i].province &&
+            district == this.detailarea[i].district
+          ) {
+            this.areashow.push(this.detailarea[i]);
+          }
+          i++;
         }
-        i++
-      }
-      }
-      else {
-        while (i < this.detailarea.length){
-        if (province == this.detailarea[i].province){
-          this.areashow.push(this.detailarea[i])
+      } else {
+        while (i < this.detailarea.length) {
+          if (province == this.detailarea[i].province) {
+            this.areashow.push(this.detailarea[i]);
+          }
+          i++;
         }
-        i++
-      }
       }
     },
-    showeveryarea(){
-      this.areashow = this.detailarea
+    showeveryarea() {
+      this.areashow = this.detailarea;
     },
     moveto(i) {
       const vm = this;
       if (i == "addarea") {
         vm.$router.push("/add-area");
       } else if (typeof i == "number") {
-        this.selectid = this.detailarea[i].id
+        this.selectid = this.detailarea[i].idfarm;
         this.mapcenter = this.detailarea[i].position;
       } else if (i == "Accepted") {
-        //เอ่ข้อมูลID ของแปลงไปดึงแปลงใน Database
+        //เอาข้อมูลID ของแปลงไปดึงแปลงใน Database
+        vm.$store.commit({
+          type: "setIdFarm",
+          idfarm: this.selectid})
         vm.$router.push("/show-area");
+        
       }
     },
   },
@@ -236,7 +265,7 @@ export default {
 #areaname {
   background-color: #ffa9a9;
 }
-#filterprovincebutton{
+#filterprovincebutton {
   margin-right: 1vw;
 }
 </style>

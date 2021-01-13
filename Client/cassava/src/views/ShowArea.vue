@@ -43,7 +43,7 @@
           <v-btn
             rounded
             id="selectdatebutton"
-            @click="changedate(computedDateFormatted)"
+            @click="changedate(date)"
           >
             ค้นหา
           </v-btn>
@@ -125,6 +125,8 @@
 </template>
 
 <script>
+import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
@@ -158,19 +160,19 @@ export default {
       {
         id: 0,
         position: { lat: 16.465522, lng: 102.898513 },
-        dategetdata: "26/12/2563",
+        dategetdata: "2020-12-26",
         qulitypercent: 31,
       },
       {
         id: 1,
         position: { lat: 16.465822, lng: 102.898513 },
-        dategetdata: "24/12/2563",
+        dategetdata: "2020-12-24",
         qulitypercent: 25,
       },
       {
         id: 2,
         position: { lat: 16.465522, lng: 102.898913 },
-        dategetdata: "22/12/2563",
+        dategetdata: "2020-12-22",
         qulitypercent: 19,
       },
     ],
@@ -180,24 +182,31 @@ export default {
       {
         id: 0,
         position: { lat: 16.465522, lng: 102.898513 },
-        dategetdata: "26/12/2563",
+        dategetdata: "2020-12-26",
         qulitypercent: 31,
       },
       {
         id: 1,
         position: { lat: 16.465822, lng: 102.898513 },
-        dategetdata: "26/12/2563",
+        dategetdata: "2020-12-24",
         qulitypercent: 25,
       },
       {
         id: 2,
         position: { lat: 16.465522, lng: 102.898913 },
-        dategetdata: "26/12/2564",
+        dategetdata: "2020-12-22",
         qulitypercent: 19,
       },
     ],
   }),
+  created(){
+    this.fetchdatafromdatabase()
+    
+  },
   computed: {
+    ...mapGetters({
+      newidfarm: "getIdFarm"
+    }),
     computedDateFormatted() {
       return this.formatDate(this.date);
     },
@@ -209,6 +218,29 @@ export default {
     this.totalstarchfinder();
   },
   methods: {
+    fetchdatafromdatabase() {
+      var i = 0
+      this.datapin = []
+      this.markers = []
+      axios
+        .get("http://127.0.0.1:8000/result/")
+        .then((response) => {
+          while(i < response.data.length){
+            if(response.data[i].farmStore == this.newidfarm){
+              var id = response.data[i].id
+              var qulitypercent = response.data[i].starch_percentage
+              var dategetdata = response.data[i].checkDate
+              this.datapin.push({id,qulitypercent,dategetdata})
+              this.markers.push({id,qulitypercent,dategetdata})
+            }
+            i++
+          }
+          console.log(this.datapin)
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
     totalstarchfinder() {
       var i = 0;
       var totalqulity = 0;
