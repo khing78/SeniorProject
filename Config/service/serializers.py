@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from .models import *
-
 class UidStoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = UidStore
@@ -15,12 +14,12 @@ class FarmSerializer(serializers.ModelSerializer):
 class ResultSerializers(serializers.ModelSerializer):
     class Meta:
         model = Result
-        fields = ('_all_')
+        fields = ('__all__')
 
 class CassavaCheckSerializers(serializers.ModelSerializer):
     class Meta:
         model = CassavaCheck
-        fields = ('_all_')
+        fields = ('__all__')
 
 class CassavaAreaSerializer(serializers.ModelSerializer):
     class Meta:
