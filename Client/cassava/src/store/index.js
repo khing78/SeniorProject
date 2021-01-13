@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Axios from "axios";
+
+let mongo_api = "http://127.0.0.1:8000/farms/";
 
 Vue.use(Vuex)
 
@@ -107,6 +110,11 @@ export default new Vuex.Store({
 },
   },
   actions: {
+    async fetchFood({ commit }) {
+      await Axios.get(mongo_api)
+        .then(res => commit("fetchFood", { res }))
+        .catch(err => alert(err));
+    },
   },
   modules: {
   }
