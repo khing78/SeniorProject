@@ -1,15 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Axios from "axios";
 
-let mongo_api = "http://127.0.0.1:8000/farms/";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    idfarm:"Hellow",
+    idfarm:"",
     name:"",
+    selectedarea:"",
+    selecteddate:"",
+    dateplant:"",
+    detailarea:[],
     path:[],
     province: [
       "กระบี่",
@@ -103,6 +105,18 @@ export default new Vuex.Store({
     },
     getIdFarm(state){
       return state.idfarm
+    },
+    getDetailArea(state){
+      return state.detailarea
+    },
+    getSelectedArea(state){
+      return state.selectedarea
+    },
+    getSelectedDate(state){
+      return state.selecteddate
+    },
+    getDatePlant(state){
+      return state.dateplant
     }
   },
   mutations: {
@@ -114,14 +128,21 @@ export default new Vuex.Store({
   },
     setIdFarm(state ,payload){
       state.idfarm = payload.idfarm
+  },
+    setDetailArea(state ,payload){
+      state.detailarea = payload.detailarea
+  },
+    setSelectedArea(state, payload){
+      state.selectedarea = payload.selectedarea
+  },
+    setSelectedDate(state, payload){
+      state.selecteddate = payload.selecteddate
+  },
+    setDatePlant(state, payload){
+      state.dateplant = payload.dateplant
     }
   },
   actions: {
-    async fetchFood({ commit }) {
-      await Axios.get(mongo_api)
-        .then(res => commit("fetchFood", { res }))
-        .catch(err => alert(err));
-    },
   },
   modules: {
   }

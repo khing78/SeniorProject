@@ -48,13 +48,6 @@
             label="ลองจิจูด"
           ></v-text-field
         ></v-col>
-        <v-col cols="12" md="3" sm="3"
-          ><v-text-field
-            v-model="lenghtofarea"
-            hint="กรุณาใส่ความกว้างของขอบเขต"
-            label="ขอบเขต (เมตร)"
-          ></v-text-field
-        ></v-col>
       </v-row>
       <v-row>
         <v-col cols="12">
@@ -79,7 +72,7 @@
           </gmap-map>
         </v-col>
         <v-col cols="12">
-          <v-btn id="savebutton" rounded @click="addcassava()">เพิ่มต้น +</v-btn>
+          <v-btn id="savebutton" rounded @click="addcassava()">เพิ่มหัวมันสำปะหลัง +</v-btn>
         </v-col>
       </v-row>
       <v-simple-table fixed-header height="50vh" id="table">

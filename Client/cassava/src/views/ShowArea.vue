@@ -39,18 +39,6 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
-        <v-col cols="12" md="3" sm="3">
-          <v-btn
-            rounded
-            id="selectdatebutton"
-            @click="changedate(date)"
-          >
-            ค้นหา
-          </v-btn>
-          <v-btn rounded id="showallpin" @click="showallpindate()">
-            ทั้งหมด
-          </v-btn>
-        </v-col>
       </v-row>
       <v-row id="everythingisonfire">
         <v-col cols="12" md="9">
@@ -66,8 +54,8 @@
               v-for="(m, index) in markers"
               :position="m.position"
               :clickable="true"
-              :icon="changeocolormarker(m.qulitypercent)"
-              @click="moveto('pindetail')"
+              :icon="changeocolormarker(m.avgstarch)"
+              @click="moveto(m.cassavaareaid)"
             ></gmap-marker>
             <gmap-polyline
               v-if="path.length > 0"
@@ -193,19 +181,19 @@ export default {
       },
       {
         id: 2,
+        idarea: "awfwafaw",
         position: { lat: 16.465522, lng: 102.898913 },
         dategetdata: "2020-12-22",
         qulitypercent: 19,
       },
     ],
   }),
-  created(){
-    this.fetchdatafromdatabase()
-    
+  created() {
+    this.fetchdatafromdatabase();
   },
   computed: {
     ...mapGetters({
-      newidfarm: "getIdFarm"
+      newidfarm: "getIdFarm",
     }),
     computedDateFormatted() {
       return this.formatDate(this.date);
@@ -219,57 +207,105 @@ export default {
   },
   methods: {
     fetchdatafromdatabase() {
-      var i = 0
-      this.datapin = []
-      this.markers = []
+      var avgstarch = 0;
+      var starch = 0;
+      var lengthstach = 0;
+      var m = 0;
+      var i = 0;
+      var cassavaareaidlist = [];
+      var datadetail = [];
+      this.datapin = [];
+      this.markers = [];
       axios
-        .get("http://127.0.0.1:8000/result/")
+        .get("http://127.0.0.1:8000/area-check/")
         .then((response) => {
-          while(i < response.data.length){
-            if(response.data[i].farmStore == this.newidfarm){
-              var id = response.data[i].id
-              var qulitypercent = response.data[i].starch_percentage
-              var dategetdata = response.data[i].checkDate
-              this.datapin.push({id,qulitypercent,dategetdata})
-              this.markers.push({id,qulitypercent,dategetdata})
+          var i = 0;
+          while (i < response.data.length) {
+            if (response.data[i].farmStore == this.newidfarm) {
+              var cassavaareaid = response.data[i].cassavaAreaId;
+              var position = {
+                lat: Number(response.data[i].treeLatitude),
+                lng: Number(response.data[i].treeLongtitude),
+              };
+              cassavaareaidlist.push({
+                cassavaareaid,
+                position,
+                datadetail,
+                avgstarch,
+              });
             }
-            i++
+            i++;
           }
-          console.log(this.datapin)
         })
         .catch((err) => {
           console.error(err);
         });
+      axios
+        .get("http://127.0.0.1:8000/cassava-check/")
+        .then((response) => {
+          i = 0;
+          while (i < cassavaareaidlist.length) {
+            var listcassava = []
+            m = 0;
+            console.log(i);
+            while (m < response.data.length) {
+              if (response.data[m].cassavaArea == cassavaareaidlist[i].cassavaareaid){
+                console.log("aa")
+                var dategetdata = response.data[m].checkDate.slice(0, 10);
+                var starchPercentage = response.data[m].starchPercentage;
+                var humidity = response.data[m].humidity
+                var temperature = response.data[m].temperature
+                starch += response.data[m].starchPercentage;
+                lengthstach++;
+                listcassava.push({dategetdata,
+                  starchPercentage,humidity,temperature})
+              }
+              m++;
+            }
+            cassavaareaidlist[i].datadetail = listcassava
+            cassavaareaidlist[i].avgstarch = starch / lengthstach;
+            starch = 0;
+            lengthstach = 0;
+            i++;
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+        this.$store.commit({
+          type: "setDetailArea",
+          detailarea: cassavaareaidlist})
+      this.datapin = cassavaareaidlist
+      this.markers = cassavaareaidlist
     },
     totalstarchfinder() {
       var i = 0;
       var totalqulity = 0;
-      var red = 0
-      var yellow = 0
-      var green = 0
-      if (this.markers.length == 0){
-        this.gradeAtotal = 0
-        this.gradeBtotal = 0
-        this.gradeCtotal = 0
-        this.totalstarch = 0
-      }else {
+      var red = 0;
+      var yellow = 0;
+      var green = 0;
+      if (this.markers.length == 0) {
+        this.gradeAtotal = 0;
+        this.gradeBtotal = 0;
+        this.gradeCtotal = 0;
+        this.totalstarch = 0;
+      } else {
         while (i < this.markers.length) {
-        totalqulity += this.markers[i].qulitypercent;
-        if (this.markers[i].qulitypercent < 25) {
-          red++
-        } else if (this.markers[i].qulitypercent < 30) {
-          yellow++
-        } else if (this.markers[i].qulitypercent >= 30) {
-          green++
+          totalqulity += this.markers[i].avgstarch;
+          if (this.markers[i].avgstarch < 25) {
+            red++;
+          } else if (this.markers[i].avgstarch < 30) {
+            yellow++;
+          } else if (this.markers[i].avgstarch >= 30) {
+            green++;
+          }
+          i++;
         }
-        i++;
+        this.gradeAtotal = ((green * 100) / this.markers.length).toFixed(2);
+        this.gradeBtotal = ((yellow * 100) / this.markers.length).toFixed(2);
+        this.gradeCtotal = ((red * 100) / this.markers.length).toFixed(2);
+        this.totalstarch = (totalqulity / this.markers.length).toFixed(2);
       }
-      this.gradeAtotal = (green*100/this.markers.length).toFixed(2)
-      this.gradeBtotal = (yellow*100/this.markers.length).toFixed(2)
-      this.gradeCtotal = (red*100/this.markers.length).toFixed(2)
-      this.totalstarch = (totalqulity / this.markers.length).toFixed(2)
-      }
-       
     },
     changeocolormarker(qulity) {
       var colormarker = "";
@@ -316,22 +352,15 @@ export default {
         vm.$router.push("/show-all-area");
       } else if (i == "chart") {
         vm.$router.push("/area-detail-chart");
-      } else if (i == "pindetail") {
+      } else{
+        vm.$store.commit({
+          type: "setSelectedArea",
+          selectedarea: i})
+        vm.$store.commit({
+          type: "setSelectedDate",
+          selecteddate: this.date})
         vm.$router.push("/pin-detail");
       }
-    },
-    changedate(selectdate) {
-      var i = 0;
-      this.markers = [];
-      while (i < this.datapin.length) {
-        if (this.datapin[i].dategetdata == selectdate) {
-          this.markers.push(this.datapin[i]);
-        }
-        i++;
-      }
-    },
-    showallpindate() {
-      this.markers = this.datapin;
     },
   },
 };
@@ -340,7 +369,7 @@ export default {
 #detailtext {
   text-align: center;
   size: 10px;
-  line-height: 2.5
+  line-height: 2.5;
 }
 #showmap {
   width: 100%;

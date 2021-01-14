@@ -58,7 +58,7 @@
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-center" id="areaname">ชื่อแปลง {{newidfarm}}</th>
+                  <th class="text-center" id="areaname">ชื่อแปลง</th>
                   <th class="text-center" id="areaname">รายละเอียด</th>
                 </tr>
               </thead>
@@ -96,6 +96,7 @@ export default {
     selectdistrict: "",
     selectid: 0,
     selectgrade: "",
+    plantingDate: "",
     mapcenter: { lat: 16.4411261, lng: 102.8644933 },
     detailarea: [
       {
@@ -161,12 +162,12 @@ export default {
   }),
   created() {
     //ทุกครั้งที่เข้าหน้ามาให้โหลดข้อมูลแปลงทั้งหมดจาก Database ใหม่
-    this.fetchdatafromdatabase()
+    this.fetchdatafromdatabase();
   },
   computed: {
     ...mapGetters({
       allprovince: "getProvince",
-      newidfarm: "getIdFarm"
+      newidfarm: "getIdFarm",
     }),
   },
   methods: {
@@ -183,6 +184,7 @@ export default {
           while (i < response.data.length) {
             var id = i;
             var idfarm = response.data[i].farmId;
+            var plantingDate = response.data[i].plantingDate;
             var name = response.data[i].farmName;
             var province = response.data[i].province;
             var district = response.data[i].district;
@@ -192,6 +194,7 @@ export default {
             this.areashow.push({
               id,
               idfarm,
+              plantingDate,
               name,
               province,
               district,
@@ -200,6 +203,7 @@ export default {
             this.detailarea.push({
               id,
               idfarm,
+              plantingDate,
               name,
               province,
               district,
@@ -245,13 +249,18 @@ export default {
       } else if (typeof i == "number") {
         this.selectid = this.detailarea[i].idfarm;
         this.mapcenter = this.detailarea[i].position;
+        this.plantingDate = this.detailarea[i].plantingDate;
       } else if (i == "Accepted") {
         //เอาข้อมูลID ของแปลงไปดึงแปลงใน Database
         vm.$store.commit({
           type: "setIdFarm",
-          idfarm: this.selectid})
+          idfarm: this.selectid,
+        });
+        vm.$store.commit({
+          type: "setDatePlant",
+          dateplant: this.plantingDate,
+        });
         vm.$router.push("/show-area");
-        
       }
     },
   },
