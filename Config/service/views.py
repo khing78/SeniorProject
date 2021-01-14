@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from rest_framework import permissions 
 from rest_framework import status 
 from django.db.models import Count
+from django.db.models.functions import math
 
 # Create your views here.
 
@@ -100,6 +101,10 @@ def cassava_check(request):
 
     elif request.method == 'POST':
         serializer = CassavaCheckSerializers(data=request.data)
+        cassava_latitude = request.data['latitude']
+        cassava_longtitude = request.data['longtitude']
+        print("//////////////////////////////////// lat,long = ", type(cassava_latitude), type(cassava_longtitude))
+        
         if serializer.is_valid() :
             HttpResponse(print(serializer)) 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -165,10 +170,11 @@ def area_check(request, pk) :
 
 def measure(lat1, lon1, lat2, lon2) :
     R = 6378.137; #Radius of earth in KM
-    dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
-    dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
-    a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
-    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    dLat = lat2 * math.Pi / 180 - lat1 * math.Pi / 180;
+    dLon = lon2 * math.Pi / 180 - lon1 * math.Pi / 180;
+    a = math.sin(dLat/2) * math.sin(dLat/2) + math.cos(lat1 * math.Pi / 180) * math.cos(lat2 * math.Pi / 180) * math.sin(dLon/2) * math.sin(dLon/2);
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a));
     d = R * c;
     metar = d * 1000
-    return metar; #meters
+    return metar, print("distance : " ,metar); #meters
+

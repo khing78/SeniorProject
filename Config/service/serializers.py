@@ -19,7 +19,9 @@ class ResultSerializers(serializers.ModelSerializer):
 class CassavaCheckSerializers(serializers.ModelSerializer):
     class Meta:
         model = CassavaCheck
-        fields = ('__all__')
+        fields = ('cassavaArea', 'checkDate', 'latitude', 'longtitude'
+        , 'spectrum1', 'spectrum2', 'spectrum3', 'spectrum4'
+        , 'semperature', 'starchPercentage', 'humidity', 'temperature')
 
 class CassavaAreaSerializer(serializers.ModelSerializer):
     class Meta:
