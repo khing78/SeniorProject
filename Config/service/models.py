@@ -16,6 +16,14 @@ class FarmStore (models.Model) :
     plantingDate = models.DateField(default=timezone.now)
     latitude = models.DecimalField(max_digits=30, decimal_places=15, default=0)
     longtitude = models.DecimalField(max_digits=30, decimal_places=15, default=0)
+    latitudeMark1 = models.DecimalField(max_digits=30, decimal_places=15, default=0)
+    longtitudeMark1 = models.DecimalField(max_digits=30, decimal_places=15, default=0)
+    latitudeMark2 = models.DecimalField(max_digits=30, decimal_places=15, default=0)
+    longtitudeMark2 = models.DecimalField(max_digits=30, decimal_places=15, default=0)
+    latitudeMark3 = models.DecimalField(max_digits=30, decimal_places=15, default=0)
+    longtitudeMark3 = models.DecimalField(max_digits=30, decimal_places=15, default=0)
+    latitudeMark4 = models.DecimalField(max_digits=30, decimal_places=15, default=0)
+    longtitudeMark4 = models.DecimalField(max_digits=30, decimal_places=15, default=0)
 
 class Result (models.Model) :
     farmStore = models.ForeignKey(FarmStore, default=None, on_delete=models.CASCADE)
@@ -27,6 +35,7 @@ class Result (models.Model) :
 class CassavaArea (models.Model) :
     farmStore = models.ForeignKey(FarmStore, default=None, on_delete=models.CASCADE)
     cassavaAreaId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    starchPercentage = models.FloatField(max_length=20)
     treeLatitude = models.DecimalField(max_digits=30, decimal_places=15, default=0)
     treeLongtitude = models.DecimalField(max_digits=30, decimal_places=15, default=0)
     treewidth = models.DecimalField(max_digits=30, decimal_places=15, default=0)
@@ -44,3 +53,4 @@ class CassavaCheck (models.Model) :
     semperature = models.FloatField(max_length=20)
     starchPercentage = models.FloatField(max_length=20)
     humidity = models.DecimalField(max_digits=10, decimal_places=2)
+    temperature = models.DecimalField(max_digits=10, decimal_places=2)
