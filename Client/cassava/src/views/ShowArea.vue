@@ -13,7 +13,6 @@
           ></v-col
         >
         <v-col cols="12" md="2" sm="3" class="text-center">
-          <v-btn rounded @click="moveto('chart')">กราฟ</v-btn>
         </v-col>
         <v-col cols="12" md="2" sm="3">
           <v-menu
@@ -129,7 +128,6 @@ export default {
     agreenmarker: "../assets/Agradeicon.png",
     byellowmarker: "../assets/Bgradeicon.png",
     credmarker: "../assets/Cgradeicon.png",
-    areaname: "สมชาย",
     gradeAtotal: 10,
     gradeBtotal: 50,
     gradeCtotal: 40,
@@ -194,6 +192,7 @@ export default {
   computed: {
     ...mapGetters({
       newidfarm: "getIdFarm",
+      areaname: "getNameArea"
     }),
     computedDateFormatted() {
       return this.formatDate(this.date);

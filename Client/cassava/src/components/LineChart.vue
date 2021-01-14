@@ -6,19 +6,11 @@ export default {
   data() {
     return {
       datacollection: {
-        labels: [
-          "21/6/2563",
-          "22/6/2563",
-          "23/6/2563",
-          "26/6/2563",
-          "29/6/2563",
-          "6/7/2563",
-          "8/7/2563",
-        ],
+        labels: [],
         datasets: [
           {
             label: "ปริมาณแป้งมันสำปะหลัง(%)",
-            data: [22, 19, 15, 25, 26, 27, 26, 25, 25.5, 26.5, 24],
+            data: [],
             pointRadius: 5,
             pointHoverRadius: 9,
           },
@@ -36,8 +28,8 @@ export default {
             label: function (tooltipItem, data) {
               let dataset = data.datasets[tooltipItem.datasetIndex];
               let currentValue = dataset.data[tooltipItem.index];
-              var allword ="เปอร์เซ็นต์แป้ง = "+  currentValue + "%"
-              return allword
+              var allword = "เปอร์เซ็นต์แป้ง = " + currentValue + "%";
+              return allword;
             },
           },
         },
@@ -47,12 +39,20 @@ export default {
               gridLines: {
                 display: true,
               },
+              scaleLabel: {
+                display: true,
+                labelString: "เปอร์เซ็นต์แป้งมันสำปะหลัง(%)",
+              },
             },
           ],
           xAxes: [
             {
               gridLines: {
                 display: false,
+              },
+              scaleLabel: {
+                display: true,
+                labelString: "วัน/เดือน/ปี ที่บันทึก",
               },
             },
           ],

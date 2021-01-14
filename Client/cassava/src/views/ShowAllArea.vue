@@ -95,6 +95,7 @@ export default {
     selectprovince: "",
     selectdistrict: "",
     selectid: 0,
+    namearea:"",
     selectgrade: "",
     plantingDate: "",
     mapcenter: { lat: 16.4411261, lng: 102.8644933 },
@@ -250,6 +251,7 @@ export default {
         this.selectid = this.detailarea[i].idfarm;
         this.mapcenter = this.detailarea[i].position;
         this.plantingDate = this.detailarea[i].plantingDate;
+        this.namearea = this.detailarea[i].name
       } else if (i == "Accepted") {
         //เอาข้อมูลID ของแปลงไปดึงแปลงใน Database
         vm.$store.commit({
@@ -259,6 +261,10 @@ export default {
         vm.$store.commit({
           type: "setDatePlant",
           dateplant: this.plantingDate,
+        });
+        vm.$store.commit({
+          type: "setNameArea",
+          namearea: this.namearea,
         });
         vm.$router.push("/show-area");
       }

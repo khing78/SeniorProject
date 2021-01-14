@@ -7,7 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     idfarm:"",
-    name:"",
+    namearea:"",
     selectedarea:"",
     selecteddate:"",
     dateplant:"",
@@ -94,8 +94,8 @@ export default new Vuex.Store({
     ],
   },
   getters:{
-    getName(state){
-      return state.name
+    getNameArea(state){
+      return state.namearea
     },
     getPath(state){
       return state.path
@@ -120,8 +120,8 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    setName(state ,payload){
-      state.name = payload.name
+    setNameArea(state ,payload){
+      state.namearea = payload.namearea
   },
     setPath(state ,payload){
     state.path = payload.path

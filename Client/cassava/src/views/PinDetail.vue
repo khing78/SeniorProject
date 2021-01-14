@@ -2,7 +2,9 @@
   <v-main class="pin-detail">
     <v-container>
       <v-row>
-        <v-col cols="1"> พื้นที่ {{ areanumber }} </v-col>
+        <v-col cols="12" class="text-right">
+          <v-btn rounded @click="moveto('chart')">กราฟ</v-btn>
+        </v-col>
       </v-row>
       <v-row class="text-center" justify="center">
         <v-col class="text-center">
@@ -40,7 +42,7 @@
       </v-simple-table>
       <v-row>
         <v-col class="text-left">
-          <v-btn color="#F2F2F2" rounded @click="moveto('back')">ยกเลิก</v-btn>
+          <v-btn color="#F2F2F2" rounded @click="moveto('back')">ย้อนกลับ</v-btn>
         </v-col>
         <v-col class="text-right">
           <v-btn color="#FFB200" rounded @click="editdata()">แก้ไข</v-btn>
@@ -155,7 +157,6 @@ export default {
         }
         m++
       }
-      console.log(this.areadetail)
     },
     totalprecent() {
       var i = 0;
@@ -173,6 +174,9 @@ export default {
       const vm = this;
       if (i == "back") {
         vm.$router.back();
+      }
+      if (i == "chart"){
+        vm.$router.push("/area-detail-chart");
       }
     },
     editdata() {

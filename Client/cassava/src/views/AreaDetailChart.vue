@@ -2,7 +2,6 @@
   <v-main class="area-detail-chart">
     <v-container>
       <v-row>
-        <v-col cols="3"> แปลง {{ areaname }}</v-col>
         <v-col class="text-right"> </v-col>
       </v-row>
       <v-row>
@@ -39,7 +38,6 @@
               ref="chartee"
               style="height: 400px"
             ></line-chart>
-            <!--<canvas id="myChart"></canvas>-->
           </div>
         </v-col>
         <v-col cols="12" md="3">
@@ -48,8 +46,6 @@
           เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
           <br />
           อุณหภูมิเฉลี่ย(เซลเซียส): {{ temputure }}
-          <br />
-          อายุของมันสำปะหลัง(เดือน): {{ cassavaage }}
         </v-col>
       </v-row>
       <v-row>
@@ -60,6 +56,7 @@
 </template>
 <script>
 import LineChart from "@/components/LineChart";
+import { mapGetters } from "vuex";
 export default {
   components: {
     LineChart,
@@ -74,12 +71,11 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
-    areaname: "สมชาย",
+    areaname: "",
     gradecassava: "B",
     precentstarchaverage: 28.52,
     dategetdata: "26/5/2563",
     temputure: 35.25,
-    cassavaage: 12,
     addDatachartw: [0, 1, 2, 3],
     datachart: {
       day: [
@@ -95,59 +91,88 @@ export default {
     },
     pindetail: [
       {
-        id: 0,
         daygetdata: "15/11/2563",
         precentstarch: 10.45,
         temputure: 25.05,
+        humidity: 40
       },
       {
-        id: 1,
         daygetdata: "18/11/2563",
         precentstarch: 13.43,
         temputure: 32.02,
+        humidity: 30
       },
       {
-        id: 2,
         daygetdata: "27/11/2563",
         precentstarch: 18.85,
         temputure: 31.12,
+        humidity:50
       },
       {
-        id: 3,
         daygetdata: "05/12/2563",
         precentstarch: 22.15,
         temputure: 28.04,
+        humidity: 40
       },
       {
-        id: 4,
         daygetdata: "08/12/2563",
         precentstarch: 25.12,
         temputure: 27.03,
+        humidity: 30
       },
       {
-        id: 5,
         daygetdata: "19/12/2563",
         precentstarch: 24.53,
         temputure: 26.15,
+        humidity: 60
       },
       {
-        id: 6,
         daygetdata: "20/12/2563",
         precentstarch: 21.25,
         temputure: 24.05,
+        humidity: 60
       },
     ],
   }),
   computed: {
+    ...mapGetters({
+      detailarea: "getDetailArea",
+      selectedarea: "getSelectedArea"
+    }),
     computedDatetoFormatted() {
       return this.formatDate(this.dateto);
     },
   },
+  created(){
+    this.startshow()
+  },
   methods: {
+    startshow(){
+      this.pindetail = []
+      var i = 0
+      var dataforchart = []
+      while (i < this.detailarea.length){
+        if(this.detailarea[i].cassavaareaid == this.selectedarea){
+          dataforchart.push(this.detailarea[i])
+          break
+        }
+        i++
+      }
+      i = 0
+      while(i < dataforchart[0].datadetail.length){
+        var daygetdata = this.changeformatforshow(dataforchart[0].datadetail[i].dategetdata)
+        var precentstarch = dataforchart[0].datadetail[i].starchPercentage
+        var temputure = dataforchart[0].datadetail[i].temperature
+        var humidity = dataforchart[0].datadetail[i].humidity
+        this.pindetail.push({daygetdata,precentstarch,temputure,humidity})
+        i++
+      }
+      
+    },
     moveto(i) {
       const vm = this;
       if (i == "back") {
-        vm.$router.push("/show-area");
+        vm.$router.back();
       }
     },
     formatDate(date) {
@@ -167,16 +192,22 @@ export default {
         if (i + 1 != date.length) {
           finsheddate += " - ";
           this.fromdate = `${day}/${month}/${newyear}`;
-          console.log(this.fromdate);
         } else {
           this.todate = `${day}/${month}/${newyear}`;
-          console.log(this.todate);
         }
         i++;
       }
 
       return finsheddate;
     },
+    changeformatforshow(date) {
+      if (!date) return null;
+      const [year, month, day] = date.split("-");
+      const newyear = parseInt(year) + 543;
+      return `${day}/${month}/${newyear}`;
+    },
+
+    
     checkday() {
       var newfromdate;
       var newtodate;
@@ -191,8 +222,6 @@ export default {
       var dayforchart = [];
       var precentforchart = [];
       var tempforcal = [];
-      console.log(tomonth);
-      console.log(frommonth);
       while (i < this.pindetail.length) {
         var [selectday, selectmonth, selectyear] = this.pindetail[
           i
@@ -203,6 +232,7 @@ export default {
           dayforchart.push(this.pindetail[i].daygetdata);
           precentforchart.push(this.pindetail[i].precentstarch);
           tempforcal.push(this.pindetail[i].temputure);
+        
         }
         i++;
       }
@@ -215,7 +245,7 @@ export default {
       var tempall = 0;
       while (i < precentforchart.length) {
         totalprecent += precentforchart[i];
-        tempall += tempforcal[i];
+        tempall += parseFloat(tempforcal[i]);
         i++;
       }
       avgprecent = totalprecent / precentforchart.length;
@@ -232,15 +262,9 @@ export default {
     changechart() {
       var [dayforchart, precentforchart, tempforcal] = this.checkday();
       this.changedetailside(precentforchart, tempforcal);
-      console.log(dayforchart);
-      console.log(precentforchart);
       var chart = this.$refs.chartee;
-      //console.log(chart.datacollection.labels.length)
       chart.datacollection.labels = dayforchart;
       chart.datacollection.datasets[0].data = precentforchart;
-      /*chart.datacollection.datasets.forEach((dataset) => {
-        dataset.data.push(data);
-      });*/
 
       chart.refreashchart();
     },
