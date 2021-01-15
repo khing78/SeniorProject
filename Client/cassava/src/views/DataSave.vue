@@ -169,7 +169,7 @@
           <v-btn id="backbutton" rounded @click="moveto('back')">ยกเลิก</v-btn>
         </v-col>
         <v-col class="text-right">
-          <v-btn id="savebutton" rounded @click="moveto('save'), postData()">บันทึก</v-btn>
+          <v-btn id="savebutton" rounded @click="moveto('save'), postData(), addNewArea()">บันทึก</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -177,6 +177,8 @@
 </template>
 <script>
 import axios from 'axios';
+import { mapGetters } from "vuex";
+
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
@@ -243,6 +245,11 @@ export default {
     ],
   }),
   computed: {
+    ...mapGetters({
+      newidfarm: "getIdFarm",
+      areaname: "getNameArea",
+      path: "getPath",
+    }),
     computedDateFormatted() {
       return this.formatDate(this.date);
     },
@@ -251,7 +258,7 @@ export default {
     addNewArea(){
       axios
         .post("http://127.0.0.1:8000/area-check/", {
-          farm_store: 'd1caffa0-3c7d-45ec-8657-8e9ea1b514b2',
+          farm_store: this.newidfarm,
           starch_percentage: 45,
           tree_latitude: 54613183512,
           tree_longtitude: 13513541831,

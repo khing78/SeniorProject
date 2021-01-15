@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'service',
     'rest_framework',
     'corsheaders',
-    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -132,4 +131,3 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 DEBUG = True
-IMPORT_EXPORT_USE_TRANSACTIONS = False
