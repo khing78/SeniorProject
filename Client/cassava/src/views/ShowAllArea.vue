@@ -46,7 +46,7 @@
               :key="index"
               v-for="(m, index) in areashow"
               :position="m.position"
-              :clickable="true"
+              :clickable="false"
               :draggable="false"
               @click="moveto('Accepted', m.id)"
             ></gmap-marker>
@@ -87,8 +87,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import firebase from "firebase/app";
-import "firebase/auth";
 import axios from "axios";
 export default {
   data: () => ({
@@ -98,6 +96,7 @@ export default {
     namearea:"",
     selectgrade: "",
     plantingDate: "",
+    selectedpath: [],
     mapcenter: { lat: 16.4411261, lng: 102.8644933 },
     detailarea: [
       {
@@ -174,9 +173,7 @@ export default {
   methods: {
     fetchdatafromdatabase() {
       axios
-        .get("http://127.0.0.1:8000/farms/", {
-          params: { UId: firebase.auth().currentUser },
-        })
+        .get("http://127.0.0.1:8000/farms/")
         .then((response) => {
           var i = 0;
           this.detailarea = [];
@@ -184,14 +181,21 @@ export default {
           //console.log(firebase.auth().currentUser + "response: ", response);
           while (i < response.data.length) {
             var id = i;
-            var idfarm = response.data[i].farmId;
-            var plantingDate = response.data[i].plantingDate;
-            var name = response.data[i].farmName;
+            var idfarm = response.data[i].farm_id;
+            var plantingDate = response.data[i].planting_date;
+            var name = response.data[i].farm_name;
             var province = response.data[i].province;
             var district = response.data[i].district;
             var latitude = response.data[i].latitude;
             var longtitude = response.data[i].longtitude;
             var position = { lat: Number(latitude), lng: Number(longtitude) };
+            var path = [
+             { lat: Number(latitude), lng: Number(longtitude) }
+            ,{lat: Number(response.data[i].latitude_mark1), lng: Number(response.data[i].longtitude_mark1)}
+            ,{lat: Number(response.data[i].latitude_mark2), lng: Number(response.data[i].longtitude_mark2)}
+            ,{lat: Number(response.data[i].latitude_mark3), lng: Number(response.data[i].longtitude_mark3)}
+            ,{lat: Number(response.data[i].latitude_mark4), lng: Number(response.data[i].longtitude_mark4)}
+            ]
             this.areashow.push({
               id,
               idfarm,
@@ -200,6 +204,7 @@ export default {
               province,
               district,
               position,
+              path
             });
             this.detailarea.push({
               id,
@@ -209,6 +214,7 @@ export default {
               province,
               district,
               position,
+              path
             });
             i++;
           }
@@ -252,6 +258,7 @@ export default {
         this.mapcenter = this.detailarea[i].position;
         this.plantingDate = this.detailarea[i].plantingDate;
         this.namearea = this.detailarea[i].name
+        this.selectedpath = this.detailarea[i].path
       } else if (i == "Accepted") {
         //เอาข้อมูลID ของแปลงไปดึงแปลงใน Database
         vm.$store.commit({
@@ -265,6 +272,10 @@ export default {
         vm.$store.commit({
           type: "setNameArea",
           namearea: this.namearea,
+        });
+        vm.$store.commit({
+          type: "setPath",
+          path: this.selectedpath
         });
         vm.$router.push("/show-area");
       }
