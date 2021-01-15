@@ -169,7 +169,7 @@
           <v-btn id="backbutton" rounded @click="moveto('back')">ยกเลิก</v-btn>
         </v-col>
         <v-col class="text-right">
-          <v-btn id="savebutton" rounded @click="moveto('save'), postData(), addNewArea()">บันทึก</v-btn>
+          <v-btn id="savebutton" rounded @click="moveto('save'), addNewArea()">บันทึก</v-btn>
         </v-col>
       </v-row>
     </v-container>
