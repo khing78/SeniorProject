@@ -162,13 +162,14 @@
           <v-btn id="backbutton" rounded @click="moveto('back')">ยกเลิก</v-btn>
         </v-col>
         <v-col class="text-right">
-          <v-btn id="savebutton" rounded @click="moveto('save')">บันทึก</v-btn>
+          <v-btn id="savebutton" rounded @click="moveto('save'), postData()">บันทึก</v-btn>
         </v-col>
       </v-row>
     </v-container>
   </v-main>
 </template>
 <script>
+import axios from 'axios';
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
@@ -236,6 +237,42 @@ export default {
     },
   },
   methods: {
+    addNewArea(){
+      axios
+        .post("http://127.0.0.1:8000/area-check/", {
+          farm_store: 'd1caffa0-3c7d-45ec-8657-8e9ea1b514b2',
+          starch_percentage: 45,
+          tree_latitude: 54613183512,
+          tree_longtitude: 13513541831,
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+    postData(){
+      axios
+        .post("http://127.0.0.1:8000/cassava-check/", {
+          cassava_area: '1d8d89ef-11cb-4626-97d8-53a668c528c0',
+          latitude: this.lat,
+          longtitude: this.lng,
+          spectrum1: this.x1,
+          spectrum2: this.x2,
+          spectrum3: this.x3,
+          spectrum4: this.x4,
+          spectrum5: this.x5,
+          spectrum6: this.x6,
+          temperature: this.temputure,
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
     moveto(i) {
       const vm = this;
       if (i == "back") {

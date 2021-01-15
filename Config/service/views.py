@@ -101,10 +101,6 @@ def cassava_check(request):
 
     elif request.method == 'POST':
         serializer = CassavaCheckSerializers(data=request.data)
-        cassava_latitude = request.data['latitude']
-        cassava_longtitude = request.data['longtitude']
-        print("//////////////////////////////////// lat,long = ", type(cassava_latitude), type(cassava_longtitude))
-        
         if serializer.is_valid() :
             HttpResponse(print(serializer)) 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
