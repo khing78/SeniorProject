@@ -4,6 +4,7 @@ import uuid
 
 # Create your models here.
 class UidStore (models.Model) :
+    username = models.CharField(max_length=20)
     email = models.EmailField(max_length=40)
     uId = models.CharField(max_length=30, primary_key=True)
 
@@ -14,6 +15,8 @@ class FarmStore (models.Model) :
     province = models.CharField(max_length=30)
     district = models.CharField(max_length=30)
     planting_date = models.DateField(default=timezone.now)
+    farm_width = models.DecimalField(max_digits=5, decimal_places=5, default=0)
+    farm_long = models.DecimalField(max_digits=5, decimal_places=5, default=0)
     latitude = models.DecimalField(max_digits=30, decimal_places=15, default=0)
     longtitude = models.DecimalField(max_digits=30, decimal_places=15, default=0)
     latitude_mark1 = models.DecimalField(max_digits=30, decimal_places=15, default=0)
