@@ -160,7 +160,7 @@ export default {
       },
     ],
   }),
-  created() {
+  async created() {
     //ทุกครั้งที่เข้าหน้ามาให้โหลดข้อมูลแปลงทั้งหมดจาก Database ใหม่
     this.fetchdatafromdatabase();
   },

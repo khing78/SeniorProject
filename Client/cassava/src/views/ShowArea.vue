@@ -177,7 +177,7 @@ export default {
       },
     ],
   }),
-  created() {
+  async created() {
     this.fetchdatafromdatabase();
   },
   computed: {
