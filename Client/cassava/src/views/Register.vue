@@ -1,6 +1,6 @@
 <template>
   <v-main class="register">
-    <v-container fill-height style="width: 100%">
+    <v-container id="mainbackground" fill-height fluid style="width: 100%">
       <v-card width="400" class="mx-auto mt-5">
         <div id="formregister">
           <div id="titleregister">สมัครสมาชิก</div>
@@ -118,5 +118,8 @@ export default {
 }
 #cancelbutton {
   margin-right: 1vw;
+}
+#mainbackground {
+  background: darkred;
 }
 </style>

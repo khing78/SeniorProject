@@ -12,8 +12,7 @@
             >+ เพิ่มข้อมูลมันสำปะหลัง</v-btn
           ></v-col
         >
-        <v-col cols="12" md="2" sm="3" class="text-center">
-        </v-col>
+        <v-col cols="12" md="2" sm="3" class="text-center"> </v-col>
         <v-col cols="12" md="2" sm="3">
           <v-menu
             :close-on-content-click="true"
@@ -132,14 +131,6 @@ export default {
     gradeBtotal: 50,
     gradeCtotal: 40,
     totalstarch: 50,
-    path: [
-      //ดึงข้อมูลจากฐานข้อมูล วาดรูปแปลง
-      { lat: 16.466022, lng: 102.898313 },
-      { lat: 16.465022, lng: 102.898313 },
-      { lat: 16.465022, lng: 102.899313 },
-      { lat: 16.466022, lng: 102.899313 },
-      { lat: 16.466022, lng: 102.898313 },
-    ],
     mvcPath: null,
     mapcenter: { lat: 16.466022, lng: 102.898313 },
     datapin: [
@@ -192,7 +183,8 @@ export default {
   computed: {
     ...mapGetters({
       newidfarm: "getIdFarm",
-      areaname: "getNameArea"
+      areaname: "getNameArea",
+      path: "getPath",
     }),
     computedDateFormatted() {
       return this.formatDate(this.date);
@@ -220,11 +212,11 @@ export default {
         .then((response) => {
           var i = 0;
           while (i < response.data.length) {
-            if (response.data[i].farmStore == this.newidfarm) {
-              var cassavaareaid = response.data[i].cassavaAreaId;
+            if (response.data[i].farm_store == this.newidfarm) {
+              var cassavaareaid = response.data[i].cassava_area_id;
               var position = {
-                lat: Number(response.data[i].treeLatitude),
-                lng: Number(response.data[i].treeLongtitude),
+                lat: Number(response.data[i].tree_latitude),
+                lng: Number(response.data[i].tree_longtitude),
               };
               cassavaareaidlist.push({
                 cassavaareaid,
@@ -235,6 +227,7 @@ export default {
             }
             i++;
           }
+          this.mapcenter = cassavaareaidlist[0].position
         })
         .catch((err) => {
           console.error(err);
@@ -244,38 +237,47 @@ export default {
         .then((response) => {
           i = 0;
           while (i < cassavaareaidlist.length) {
-            var listcassava = []
+            var listcassava = [];
             m = 0;
-            console.log(i);
             while (m < response.data.length) {
-              if (response.data[m].cassavaArea == cassavaareaidlist[i].cassavaareaid){
-                console.log("aa")
-                var dategetdata = response.data[m].checkDate.slice(0, 10);
+              if (
+                response.data[m].cassava_area ==
+                cassavaareaidlist[i].cassavaareaid
+              ) {
+                var dategetdata = response.data[m].check_date.slice(0, 10);
                 var starchPercentage = response.data[m].starchPercentage;
-                var humidity = response.data[m].humidity
-                var temperature = response.data[m].temperature
+                var humidity = response.data[m].humidity;
+                var temperature = response.data[m].temperature;
                 starch += response.data[m].starchPercentage;
                 lengthstach++;
-                listcassava.push({dategetdata,
-                  starchPercentage,humidity,temperature})
+                listcassava.push({
+                  dategetdata,
+                  starchPercentage,
+                  humidity,
+                  temperature,
+                });
               }
               m++;
             }
-            cassavaareaidlist[i].datadetail = listcassava
-            cassavaareaidlist[i].avgstarch = starch / lengthstach;
+            cassavaareaidlist[i].datadetail = listcassava;
+            if(cassavaareaidlist[i].datadetail.length !== 0 ){
+              cassavaareaidlist[i].avgstarch = starch / lengthstach;
+            }
             starch = 0;
             lengthstach = 0;
             i++;
           }
+           console.log(cassavaareaidlist)
         })
         .catch((err) => {
           console.error(err);
         });
-        this.$store.commit({
-          type: "setDetailArea",
-          detailarea: cassavaareaidlist})
-      this.datapin = cassavaareaidlist
-      this.markers = cassavaareaidlist
+      this.$store.commit({
+        type: "setDetailArea",
+        detailarea: cassavaareaidlist,
+      });
+      this.datapin = cassavaareaidlist;
+      this.markers = cassavaareaidlist;
     },
     totalstarchfinder() {
       var i = 0;
@@ -351,13 +353,15 @@ export default {
         vm.$router.push("/show-all-area");
       } else if (i == "chart") {
         vm.$router.push("/area-detail-chart");
-      } else{
+      } else {
         vm.$store.commit({
           type: "setSelectedArea",
-          selectedarea: i})
+          selectedarea: i,
+        });
         vm.$store.commit({
           type: "setSelectedDate",
-          selecteddate: this.date})
+          selecteddate: this.date,
+        });
         vm.$router.push("/pin-detail");
       }
     },
