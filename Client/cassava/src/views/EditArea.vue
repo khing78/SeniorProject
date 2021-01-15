@@ -135,6 +135,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import { mapGetters } from "vuex";
 export default {
   data: () => ({
@@ -163,7 +164,7 @@ export default {
       { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.898313 } },
     ],
   }),
-  created(){
+  async created(){
     //ดึงข้อมูลจาก Database
   },
   computed: {
@@ -172,9 +173,63 @@ export default {
     },
     ...mapGetters({
       province: "getProvince",
+      selectedidfarm: "getIdFarm"
     }),
   },
   methods: {
+    startshow(){
+      axios
+        .get("http://127.0.0.1:8000/farms/")
+        .then((response) => {
+          var i = 0;
+          this.detailarea = [];
+          this.areashow = [];
+          while (i < response.data.length) {
+            if(response.data[i].farm_id == this.selectedidfarm){
+              var id = i;
+            var idfarm = response.data[i].farm_id;
+            var plantingDate = response.data[i].planting_date;
+            var name = response.data[i].farm_name;
+            var province = response.data[i].province;
+            var district = response.data[i].district;
+            var latitude = response.data[i].latitude;
+            var longtitude = response.data[i].longtitude;
+            var position = { lat: Number(latitude), lng: Number(longtitude) };
+            var path = [
+             { lat: Number(latitude), lng: Number(longtitude) }
+            ,{lat: Number(response.data[i].latitude_mark1), lng: Number(response.data[i].longtitude_mark1)}
+            ,{lat: Number(response.data[i].latitude_mark2), lng: Number(response.data[i].longtitude_mark2)}
+            ,{lat: Number(response.data[i].latitude_mark3), lng: Number(response.data[i].longtitude_mark3)}
+            ,{lat: Number(response.data[i].latitude_mark4), lng: Number(response.data[i].longtitude_mark4)}
+            ]
+            this.areashow.push({
+              id,
+              idfarm,
+              plantingDate,
+              name,
+              province,
+              district,
+              position,
+              path
+            });
+            this.detailarea.push({
+              id,
+              idfarm,
+              plantingDate,
+              name,
+              province,
+              district,
+              position,
+              path
+            });
+            i++;
+            }
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
     moveto(i) {
       const vm = this;
       if (i == "back") {

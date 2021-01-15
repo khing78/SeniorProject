@@ -101,7 +101,7 @@ export default {
     }),
     
   },
-  created(){
+  async created(){
     this.startshow()
     this.formatDate(this.selecteddate)
   },

@@ -177,7 +177,7 @@ export default {
       },
     ],
   }),
-  created() {
+  async created() {
     this.fetchdatafromdatabase();
   },
   computed: {
@@ -198,6 +198,7 @@ export default {
   },
   methods: {
     fetchdatafromdatabase() {
+      console.log(this.newidfarm)
       var avgstarch = 0;
       var starch = 0;
       var lengthstach = 0;
