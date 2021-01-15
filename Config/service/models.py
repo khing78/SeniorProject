@@ -4,6 +4,7 @@ import uuid
 
 # Create your models here.
 class UidStore (models.Model) :
+    username = models.CharField(max_length=20)
     email = models.EmailField(max_length=40)
     uId = models.CharField(max_length=30, primary_key=True)
 

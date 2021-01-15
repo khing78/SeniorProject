@@ -30,7 +30,7 @@
             <v-btn id="cancelbutton" @click="moveto('back')"> ยกเลิก </v-btn>
             <v-btn
               id="confirmbutton"
-              @click="registerfun(email, password)"
+              @click="registerfun(email, password, username)"
               :disabled="!inputregi"
             >
               ยืนยัน
@@ -72,7 +72,7 @@ export default {
         vm.$router.push("/");
       }
     },
-    registerfun(email, password) {
+    registerfun(email, password, username) {
       const vm = this;
       firebase
         .auth()
@@ -88,8 +88,9 @@ export default {
             method: 'post',
             url: 'http://127.0.0.1:8000/uids/',
             data: {
-              email : "test@gmail.com",
-              username : 'test'
+              email : email,
+              username : username,
+              uId : user.user.uid
             }
           })
           .then(response => (this.info = response.data))

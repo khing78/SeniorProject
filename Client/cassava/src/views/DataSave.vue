@@ -151,6 +151,13 @@
                       label="X6"
                     ></v-text-field>
                   </v-col>
+                  <v-col>
+                    <v-text-field
+                      v-model="item.humidity"
+                      hint="ความชื้นสัมพันท์"
+                      label="ความชื้นสัมพันท์"
+                    ></v-text-field>
+                  </v-col>
                 </v-row>
               </td>
             </tr>
@@ -198,6 +205,7 @@ export default {
         x5: 24.18566,
         x6: 21.58091,
         temputure: 32.02,
+        humidity: 16,
       },
       {
         id: 2,
@@ -208,6 +216,7 @@ export default {
         x5: 36.91494,
         x6: 27.83622,
         temputure: 31.01,
+        humidity: 18,
       },
       {
         id: 3,
@@ -218,6 +227,7 @@ export default {
         x5: 38.69703,
         x6: 34.09154,
         temputure: 29.42,
+        humidity: 14,
       },
       {
         id: 4,
@@ -228,6 +238,7 @@ export default {
         x5: 31.8232,
         x6: 23.4575,
         temputure: 30.31,
+        humidity: 16,
       },
     ],
   }),
@@ -255,16 +266,17 @@ export default {
     postData(){
       axios
         .post("http://127.0.0.1:8000/cassava-check/", {
-          cassava_area: '1d8d89ef-11cb-4626-97d8-53a668c528c0',
-          latitude: this.lat,
-          longtitude: this.lng,
-          spectrum1: this.x1,
-          spectrum2: this.x2,
-          spectrum3: this.x3,
-          spectrum4: this.x4,
-          spectrum5: this.x5,
-          spectrum6: this.x6,
-          temperature: this.temputure,
+          latitude: '18.466022',
+          longtitude: '142.898313',
+          spectrum1: '1.922431',
+          spectrum2: '9.398447',
+          spectrum3: '17.14219',
+          spectrum4: '20.49366',
+          spectrum5: '38.69703',
+          spectrum6: '34.09154',
+          temperature: '19.42',
+          starchPercentage: '55',
+          humidity: '6',
         })
         .then((response) => {
           console.log(response);
