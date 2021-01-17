@@ -245,9 +245,10 @@ export default {
       const vm = this;
       vm.$router.push("/show-all-area");
     },
-    savedata(){
+    async savedata(){
       //ทำการใส่ข้อมูลใหม่เข้าไปแทนที่ใน Database และกลับไปหน้า Show area
-      axios.post('http://127.0.0.1:8000/farms/'+this.selectedidfarm, {
+      console.log("http://127.0.0.1:8000/farms/"+ this.selectedidfarm)
+      await axios.put('http://127.0.0.1:8000/farms/'+ this.selectedidfarm, {
         farm_name: this.areaname,
         province: this.selectprovince,
         district: this.selectdistrict,
