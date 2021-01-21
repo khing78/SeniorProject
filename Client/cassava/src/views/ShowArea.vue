@@ -12,7 +12,7 @@
             >+ เพิ่มข้อมูลมันสำปะหลัง</v-btn
           ></v-col
         >
-        <v-col cols="12" md="2" sm="3" class="text-center"> </v-col>
+        <v-col cols="12" md="2" sm="3" class="text-center"></v-col>
         <v-col cols="12" md="2" sm="3">
           <v-menu
             :close-on-content-click="true"
@@ -36,6 +36,12 @@
               @input="menu2 = false"
             ></v-date-picker>
           </v-menu>
+        </v-col>
+        <v-col cols="12" md="4" sm="4" class="text-center">
+          <v-btn id="selectdatebutton" rounded @click="changedatemarker()"
+            >ค้นหา</v-btn
+          >
+          <v-btn id="selectdatebutton" rounded @click="testfunction()">ทั้งหมด</v-btn>
         </v-col>
       </v-row>
       <v-row id="everythingisonfire">
@@ -119,19 +125,10 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
-    iconsetting: {
-      url: require("../assets/Agradeicon.png"),
-      size: { width: 46, height: 46, f: "px", b: "px" },
-      scaledSize: { width: 23, height: 28, f: "px", b: "px" },
-    },
-    agreenmarker: "../assets/Agradeicon.png",
-    byellowmarker: "../assets/Bgradeicon.png",
-    credmarker: "../assets/Cgradeicon.png",
     gradeAtotal: 10,
     gradeBtotal: 50,
     gradeCtotal: 40,
     totalstarch: 50,
-    mvcPath: null,
     mapcenter: { lat: 16.466022, lng: 102.898313 },
     datapin: [
       {
@@ -177,7 +174,7 @@ export default {
       },
     ],
   }),
-  async created() {
+  created() {
     this.fetchdatafromdatabase();
   },
   computed: {
@@ -197,7 +194,7 @@ export default {
     this.totalstarchfinder();
   },
   methods: {
-    fetchdatafromdatabase() {
+    async fetchdatafromdatabase() {
       var avgstarch = 0;
       var starch = 0;
       var lengthstach = 0;
@@ -207,7 +204,7 @@ export default {
       var datadetail = [];
       this.datapin = [];
       this.markers = [];
-      axios
+      await axios
         .get("http://127.0.0.1:8000/area-check/")
         .then((response) => {
           var i = 0;
@@ -227,12 +224,12 @@ export default {
             }
             i++;
           }
-          this.mapcenter = cassavaareaidlist[0].position
+          this.mapcenter = cassavaareaidlist[0].position;
         })
         .catch((err) => {
           console.error(err);
         });
-      axios
+      await axios
         .get("http://127.0.0.1:8000/cassava-check/")
         .then((response) => {
           i = 0;
@@ -260,14 +257,13 @@ export default {
               m++;
             }
             cassavaareaidlist[i].datadetail = listcassava;
-            if(cassavaareaidlist[i].datadetail.length !== 0 ){
+            if (cassavaareaidlist[i].datadetail.length !== 0) {
               cassavaareaidlist[i].avgstarch = starch / lengthstach;
             }
             starch = 0;
             lengthstach = 0;
             i++;
           }
-           console.log(cassavaareaidlist)
         })
         .catch((err) => {
           console.error(err);
@@ -278,6 +274,31 @@ export default {
       });
       this.datapin = cassavaareaidlist;
       this.markers = cassavaareaidlist;
+      console.log(this.datapin)
+    },
+    changedatemarker() {
+      var i = 0;
+      var m = 0;
+      var newdatadate = []
+      var newavgstarch = 0
+      var selecteddate = this.date
+      while (i < this.datapin.length) {
+        newavgstarch = 0
+        newdatadate = []
+        m = 0;
+        while (m < this.datapin[i].datadetail.length) {
+          if(this.datapin[i].datadetail[m].dategetdata == selecteddate){
+            newavgstarch += this.datapin[i].datadetail[m].starchPercentage
+            newdatadate.push(this.datapin[i].datadetail[m])
+          }
+          m++;
+        }
+        if (newdatadate.length != 0){
+          this.markers[i].avgstarch = newavgstarch/newdatadate.length
+        }
+        this.markers[i].datadetail = newdatadate
+        i++;
+      }
     },
     totalstarchfinder() {
       var i = 0;
