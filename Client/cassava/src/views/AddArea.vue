@@ -127,7 +127,7 @@
           <v-btn rounded style="margin-end: 10px" @click="moveto('back')"
             >ยกเลิก</v-btn
           >
-          <v-btn color="#1CE227" rounded @click="moveto('save')">บันทึก</v-btn>
+          <v-btn color="#1CE227" rounded @click="moveto('save'), addnewfarm()">บันทึก</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -136,6 +136,9 @@
 
 <script>
 import { mapGetters } from "vuex";
+import axios from 'axios';
+import firebase from "firebase/app";
+import "firebase/auth";
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
@@ -163,6 +166,37 @@ export default {
     }),
   },
   methods: {
+    async addnewfarm(){
+      var user = firebase.auth().currentUser;
+      console.log(user.uid + "  +  this lat " )
+      console.log(this.newpath)
+      await axios
+        .post("http://127.0.0.1:8000/farms/",{
+          uid_store: user.uid,
+          farm_name: this.areaname,
+          province: this.selectprovince,
+          district: this.selectdistrict,
+          planting_date: this.date,
+          farm_width: this.mapcenter.wide,
+          farm_long: this.mapcenter.lat,
+          latitude: this.mapcenter.lat,
+          longtitude: this.mapcenter.lng,
+          latitude_mark1: this.newpath[0].lat,
+          longtitude_mark1: this.newpath[0].lng,
+          latitude_mark2: this.newpath[1].lat,
+          longtitude_mark2: this.newpath[1].lat,
+          latitude_mark3: this.newpath[2].lat,
+          longtitude_mark3: this.newpath[2].lng,
+          latitude_mark4: this.newpath[3].lat,
+          longtitude_mark4: this.newpath[3].lng
+        })
+        .then((reponse) => {
+          console.log(reponse);
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
     moveto(i) {
       const vm = this;
       if (i == "back") {
