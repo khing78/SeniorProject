@@ -184,7 +184,7 @@ export default {
           latitude_mark1: this.newpath[1].lat,
           longtitude_mark1: this.newpath[1].lng,
           latitude_mark2: this.newpath[2].lat,
-          longtitude_mark2: this.newpath[2].lat,
+          longtitude_mark2: this.newpath[2].lng,
           latitude_mark3: this.newpath[3].lat,
           longtitude_mark3: this.newpath[3].lng,
           latitude_mark4: this.newpath[4].lat,

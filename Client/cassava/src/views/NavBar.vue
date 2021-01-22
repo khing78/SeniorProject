@@ -1,8 +1,10 @@
 <template>
   <div class="nav-bar">
     <v-app-bar color="white" dense dark>
-      <v-toolbar-title style="margin-top: 0px; color: #1ce227" class="navbar"
-        >ระบบแสดงคุณภาพมันสำปะหลัง</v-toolbar-title
+      <v-toolbar-title
+        style="margin-top: 0px; color: #1ce227"
+        class="navbar"
+        ><v-btn @click="moveto('backtonormal')">ระบบแสดงคุณภาพมันสำปะหลัง</v-btn></v-toolbar-title
       >
       <v-spacer />
       <v-menu offset-y>
@@ -30,18 +32,28 @@ import firebase from "firebase/app";
 import { mapGetters } from "vuex";
 export default {
   data: () => ({
-    usernameA: "",
     imagesrc: "../assets/iconusercc.png",
   }),
   methods: {
-    logoutbutton() {
+    moveto() {
       const vm = this
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          console.log(user)
+          vm.$router.push("/show-all-area");
+        } else {
+          vm.$router.push("/");
+        }
+      });
+    },
+    logoutbutton() {
+      const vm = this;
       firebase
         .auth()
         .signOut()
         .then(() => {
           this.$store.commit({
-            type: "setName",
+            type: "setUserName",
             name: "",
           });
           // Sign-out successful.
@@ -49,7 +61,7 @@ export default {
         })
         .catch((error) => {
           // An error happened.
-          console.log(error)
+          console.log(error);
         });
     },
   },

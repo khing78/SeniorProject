@@ -171,8 +171,8 @@ export default {
     }),
   },
   methods: {
-    fetchdatafromdatabase() {
-      axios
+    async fetchdatafromdatabase() {
+      await axios
         .get("http://127.0.0.1:8000/farms/")
         .then((response) => {
           var i = 0;
@@ -248,6 +248,9 @@ export default {
     },
     showeveryarea() {
       this.areashow = this.detailarea;
+    },
+    afterselectedfarm(){
+
     },
     moveto(i) {
       const vm = this;

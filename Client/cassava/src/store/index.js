@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    uid:"",
     username:"",
     idfarm:"",
     namearea:"",
@@ -96,6 +97,9 @@ export default new Vuex.Store({
     ],
   },
   getters:{
+    getUid(state){
+      return state.uid
+    },
     getPosition(state){
       return state.position
     },
@@ -128,6 +132,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setUid(state,payload){
+      state.uid = payload.uid
+    },
     setPosition(state, payload){
       state.position = payload.position
     },

@@ -74,6 +74,10 @@ export default {
             type: "setName",
             name: email,
           });
+          this.$store.commit({
+            type: "setUid",
+            uid: user.uid,
+          });
           vm.$router.push("/show-all-area");
         })
         .catch((error) => {
