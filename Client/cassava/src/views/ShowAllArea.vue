@@ -93,7 +93,7 @@ export default {
     selectprovince: "",
     selectdistrict: "",
     selectid: 0,
-    namearea:"",
+    namearea: "",
     selectgrade: "",
     plantingDate: "",
     selectedpath: [],
@@ -168,6 +168,7 @@ export default {
     ...mapGetters({
       allprovince: "getProvince",
       newidfarm: "getIdFarm",
+      uid: "getUid",
     }),
   },
   methods: {
@@ -178,44 +179,59 @@ export default {
           var i = 0;
           this.detailarea = [];
           this.areashow = [];
+          console.log(this.uid);
           //console.log(firebase.auth().currentUser + "response: ", response);
           while (i < response.data.length) {
-            var id = i;
-            var idfarm = response.data[i].farm_id;
-            var plantingDate = response.data[i].planting_date;
-            var name = response.data[i].farm_name;
-            var province = response.data[i].province;
-            var district = response.data[i].district;
-            var latitude = response.data[i].latitude;
-            var longtitude = response.data[i].longtitude;
-            var position = { lat: Number(latitude), lng: Number(longtitude) };
-            var path = [
-             { lat: Number(latitude), lng: Number(longtitude) }
-            ,{lat: Number(response.data[i].latitude_mark1), lng: Number(response.data[i].longtitude_mark1)}
-            ,{lat: Number(response.data[i].latitude_mark2), lng: Number(response.data[i].longtitude_mark2)}
-            ,{lat: Number(response.data[i].latitude_mark3), lng: Number(response.data[i].longtitude_mark3)}
-            ,{lat: Number(response.data[i].latitude_mark4), lng: Number(response.data[i].longtitude_mark4)}
-            ]
-            this.areashow.push({
-              id,
-              idfarm,
-              plantingDate,
-              name,
-              province,
-              district,
-              position,
-              path
-            });
-            this.detailarea.push({
-              id,
-              idfarm,
-              plantingDate,
-              name,
-              province,
-              district,
-              position,
-              path
-            });
+            if (response.data[i].uid_store == this.uid) {
+              var id = i;
+              var idfarm = response.data[i].farm_id;
+              var plantingDate = response.data[i].planting_date;
+              var name = response.data[i].farm_name;
+              var province = response.data[i].province;
+              var district = response.data[i].district;
+              var latitude = response.data[i].latitude;
+              var longtitude = response.data[i].longtitude;
+              var position = { lat: Number(latitude), lng: Number(longtitude) };
+              var path = [
+                { lat: Number(latitude), lng: Number(longtitude) },
+                {
+                  lat: Number(response.data[i].latitude_mark1),
+                  lng: Number(response.data[i].longtitude_mark1),
+                },
+                {
+                  lat: Number(response.data[i].latitude_mark2),
+                  lng: Number(response.data[i].longtitude_mark2),
+                },
+                {
+                  lat: Number(response.data[i].latitude_mark3),
+                  lng: Number(response.data[i].longtitude_mark3),
+                },
+                {
+                  lat: Number(response.data[i].latitude_mark4),
+                  lng: Number(response.data[i].longtitude_mark4),
+                },
+              ];
+              this.areashow.push({
+                id,
+                idfarm,
+                plantingDate,
+                name,
+                province,
+                district,
+                position,
+                path,
+              });
+              this.detailarea.push({
+                id,
+                idfarm,
+                plantingDate,
+                name,
+                province,
+                district,
+                position,
+                path,
+              });
+            }
             i++;
           }
         })
@@ -249,9 +265,7 @@ export default {
     showeveryarea() {
       this.areashow = this.detailarea;
     },
-    afterselectedfarm(){
-
-    },
+    afterselectedfarm() {},
     moveto(i) {
       const vm = this;
       if (i == "addarea") {
@@ -260,8 +274,8 @@ export default {
         this.selectid = this.detailarea[i].idfarm;
         this.mapcenter = this.detailarea[i].position;
         this.plantingDate = this.detailarea[i].plantingDate;
-        this.namearea = this.detailarea[i].name
-        this.selectedpath = this.detailarea[i].path
+        this.namearea = this.detailarea[i].name;
+        this.selectedpath = this.detailarea[i].path;
       } else if (i == "Accepted") {
         //เอาข้อมูลID ของแปลงไปดึงแปลงใน Database
         vm.$store.commit({
@@ -278,12 +292,12 @@ export default {
         });
         vm.$store.commit({
           type: "setPath",
-          path: this.selectedpath
+          path: this.selectedpath,
         });
         vm.$store.commit({
           type: "setPosition",
-          position: this.mapcenter
-        })
+          position: this.mapcenter,
+        });
         vm.$router.push("/show-area");
       }
     },

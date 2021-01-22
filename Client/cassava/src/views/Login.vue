@@ -18,8 +18,12 @@
             ></v-text-field>
           </div>
           <div id="suandfobuttongroup">
-            <v-btn id="forgotbutton" text @click="moveto('forgetpassword')"> ลืมรหัสผ่าน </v-btn>
-            <v-btn id="signupbutton" text @click="moveto('register')"> สร้างบัญชี </v-btn>
+            <v-btn id="forgotbutton" text @click="moveto('forgetpassword')">
+              ลืมรหัสผ่าน
+            </v-btn>
+            <v-btn id="signupbutton" text @click="moveto('register')">
+              สร้างบัญชี
+            </v-btn>
           </div>
           <v-btn id="loginbutton" @click="loginfun(email, password)">
             เข้าสู่ระบบ
@@ -32,6 +36,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import firebase from "firebase/app";
 import "firebase/auth";
 export default {
@@ -54,12 +59,11 @@ export default {
   }),
   methods: {
     moveto(i) {
-      console.log(i)
+      console.log(i);
       const vm = this;
       if (i == "register") {
         vm.$router.push("/register");
-      }
-      else if(i == "forgetpassword"){
+      } else if (i == "forgetpassword") {
         vm.$router.push("/forgetpassword");
       }
     },
@@ -69,14 +73,26 @@ export default {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then((user) => {
-          console.log(user)
-          this.$store.commit({
-            type: "setName",
-            name: email,
-          });
+          axios
+            .get("http://127.0.0.1:8000/uids/")
+            .then((response) => {
+              var i = 0;
+              while (i < response.data.length) {
+                if (response.data[i].UId == user.uid) {
+                  this.$store.commit({
+                    type: "setUserName",
+                    username: response.data[i].Username,
+                  });
+                }
+                i++
+              }
+            })
+            .catch((err) => {
+              console.error(err);
+            });
           this.$store.commit({
             type: "setUid",
-            uid: user.uid,
+            uid: user.user.uid,
           });
           vm.$router.push("/show-all-area");
         })

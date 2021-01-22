@@ -2,9 +2,9 @@
   <div class="nav-bar">
     <v-app-bar color="white" dense dark>
       <v-toolbar-title
-        style="margin-top: 0px; color: #1ce227"
+        style="margin-top: 0px;"
         class="navbar"
-        ><v-btn @click="moveto('backtonormal')">ระบบแสดงคุณภาพมันสำปะหลัง</v-btn></v-toolbar-title
+        ><v-btn text @click="moveto('backtonormal')" style="color: #1ce227; font-size: 24px">ระบบแสดงคุณภาพมันสำปะหลัง</v-btn></v-toolbar-title
       >
       <v-spacer />
       <v-menu offset-y>
