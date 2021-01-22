@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    username:"",
     idfarm:"",
     namearea:"",
     selectedarea:"",
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     dateplant:"",
     detailarea:[],
     path:[],
+    position:{},
     province: [
       "กระบี่",
       "กรุงเทพมหานคร",
@@ -94,6 +96,12 @@ export default new Vuex.Store({
     ],
   },
   getters:{
+    getPosition(state){
+      return state.position
+    },
+    getUserName(state){
+      return state.username
+    },
     getNameArea(state){
       return state.namearea
     },
@@ -120,6 +128,12 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setPosition(state, payload){
+      state.position = payload.position
+    },
+    setUserName(state, payload){
+      state.username = payload.username
+    },
     setNameArea(state ,payload){
       state.namearea = payload.namearea
   },

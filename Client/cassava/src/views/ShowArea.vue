@@ -37,7 +37,7 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
-        <v-col cols="12" md="4" sm="4" class="text-center">
+        <v-col cols="12" md="4" sm="3" class="text-center">
           <v-btn id="selectdatebutton" rounded @click="changedatemarker()"
             >ค้นหา</v-btn
           >
@@ -72,20 +72,20 @@
           <!-- For Map -->
         </v-col>
         <v-col cols="12" md="3" sm="12">
-          <v-row align="center">
-            <v-col cols="12" md="3" sm="3"
+          <v-row>
+            <v-col cols="12" md="3" sm="3" id="framepinimg"
               ><v-img id="pin" src="../assets/Agradeicon.png"></v-img></v-col
-            >เกรด A</v-row
+            ><div id="detailgrade">เกรด A</div></v-row
           >
-          <v-row align="center">
-            <v-col cols="12" md="3" sm="3"
+          <v-row>
+            <v-col cols="12" md="3" sm="3" id="framepinimg"
               ><v-img id="pin" src="../assets/Bgradeicon.png"></v-img></v-col
-            >เกรด B</v-row
+            ><div id="detailgrade">เกรด B</div></v-row
           >
-          <v-row align="center">
-            <v-col cols="12" md="3" sm="3"
+          <v-row>
+            <v-col cols="12" md="3" sm="3" id="framepinimg"
               ><v-img id="pin" src="../assets/Cgradeicon.png"></v-img></v-col
-            >เกรด C</v-row
+            ><div id="detailgrade">เกรด C</div></v-row
           >
           <div id="detailtext">
             คุณภาพโดยรวมทั้งแปลง
@@ -129,7 +129,7 @@ export default {
     gradeBtotal: 50,
     gradeCtotal: 40,
     totalstarch: 50,
-    mapcenter: { lat: 16.466022, lng: 102.898313 },
+    mdk:[],
     datapin: [
       {
         id: 0,
@@ -182,6 +182,7 @@ export default {
       newidfarm: "getIdFarm",
       areaname: "getNameArea",
       path: "getPath",
+      mapcenter: "getPosition"
     }),
     computedDateFormatted() {
       return this.formatDate(this.date);
@@ -224,7 +225,7 @@ export default {
             }
             i++;
           }
-          this.mapcenter = cassavaareaidlist[0].position;
+          //this.mapcenter = cassavaareaidlist[0].position;
         })
         .catch((err) => {
           console.error(err);
@@ -274,7 +275,6 @@ export default {
       });
       this.datapin = cassavaareaidlist;
       this.markers = cassavaareaidlist;
-      console.log(this.datapin)
     },
     changedatemarker() {
       var i = 0;
@@ -341,19 +341,22 @@ export default {
       if (colormarker == "green") {
         return {
           url: require("../assets/Agradeicon.png"),
-          scaledSize: { width: 23, height: 40, f: "px", b: "px" },
+          scaledSize: { width: 28, height: 60, f: "px", b: "px" },
         };
       } else if (colormarker == "yellow") {
         return {
           url: require("../assets/Bgradeicon.png"),
-          scaledSize: { width: 23, height: 40, f: "px", b: "px" },
+          scaledSize: { width: 28, height: 60, f: "px", b: "px" },
         };
       } else if (colormarker == "red") {
         return {
           url: require("../assets/Cgradeicon.png"),
-          scaledSize: { width: 23, height: 40, f: "px", b: "px" },
+          scaledSize: { width: 28, height: 60, f: "px", b: "px" },
         };
       }
+    },
+    resetsearch(){
+      this.markers = this.datapin
     },
     formatDate(date) {
       if (!date) return null;
@@ -400,10 +403,10 @@ export default {
   height: 100%;
 }
 #pin {
-  max-width: 1vw;
-  min-width: 1vw;
-  max-height: 4vh;
-  min-height: 4vh;
+  max-width: 30px;
+  min-width: 18px;
+  max-height: 70px;
+  min-height: 23px;
 }
 #backbutton {
   margin-right: 1vw;
@@ -418,5 +421,16 @@ export default {
 #selectdatebutton {
   margin-right: 1vw;
   margin-bottom: 1vh;
+}
+#detailgrade{
+  font-size: 18px;
+  padding: 3vh
+}
+#framepinimg{
+  height: 1vh;
+  width: 1vw;
+}
+#namearea{
+  font-size: 28px;
 }
 </style>

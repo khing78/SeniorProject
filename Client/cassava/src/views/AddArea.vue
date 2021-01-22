@@ -178,17 +178,17 @@ export default {
           district: this.selectdistrict,
           planting_date: this.date,
           farm_width: this.mapcenter.wide,
-          farm_long: this.mapcenter.lat,
-          latitude: this.mapcenter.lat,
-          longtitude: this.mapcenter.lng,
-          latitude_mark1: this.newpath[0].lat,
-          longtitude_mark1: this.newpath[0].lng,
-          latitude_mark2: this.newpath[1].lat,
-          longtitude_mark2: this.newpath[1].lat,
-          latitude_mark3: this.newpath[2].lat,
-          longtitude_mark3: this.newpath[2].lng,
-          latitude_mark4: this.newpath[3].lat,
-          longtitude_mark4: this.newpath[3].lng
+          farm_long: this.mapcenter.long,
+          latitude: this.newpath[0].lat,
+          longtitude: this.newpath[0].lng,
+          latitude_mark1: this.newpath[1].lat,
+          longtitude_mark1: this.newpath[1].lng,
+          latitude_mark2: this.newpath[2].lat,
+          longtitude_mark2: this.newpath[2].lat,
+          latitude_mark3: this.newpath[3].lat,
+          longtitude_mark3: this.newpath[3].lng,
+          latitude_mark4: this.newpath[4].lat,
+          longtitude_mark4: this.newpath[4].lng
         })
         .then((reponse) => {
           console.log(reponse);

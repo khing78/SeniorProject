@@ -277,6 +277,10 @@ export default {
           type: "setPath",
           path: this.selectedpath
         });
+        vm.$store.commit({
+          type: "setPosition",
+          position: this.mapcenter
+        })
         vm.$router.push("/show-area");
       }
     },
