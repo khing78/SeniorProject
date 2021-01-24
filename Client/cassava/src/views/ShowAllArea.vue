@@ -68,7 +68,7 @@
                   v-for="item in areashow"
                   :key="item.Id"
                   style="text: center"
-                  @click="moveto(item.id)"
+                  @click="moveto(item.id - 1)"
                 >
                   <td>{{ item.name }}</td>
                   <td>อ.{{ item.district }} จ.{{ item.province }}</td>
@@ -160,7 +160,7 @@ export default {
       },
     ],
   }),
-  async created() {
+  created() {
     //ทุกครั้งที่เข้าหน้ามาให้โหลดข้อมูลแปลงทั้งหมดจาก Database ใหม่
     this.fetchdatafromdatabase();
   },
@@ -179,7 +179,6 @@ export default {
           var i = 0;
           this.detailarea = [];
           this.areashow = [];
-          console.log(this.uid);
           //console.log(firebase.auth().currentUser + "response: ", response);
           while (i < response.data.length) {
             if (response.data[i].uid_store == this.uid) {

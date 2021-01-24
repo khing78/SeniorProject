@@ -10,6 +10,7 @@ export default new Vuex.Store({
     username:"",
     idfarm:"",
     namearea:"",
+    idarea:"",
     selectedarea:"",
     selecteddate:"",
     dateplant:"",
@@ -97,6 +98,9 @@ export default new Vuex.Store({
     ],
   },
   getters:{
+    getIdArea(state){
+      return state.idarea
+    },
     getUid(state){
       return state.uid
     },
@@ -132,6 +136,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setIdArea(state,payload){
+      state.idarea = payload.idarea
+    },
     setUid(state,payload){
       state.uid = payload.uid
     },

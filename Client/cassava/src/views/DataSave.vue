@@ -48,6 +48,10 @@
             label="ลองจิจูด"
           ></v-text-field
         ></v-col>
+        <v-col cols="12" md="3" sm="3"
+          ><v-btn id="setmodebutton" rounded @click="changemode()"
+            >{{modename}}</v-btn
+          ></v-col>
       </v-row>
       <v-row>
         <v-col cols="12">
@@ -62,17 +66,19 @@
               :key="index"
               v-for="(m, index) in datapin"
               :position="m.position"
-              :clickable="true"
-              :draggable="true"
+              :clickable="clickmode"
+              :draggable="dragemode"
               @dragend="
                 changepositionmap($event.latLng.lat(), $event.latLng.lng())
               "
-              @click="checkmap(m.position)"
+              @click="selectmode(index)"
             ></gmap-marker>
           </gmap-map>
         </v-col>
         <v-col cols="12">
-          <v-btn id="savebutton" rounded @click="addcassava()">เพิ่มหัวมันสำปะหลัง +</v-btn>
+          <v-btn id="savebutton" rounded @click="addcassava()"
+            >เพิ่มหัวมันสำปะหลัง +</v-btn
+          >
         </v-col>
       </v-row>
       <v-simple-table fixed-header height="50vh" id="table">
@@ -169,32 +175,36 @@
           <v-btn id="backbutton" rounded @click="moveto('back')">ยกเลิก</v-btn>
         </v-col>
         <v-col class="text-right">
-          <v-btn id="savebutton" rounded @click="moveto('save'), addNewArea()">บันทึก</v-btn>
+          <v-btn id="savebutton" rounded @click="moveto('save'), addNewArea()"
+            >บันทึก</v-btn
+          >
         </v-col>
       </v-row>
     </v-container>
   </v-main>
 </template>
 <script>
-import axios from 'axios';
+import axios from "axios";
 import { mapGetters } from "vuex";
 
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
+    selectedidarea: "",
+    mode: 1 ,
     menu: false,
     modal: false,
     menu2: false,
+    clickmode: true,
+    modename: "ตั้งต้นใหม่",
+    dragemode: false,
     lenghtofarea: 5,
-    mapcenter: { lat: 16.466022, lng: 102.898313 },
+    //mapcenter: { lat: 16.466022, lng: 102.898313 },
     datapin: [
-      // Marker เป็นตัวบอกคุณภาพ
       // ดึงข้อมูลมาจากฐานข้อมูล
       {
         id: 0,
         position: { lat: 16.466022, lng: 102.898313 },
-        dategetdata: "26/12/2563",
-        icon: "green",
       },
     ],
     xdata: [
@@ -246,19 +256,70 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      newidfarm: "getIdFarm",
+      idfarm: "getIdFarm",
       areaname: "getNameArea",
       path: "getPath",
+      mapcenter: "getPosition"
     }),
     computedDateFormatted() {
       return this.formatDate(this.date);
     },
   },
+  created(){
+    this.starterfunction()
+  },
   methods: {
-    addNewArea(){
+    async starterfunction() {
+      var i = 0
+      this.datapin = []
+      await axios
+        .get("http://127.0.0.1:8000/area-check/")
+        .then((response) => {
+          while(i < response.data.length){
+            if(response.data[i].farm_store == this.idfarm){
+              var idarea = response.data[i].cassava_area_id
+              var position  = {lat : Number(response.data[i].tree_latitude), lng: Number(response.data[i].tree_longtitude)}
+              this.datapin.push({idarea,position})
+            }
+            i++
+          }
+          console.log(this.datapin)
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    changemode(){
+      if(this.mode == 1 ){
+        this.mode = 2
+        this.clickmode = false
+        this.dragemode = true
+        this.modename = "เพิ่มจากต้นเดิม"
+      }
+      else{
+        this.mode = 1
+        this.starterfunction()
+        this.clickmode = true
+        this.dragemode = false
+        this.modename = "ตั้งต้นใหม่"
+      }
+    },
+    selectmode(i){
+      if(this.mode == 1){
+        this.selectarea(i)
+      }
+    },
+    selectarea(i){
+      this.selectedidarea = this.datapin[i].idarea
+      this.$store.commit({
+          type: "setIdArea",
+          idarea: this.datapin[i].idarea,
+        });
+    },
+    addNewArea() {
       axios
         .post("http://127.0.0.1:8000/area-check/", {
-          farm_store: this.newidfarm,
+          farm_store: this.idfarm,
           starch_percentage: 45,
           tree_latitude: 54613183512,
           tree_longtitude: 13513541831,
@@ -268,29 +329,29 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-        })
+        });
     },
-    postData(){
+    postData() {
       axios
         .post("http://127.0.0.1:8000/cassava-check/", {
-          latitude: '18.466022',
-          longtitude: '142.898313',
-          spectrum1: '1.922431',
-          spectrum2: '9.398447',
-          spectrum3: '17.14219',
-          spectrum4: '20.49366',
-          spectrum5: '38.69703',
-          spectrum6: '34.09154',
-          temperature: '19.42',
-          starchPercentage: '55',
-          humidity: '6',
+          latitude: "18.466022",
+          longtitude: "142.898313",
+          spectrum1: "1.922431",
+          spectrum2: "9.398447",
+          spectrum3: "17.14219",
+          spectrum4: "20.49366",
+          spectrum5: "38.69703",
+          spectrum6: "34.09154",
+          temperature: "19.42",
+          starchPercentage: "55",
+          humidity: "6",
         })
         .then((response) => {
           console.log(response);
         })
         .catch((error) => {
           console.log(error);
-        })
+        });
     },
     moveto(i) {
       const vm = this;
@@ -303,18 +364,19 @@ export default {
     },
     removecassava(index) {
       console.log(index + 1);
-      this.xdata.splice(index,1)
+      this.xdata.splice(index, 1);
     },
-    addcassava(){
+    addcassava() {
       this.xdata.push({
-        id: this.xdata.length+1,
+        id: this.xdata.length + 1,
         x1: 0,
         x2: 0,
         x3: 0,
         x4: 0,
         x5: 0,
         x6: 0,
-        temputure: 0,})
+        temputure: 0,
+      });
     },
     deletearea() {
       //เอา ID ของหมุดไปลบออกจาก Database แล้วกลับไปหน้า Showarea
@@ -332,8 +394,8 @@ export default {
       this.mapcenter.lng = Number(newlng);
       this.datapin[0].position.lat = Number(newlat);
       this.datapin[0].position.lng = Number(newlng);
+    },
   },
-  }
 };
 </script>
 <style scoped>
