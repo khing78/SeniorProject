@@ -36,22 +36,27 @@
         ></v-col>
         <v-col cols="12" md="3" sm="3"
           ><v-text-field
-            v-model="this.datapin[0].position.lat"
+            v-model="latposition"
             hint="กรุณาใส่ละติจูด"
             label="ละติจูด"
           ></v-text-field
         ></v-col>
         <v-col cols="12" md="3" sm="3"
           ><v-text-field
-            v-model="this.datapin[0].position.lng"
+            v-model="lngposition"
             hint="กรุณาใส่ลองจิจูด"
             label="ลองจิจูด"
           ></v-text-field
         ></v-col>
         <v-col cols="12" md="3" sm="3"
-          ><v-btn id="setmodebutton" rounded @click="changemode()"
-            >{{modename}}</v-btn
-          ></v-col>
+          ><v-btn
+            id="setmodebutton"
+            rounded
+            @click="changemode()"
+            :disabled="buttonmode"
+            >{{ modename }}</v-btn
+          ></v-col
+        >
       </v-row>
       <v-row>
         <v-col cols="12">
@@ -68,6 +73,7 @@
               :position="m.position"
               :clickable="clickmode"
               :draggable="dragemode"
+              :icon="selectedmarkericon(m.iconmarker)"
               @dragend="
                 changepositionmap($event.latLng.lat(), $event.latLng.lng())
               "
@@ -191,15 +197,18 @@ export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
     selectedidarea: "",
-    mode: 1 ,
+    mode: 1,
     menu: false,
     modal: false,
     menu2: false,
+    buttonmode: false,
     clickmode: true,
     modename: "ตั้งต้นใหม่",
     dragemode: false,
     lenghtofarea: 5,
-    //mapcenter: { lat: 16.466022, lng: 102.898313 },
+    latposition: 0,
+    lngposition: 0,
+    mapcenter: { lat: 16.466022, lng: 102.898313 },
     datapin: [
       // ดึงข้อมูลมาจากฐานข้อมูล
       {
@@ -259,62 +268,115 @@ export default {
       idfarm: "getIdFarm",
       areaname: "getNameArea",
       path: "getPath",
-      mapcenter: "getPosition"
+      positionarea: "getPosition",
     }),
     computedDateFormatted() {
       return this.formatDate(this.date);
     },
   },
-  created(){
-    this.starterfunction()
+  created() {
+    this.starterfunction();
   },
   methods: {
     async starterfunction() {
-      var i = 0
-      this.datapin = []
+      this.mapcenter = this.positionarea
+      var i = 0;
+      var newpindata = [];
       await axios
         .get("http://127.0.0.1:8000/area-check/")
         .then((response) => {
-          while(i < response.data.length){
-            if(response.data[i].farm_store == this.idfarm){
-              var idarea = response.data[i].cassava_area_id
-              var position  = {lat : Number(response.data[i].tree_latitude), lng: Number(response.data[i].tree_longtitude)}
-              this.datapin.push({idarea,position})
+          while (i < response.data.length) {
+            if (response.data[i].farm_store == this.idfarm) {
+              var idarea = response.data[i].cassava_area_id;
+              var position = {
+                lat: Number(response.data[i].tree_latitude),
+                lng: Number(response.data[i].tree_longtitude),
+              };
+              var iconmarker = ""
+              newpindata.push({ idarea, position, iconmarker });
             }
-            i++
+            i++;
           }
-          console.log(this.datapin)
+          if (newpindata.length == 0) {
+            this.datapin = [
+              {
+                id: 0,
+                position: { lat: this.mapcenter.lat, lng: this.mapcenter.lng },
+                iconmarker: ""
+              },
+            ];
+            this.buttonmode = true;
+            this.changemode();
+          } else {
+            this.datapin = newpindata;
+            this.latposition = this.datapin[0].position.lat;
+            this.lngposition = this.datapin[0].position.lng;
+            this.datapin[0].iconmarker = "selected"
+          }
         })
         .catch((err) => {
           console.error(err);
         });
     },
-    changemode(){
-      if(this.mode == 1 ){
-        this.mode = 2
-        this.clickmode = false
-        this.dragemode = true
-        this.modename = "เพิ่มจากต้นเดิม"
+    changemode() {
+      if (this.mode == 1) {
+        this.mode = 2;
+        this.clickmode = false;
+        this.dragemode = true;
+        this.modename = "เพิ่มจากต้นเดิม";
+        this.latposition = this.positionarea.lat;
+        this.lngposition = this.positionarea.lng;
+        this.datapin = [
+          {
+            id: 0,
+            position: { lat: this.positionarea.lat, lng: this.positionarea.lng },
+            iconmarker: ""
+          },
+        ];
+        this.mapcenter = this.positionarea
+      } else {
+        this.mode = 1;
+        this.latposition = this.datapin[0].position.lat;
+        this.lngposition = this.datapin[0].position.lng;
+        this.starterfunction();
+        this.clickmode = true;
+        this.dragemode = false;
+        this.modename = "ตั้งต้นใหม่";
+      }
+    },
+    selectmode(i) {
+      if (this.mode == 1) {
+        this.selectarea(i);
+      }
+    },
+    selectedmarkericon(iconmarker){
+      if(iconmarker == "selected"){
+        return {
+          url: require("../assets/Agradeicon.png"),
+          scaledSize: { width: 28, height: 60, f: "px", b: "px" },
+        };
       }
       else{
-        this.mode = 1
-        this.starterfunction()
-        this.clickmode = true
-        this.dragemode = false
-        this.modename = "ตั้งต้นใหม่"
+        return {
+          url: require("../assets/Cgradeicon.png"),
+          scaledSize: { width: 28, height: 60, f: "px", b: "px" },
+        };
       }
     },
-    selectmode(i){
-      if(this.mode == 1){
-        this.selectarea(i)
+    selectarea(i) {
+      var q = 0
+      this.selectedidarea = this.datapin[i].idarea;
+      this.latposition = this.datapin[i].position.lat;
+      this.lngposition = this.datapin[i].position.lng;
+      while(q < this.datapin.length){
+        this.datapin[q].iconmarker = ""
+        q++
       }
-    },
-    selectarea(i){
-      this.selectedidarea = this.datapin[i].idarea
+      this.datapin[i].iconmarker = "selected"
       this.$store.commit({
-          type: "setIdArea",
-          idarea: this.datapin[i].idarea,
-        });
+        type: "setIdArea",
+        idarea: this.datapin[i].idarea,
+      });
     },
     addNewArea() {
       axios
@@ -392,8 +454,8 @@ export default {
     changepositionmap(newlat, newlng) {
       this.mapcenter.lat = Number(newlat);
       this.mapcenter.lng = Number(newlng);
-      this.datapin[0].position.lat = Number(newlat);
-      this.datapin[0].position.lng = Number(newlng);
+      this.latposition = Number(newlat);
+      this.lngposition = Number(newlng);
     },
   },
 };
