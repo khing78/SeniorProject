@@ -78,14 +78,16 @@ export default {
             .then((response) => {
               var i = 0;
               while (i < response.data.length) {
-                if (response.data[i].UId == user.uid) {
+                if (response.data[i].uId == user.user.uid) {
                   this.$store.commit({
                     type: "setUserName",
-                    username: response.data[i].Username,
+                    username: response.data[i].username,
                   });
+                  break
                 }
                 i++
               }
+              
             })
             .catch((err) => {
               console.error(err);
