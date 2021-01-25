@@ -333,6 +333,7 @@ export default {
             iconmarker: ""
           },
         ];
+        this.selectedidarea = ""
         this.mapcenter = this.positionarea
       } else {
         this.mode = 1;
