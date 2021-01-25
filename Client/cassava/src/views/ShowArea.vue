@@ -277,6 +277,7 @@ export default {
       this.markers = cassavaareaidlist;
     },
     changedatemarker() {
+
       var i = 0;
       var m = 0;
       var newdatadate = []
@@ -299,6 +300,10 @@ export default {
         this.markers[i].datadetail = newdatadate
         i++;
       }
+      console.log("datapin")
+      console.log(this.datapin)
+      console.log("marker")
+      console.log(this.markers)
     },
     totalstarchfinder() {
       var i = 0;

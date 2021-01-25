@@ -384,8 +384,8 @@ export default {
         .post("http://127.0.0.1:8000/area-check/", {
           farm_store: this.idfarm,
           starch_percentage: 45,
-          tree_latitude: 54613183512,
-          tree_longtitude: 13513541831,
+          tree_latitude: this.latposition,
+          tree_longtitude: this.lngposition,
         })
         .then((response) => {
           console.log(response);
@@ -396,6 +396,7 @@ export default {
     },
     postData() {
       var i = 0
+      this.addNewArea()
       while (i < this.xdata.length){
         axios
         .post("http://127.0.0.1:8000/cassava-check/", {
