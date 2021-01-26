@@ -333,6 +333,7 @@ export default {
             iconmarker: ""
           },
         ];
+        this.selectedidarea = ""
         this.mapcenter = this.positionarea
       } else {
         this.mode = 1;
@@ -383,7 +384,7 @@ export default {
       axios
         .post("http://127.0.0.1:8000/area-check/", {
           farm_store: this.idfarm,
-          starch_percentage: 0,
+          starch_percentage: 45,
           tree_latitude: this.latposition,
           tree_longtitude: this.lngposition,
         })
@@ -395,19 +396,23 @@ export default {
         });
     },
     postData() {
-      axios
+      var i = 0
+      this.addNewArea()
+      while (i < this.xdata.length){
+        axios
         .post("http://127.0.0.1:8000/cassava-check/", {
-          latitude: "18.466022",
-          longtitude: "142.898313",
-          spectrum1: "1.922431",
-          spectrum2: "9.398447",
-          spectrum3: "17.14219",
-          spectrum4: "20.49366",
-          spectrum5: "38.69703",
-          spectrum6: "34.09154",
-          temperature: "19.42",
-          starchPercentage: "55",
-          humidity: "6",
+          cassava_area: this.selectedidarea,
+          latitude: this.latposition,
+          longtitude: this.lngposition,
+          spectrum1: this.xdata[i].x1,
+          spectrum2: this.xdata[i].x2,
+          spectrum3: this.xdata[i].x3,
+          spectrum4: this.xdata[i].x4,
+          spectrum5: this.xdata[i].x5,
+          spectrum6: this.xdata[i].x6,
+          temperature: this.xdata[i].temputure,
+          starchPercentage: "25",
+          humidity: this.xdata[i].humidity,
         })
         .then((response) => {
           console.log(response);
@@ -415,15 +420,17 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+        i++
+      }
     },
     moveto(i) {
       const vm = this;
       if (i == "back") {
         vm.$router.push("/show-area");
       }
-      if (i == "save") {
+      /*if (i == "save") {
         vm.$router.push("/show-area");
-      }
+      }*/
     },
     removecassava(index) {
       console.log(index + 1);
