@@ -80,7 +80,7 @@ def farm_detail(request, pk):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response({'uidupdate' : farmList}, serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         farmList.delete()
@@ -102,7 +102,7 @@ def cassava_check(request):
     elif request.method == 'POST':
         serializer = CassavaCheckSerializers(data=request.data)
         if serializer.is_valid() :
-            HttpResponse(print(serializer)) 
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -138,7 +138,7 @@ def area_check_get(request):
     elif request.method == 'POST':
         serializer = CassavaAreaSerializer(data=request.data)
         if serializer.is_valid() :
-            HttpResponse(print(serializer)) 
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

@@ -379,12 +379,13 @@ export default {
       });
     },
     addNewArea() {
+      console.log("//////////////////////" + this.idfarm)
       axios
         .post("http://127.0.0.1:8000/area-check/", {
           farm_store: this.idfarm,
-          starch_percentage: 45,
-          tree_latitude: 54613183512,
-          tree_longtitude: 13513541831,
+          starch_percentage: 0,
+          tree_latitude: this.latposition,
+          tree_longtitude: this.lngposition,
         })
         .then((response) => {
           console.log(response);

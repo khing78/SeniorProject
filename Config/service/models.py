@@ -38,7 +38,7 @@ class Result (models.Model) :
 class CassavaArea (models.Model) :
     farm_store = models.ForeignKey(FarmStore, default=None, on_delete=models.CASCADE)
     cassava_area_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    starch_percentage = models.FloatField(max_length=20)
+    starch_percentage = models.FloatField(max_length=20, null=True, blank=True, default=None)
     tree_latitude = models.DecimalField(max_digits=30, decimal_places=15, default=0)
     tree_longtitude = models.DecimalField(max_digits=30, decimal_places=15, default=0)
 

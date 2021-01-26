@@ -170,7 +170,8 @@ export default {
     },
     ...mapGetters({
       province: "getProvince",
-      selectedidfarm: "getIdFarm"
+      selectedidfarm: "getIdFarm",
+      uid: "getUid"
     }),
   },
   async created(){
@@ -247,8 +248,10 @@ export default {
     },
     async savedata(){
       //ทำการใส่ข้อมูลใหม่เข้าไปแทนที่ใน Database และกลับไปหน้า Show area
-      console.log("http://127.0.0.1:8000/farms/"+ this.selectedidfarm)
-      await axios.put('http://127.0.0.1:8000/farms/'+ this.selectedidfarm, {
+      console.log("http://127.0.0.1:8000/farms/"+ this.selectedidfarm + "/" + " this is uid " + this.uid)
+      await axios.put('http://127.0.0.1:8000/farms/'+ this.selectedidfarm + "/", {
+        uid_store: this.uid,
+        farm_id: this.idfarm,
         farm_name: this.areaname,
         province: this.selectprovince,
         district: this.selectdistrict,
@@ -268,8 +271,8 @@ export default {
 
       })
       .then(response => {console.log(response)})
-      .catch(e => {
-         console.error(e);
+      .catch((error) => {
+          console.log(error)
       })
       const vm = this;
       vm.$router.push("/show-area");
