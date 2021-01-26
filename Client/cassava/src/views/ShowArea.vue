@@ -373,6 +373,10 @@ export default {
     moveto(i) {
       const vm = this;
       if (i == "pin") {
+        vm.$store.commit({
+          type: "setEditMode",
+          editmode: false,
+        });
         vm.$router.push("/data-save");
       } else if (i == "addarea") {
         vm.$router.push("/add-area");

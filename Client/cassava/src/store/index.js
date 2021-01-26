@@ -17,6 +17,7 @@ export default new Vuex.Store({
     detailarea:[],
     path:[],
     position:{},
+    editmode:false,
     province: [
       "กระบี่",
       "กรุงเทพมหานคร",
@@ -98,6 +99,9 @@ export default new Vuex.Store({
     ],
   },
   getters:{
+    getEditMode(state){
+      return state.editmode
+    },
     getIdArea(state){
       return state.idarea
     },
@@ -136,6 +140,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setEditMode(state,payload){
+      state.editmode = payload.editmode
+    },
     setIdArea(state,payload){
       state.idarea = payload.idarea
     },

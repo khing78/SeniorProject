@@ -4,7 +4,7 @@
       <v-row>
         <v-col cols="12" md="3" sm="3"> ข้อมูลผลตรวจคุณภาพ</v-col>
         <v-col class="text-right">
-          <v-btn id="removebutton" rounded @click="deletearea()"
+          <v-btn id="removebutton" rounded @click="deleteArea()"
             >ลบข้อมูล</v-btn
           >
         </v-col>
@@ -52,7 +52,7 @@
           ><v-btn
             id="setmodebutton"
             rounded
-            @click="changemode()"
+            @click="changeMode()"
             :disabled="buttonmode"
             >{{ modename }}</v-btn
           ></v-col
@@ -73,16 +73,16 @@
               :position="m.position"
               :clickable="clickmode"
               :draggable="dragemode"
-              :icon="selectedmarkericon(m.iconmarker)"
+              :icon="selectedMarkerIcon(m.iconmarker)"
               @dragend="
-                changepositionmap($event.latLng.lat(), $event.latLng.lng())
+                changePositionMap($event.latLng.lat(), $event.latLng.lng())
               "
-              @click="selectmode(index)"
+              @click="selectMode(index)"
             ></gmap-marker>
           </gmap-map>
         </v-col>
         <v-col cols="12">
-          <v-btn id="savebutton" rounded @click="addcassava()"
+          <v-btn id="savebutton" rounded @click="addCassava()"
             >เพิ่มหัวมันสำปะหลัง +</v-btn
           >
         </v-col>
@@ -106,7 +106,7 @@
                     ><v-btn
                       rounded
                       id="removebutton"
-                      @click="removecassava(index)"
+                      @click="removeCassava(index)"
                       >ลบ</v-btn
                     ></v-col
                   >
@@ -178,10 +178,10 @@
       </v-simple-table>
       <v-row>
         <v-col class="text-left">
-          <v-btn id="backbutton" rounded @click="moveto('back')">ยกเลิก</v-btn>
+          <v-btn id="backbutton" rounded @click="moveTo('back')">ยกเลิก</v-btn>
         </v-col>
         <v-col class="text-right">
-          <v-btn id="savebutton" rounded @click="moveto('save'), addNewArea()"
+          <v-btn id="savebutton" rounded @click="moveTo('save'), sendData()"
             >บันทึก</v-btn
           >
         </v-col>
@@ -269,17 +269,24 @@ export default {
       areaname: "getNameArea",
       path: "getPath",
       positionarea: "getPosition",
+      editmode: "getEditMode"
     }),
     computedDateFormatted() {
       return this.formatDate(this.date);
     },
   },
   created() {
-    this.starterfunction();
+    if(this.editmode == false){
+      this.starterfunction();
+    }
+    else {
+      console.log("True")
+    }
+    
   },
   methods: {
     async starterfunction() {
-      this.mapcenter = this.positionarea
+      this.mapcenter = this.positionarea;
       var i = 0;
       var newpindata = [];
       await axios
@@ -292,7 +299,7 @@ export default {
                 lat: Number(response.data[i].tree_latitude),
                 lng: Number(response.data[i].tree_longtitude),
               };
-              var iconmarker = ""
+              var iconmarker = "";
               newpindata.push({ idarea, position, iconmarker });
             }
             i++;
@@ -302,23 +309,23 @@ export default {
               {
                 id: 0,
                 position: { lat: this.mapcenter.lat, lng: this.mapcenter.lng },
-                iconmarker: ""
+                iconmarker: "",
               },
             ];
             this.buttonmode = true;
-            this.changemode();
+            this.changeMode();
           } else {
             this.datapin = newpindata;
             this.latposition = this.datapin[0].position.lat;
             this.lngposition = this.datapin[0].position.lng;
-            this.datapin[0].iconmarker = "selected"
+            this.datapin[0].iconmarker = "selected";
           }
         })
         .catch((err) => {
           console.error(err);
         });
     },
-    changemode() {
+    changeMode() {
       if (this.mode == 1) {
         this.mode = 2;
         this.clickmode = false;
@@ -329,12 +336,15 @@ export default {
         this.datapin = [
           {
             id: 0,
-            position: { lat: this.positionarea.lat, lng: this.positionarea.lng },
-            iconmarker: ""
+            position: {
+              lat: this.positionarea.lat,
+              lng: this.positionarea.lng,
+            },
+            iconmarker: "",
           },
         ];
-        this.selectedidarea = ""
-        this.mapcenter = this.positionarea
+        this.selectedidarea = "";
+        this.mapcenter = this.positionarea;
       } else {
         this.mode = 1;
         this.latposition = this.datapin[0].position.lat;
@@ -345,42 +355,41 @@ export default {
         this.modename = "ตั้งต้นใหม่";
       }
     },
-    selectmode(i) {
+    selectMode(i) {
       if (this.mode == 1) {
-        this.selectarea(i);
+        this.selectArea(i);
       }
     },
-    selectedmarkericon(iconmarker){
-      if(iconmarker == "selected"){
+    selectedMarkerIcon(iconmarker) {
+      if (iconmarker == "selected") {
         return {
           url: require("../assets/Agradeicon.png"),
           scaledSize: { width: 28, height: 60, f: "px", b: "px" },
         };
-      }
-      else{
+      } else {
         return {
           url: require("../assets/Cgradeicon.png"),
           scaledSize: { width: 28, height: 60, f: "px", b: "px" },
         };
       }
     },
-    selectarea(i) {
-      var q = 0
+    selectArea(i) {
+      var q = 0;
       this.selectedidarea = this.datapin[i].idarea;
       this.latposition = this.datapin[i].position.lat;
       this.lngposition = this.datapin[i].position.lng;
-      while(q < this.datapin.length){
-        this.datapin[q].iconmarker = ""
-        q++
+      while (q < this.datapin.length) {
+        this.datapin[q].iconmarker = "";
+        q++;
       }
-      this.datapin[i].iconmarker = "selected"
+      this.datapin[i].iconmarker = "selected";
       this.$store.commit({
         type: "setIdArea",
         idarea: this.datapin[i].idarea,
       });
     },
     addNewArea() {
-      console.log("//////////////////////" + this.idfarm)
+      console.log("//////////////////////" + this.idfarm);
       axios
         .post("http://127.0.0.1:8000/area-check/", {
           farm_store: this.idfarm,
@@ -389,41 +398,68 @@ export default {
           tree_longtitude: this.lngposition,
         })
         .then((response) => {
-          console.log(response);
+          this.selectedidarea = response.data.cassava_area_id;
+          var i = 0;
+          while (i < this.xdata.length) {
+            axios
+              .post("http://127.0.0.1:8000/cassava-check/", {
+                cassava_area: this.selectedidarea,
+                check_date: this.date,
+                latitude: this.latposition,
+                longtitude: this.lngposition,
+                spectrum1: this.xdata[i].x1,
+                spectrum2: this.xdata[i].x2,
+                spectrum3: this.xdata[i].x3,
+                spectrum4: this.xdata[i].x4,
+                spectrum5: this.xdata[i].x5,
+                spectrum6: this.xdata[i].x6,
+                temperature: this.xdata[i].temputure,
+                starchPercentage: "25",
+                humidity: this.xdata[i].humidity,
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+            i++;
+          }
         })
         .catch((error) => {
           console.log(error);
         });
     },
     postData() {
-      var i = 0
-      this.addNewArea()
-      while (i < this.xdata.length){
+      var i = 0;
+      while (i < this.xdata.length) {
         axios
-        .post("http://127.0.0.1:8000/cassava-check/", {
-          cassava_area: this.selectedidarea,
-          latitude: this.latposition,
-          longtitude: this.lngposition,
-          spectrum1: this.xdata[i].x1,
-          spectrum2: this.xdata[i].x2,
-          spectrum3: this.xdata[i].x3,
-          spectrum4: this.xdata[i].x4,
-          spectrum5: this.xdata[i].x5,
-          spectrum6: this.xdata[i].x6,
-          temperature: this.xdata[i].temputure,
-          starchPercentage: "25",
-          humidity: this.xdata[i].humidity,
-        })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-        i++
+          .post("http://127.0.0.1:8000/cassava-check/", {
+            cassava_area: this.selectedidarea,
+            check_date: this.date,
+            latitude: this.latposition,
+            longtitude: this.lngposition,
+            spectrum1: this.xdata[i].x1,
+            spectrum2: this.xdata[i].x2,
+            spectrum3: this.xdata[i].x3,
+            spectrum4: this.xdata[i].x4,
+            spectrum5: this.xdata[i].x5,
+            spectrum6: this.xdata[i].x6,
+            temperature: this.xdata[i].temputure,
+            starchPercentage: "25",
+            humidity: this.xdata[i].humidity,
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        i++;
       }
     },
-    moveto(i) {
+    sendData() {
+      if (this.mode == 2) {
+        this.addNewArea();
+      } else {
+        this.postData();
+      }
+    },
+    moveTo(i) {
       const vm = this;
       if (i == "back") {
         vm.$router.push("/show-area");
@@ -432,11 +468,11 @@ export default {
         vm.$router.push("/show-area");
       }*/
     },
-    removecassava(index) {
+    removeCassava(index) {
       console.log(index + 1);
       this.xdata.splice(index, 1);
     },
-    addcassava() {
+    addCassava() {
       this.xdata.push({
         id: this.xdata.length + 1,
         x1: 0,
@@ -448,7 +484,7 @@ export default {
         temputure: 0,
       });
     },
-    deletearea() {
+    deleteArea() {
       //เอา ID ของหมุดไปลบออกจาก Database แล้วกลับไปหน้า Showarea
       const vm = this;
       vm.$router.push("/show-area");
@@ -459,7 +495,7 @@ export default {
       const newyear = parseInt(year) + 543;
       return `${day}/${month}/${newyear}`;
     },
-    changepositionmap(newlat, newlng) {
+    changePositionMap(newlat, newlng) {
       this.mapcenter.lat = Number(newlat);
       this.mapcenter.lng = Number(newlng);
       this.latposition = Number(newlat);

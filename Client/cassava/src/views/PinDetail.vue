@@ -182,6 +182,10 @@ export default {
     editdata() {
       //ไปดึงที่หน้าเพิ่มข้อมูลมันสำปะหลัง พร้อมดึง ID จากฐานข้อมูล
       const vm = this;
+      vm.$store.commit({
+          type: "setEditMode",
+          editmode: true,
+        });
       vm.$router.push("/data-save");
     },
   },
