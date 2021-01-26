@@ -427,9 +427,9 @@ export default {
       if (i == "back") {
         vm.$router.push("/show-area");
       }
-      if (i == "save") {
+      /*if (i == "save") {
         vm.$router.push("/show-area");
-      }
+      }*/
     },
     removecassava(index) {
       console.log(index + 1);
