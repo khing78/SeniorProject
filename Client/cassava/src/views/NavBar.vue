@@ -1,10 +1,13 @@
 <template>
   <div class="nav-bar">
     <v-app-bar color="white" dense dark>
-      <v-toolbar-title
-        style="margin-top: 0px;"
-        class="navbar"
-        ><v-btn text @click="moveto('backtonormal')" style="color: #1ce227; font-size: 24px">ระบบแสดงคุณภาพมันสำปะหลัง</v-btn></v-toolbar-title
+      <v-toolbar-title style="margin-top: 0px" class="navbar"
+        ><v-btn
+          text
+          @click="moveto('backtonormal')"
+          style="color: #1ce227; font-size: 24px"
+          >ระบบแสดงคุณภาพมันสำปะหลัง</v-btn
+        ></v-toolbar-title
       >
       <v-spacer />
       <v-menu offset-y>
@@ -28,19 +31,56 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 import firebase from "firebase/app";
 import { mapGetters } from "vuex";
 export default {
   data: () => ({
     imagesrc: "../assets/iconusercc.png",
   }),
+  created(){
+    //this.checkloginstate()
+  },
   methods: {
     moveto() {
-      const vm = this
+      const vm = this;
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-          console.log(user)
+          console.log(user.uid);
+          vm.$store.commit({
+            type: "setUid",
+            uid: user.user.uid,
+          });
           vm.$router.push("/show-all-area");
+        } else {
+          vm.$router.push("/");
+        }
+      });
+    },
+    async checkloginstate() {
+      const vm = this;
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+         axios
+            .get("http://127.0.0.1:8000/uids/")
+            .then((response) => {
+              var i = 0;
+              while (i < response.data.length) {
+                if (response.data[i].uId == user.uid) {
+                  vm.$store.commit({
+                    type: "setUserName",
+                    username: response.data[i].username,
+                  });
+                  break
+                }
+                i++
+              }
+            })
+          console.log(user.uid);
+          vm.$store.commit({
+            type: "setUid",
+            uid: user.uid,
+          });
         } else {
           vm.$router.push("/");
         }
@@ -52,7 +92,7 @@ export default {
         .auth()
         .signOut()
         .then(() => {
-          this.$store.commit({
+          vm.$store.commit({
             type: "setUserName",
             name: "",
           });

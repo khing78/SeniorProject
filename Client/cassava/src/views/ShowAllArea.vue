@@ -77,7 +77,7 @@
             </template>
           </v-simple-table>
           <v-col class="text-center">
-            <v-btn @click="moveto('Accepted')">ตกลง</v-btn>
+            <v-btn @click="moveto('Accepted')" :disabled= acbuttonmode>ตกลง</v-btn>
           </v-col>
         </v-col>
       </v-row>
@@ -87,9 +87,11 @@
 
 <script>
 import { mapGetters } from "vuex";
+import firebase from "firebase/app";
 import axios from "axios";
 export default {
   data: () => ({
+    acbuttonmode:true,
     selectprovince: "",
     selectdistrict: "",
     selectid: 0,
@@ -162,7 +164,7 @@ export default {
   }),
   created() {
     //ทุกครั้งที่เข้าหน้ามาให้โหลดข้อมูลแปลงทั้งหมดจาก Database ใหม่
-    this.fetchdatafromdatabase();
+    this.fetchdatafromdatabase()
   },
   computed: {
     ...mapGetters({
@@ -173,6 +175,7 @@ export default {
   },
   methods: {
     async fetchdatafromdatabase() {
+      await this.checkloginstate()
       await axios
         .get("http://127.0.0.1:8000/farms/")
         .then((response) => {
@@ -264,12 +267,40 @@ export default {
     showeveryarea() {
       this.areashow = this.detailarea;
     },
+    async checkloginstate() {
+      const vm = this;
+      firebase.auth().onAuthStateChanged(function(user) {
+        if(user) {
+          axios.get("http://127.0.0.1:8000/uids/").then((response) => {
+            var i=0;
+            while(i<response.data.length) {
+              if(response.data[i].uId==user.uid) {
+                vm.$store.commit({
+                  type: "setUserName",
+                  username: response.data[i].username,
+                });
+                break;
+              }
+              i++;
+            }
+          });
+          console.log(user.uid);
+          vm.$store.commit({
+            type: "setUid",
+            uid: user.uid,
+          });
+        } else {
+          vm.$router.push("/");
+        }
+      });
+    },
     afterselectedfarm() {},
     moveto(i) {
       const vm = this;
       if (i == "addarea") {
         vm.$router.push("/add-area");
       } else if (typeof i == "number") {
+        this.acbuttonmode = false
         this.selectid = this.detailarea[i].idfarm;
         this.mapcenter = this.detailarea[i].position;
         this.plantingDate = this.detailarea[i].plantingDate;

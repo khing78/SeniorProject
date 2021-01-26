@@ -4,7 +4,11 @@
       <v-row>
         <v-col cols="12" md="3" sm="3"> ข้อมูลผลตรวจคุณภาพ</v-col>
         <v-col class="text-right">
-          <v-btn id="removebutton" rounded @click="deleteArea()"
+          <v-btn
+            id="removebutton"
+            rounded
+            @click="deleteArea()"
+            :disabled="deletebuttonmode"
             >ลบข้อมูล</v-btn
           >
         </v-col>
@@ -202,9 +206,11 @@ export default {
     modal: false,
     menu2: false,
     buttonmode: false,
+    deletebuttonmode: true,
     clickmode: true,
     modename: "ตั้งต้นใหม่",
     dragemode: false,
+    alreadyhaveid: [],
     lenghtofarea: 5,
     latposition: 0,
     lngposition: 0,
@@ -217,6 +223,7 @@ export default {
       },
     ],
     xdata: [
+      /*
       {
         id: 1,
         x1: 0.7568462,
@@ -260,7 +267,7 @@ export default {
         x6: 23.4575,
         temputure: 30.31,
         humidity: 16,
-      },
+      },*/
     ],
   }),
   computed: {
@@ -269,23 +276,25 @@ export default {
       areaname: "getNameArea",
       path: "getPath",
       positionarea: "getPosition",
-      editmode: "getEditMode"
+      editmode: "getEditMode",
+      selectedarea: "getSelectedArea",
     }),
     computedDateFormatted() {
       return this.formatDate(this.date);
     },
   },
   created() {
-    if(this.editmode == false){
-      this.starterfunction();
+    if (this.editmode == false) {
+      this.deletebuttonmode = true;
+      this.createNewCassava();
+    } else {
+      this.mode = 3;
+      this.deletebuttonmode = false;
+      this.starteditCassava();
     }
-    else {
-      console.log("True")
-    }
-    
   },
   methods: {
-    async starterfunction() {
+    async createNewCassava() {
       this.mapcenter = this.positionarea;
       var i = 0;
       var newpindata = [];
@@ -293,7 +302,7 @@ export default {
         .get("http://127.0.0.1:8000/area-check/")
         .then((response) => {
           while (i < response.data.length) {
-            if (response.data[i].farm_store == this.idfarm) {
+            if (response.data[i].cassava_area_id == this.selectedarea) {
               var idarea = response.data[i].cassava_area_id;
               var position = {
                 lat: Number(response.data[i].tree_latitude),
@@ -325,6 +334,66 @@ export default {
           console.error(err);
         });
     },
+    async starteditCassava() {
+      this.dragemode = true;
+      var i = 0;
+      var newpindata = [];
+      await axios.get("http://127.0.0.1:8000/area-check/").then((response) => {
+        while (i < response.data.length) {
+          if (response.data[i].cassava_area_id == this.selectedarea) {
+            var idarea = response.data[i].cassava_area_id;
+            var position = {
+              lat: Number(response.data[i].tree_latitude),
+              lng: Number(response.data[i].tree_longtitude),
+            };
+            var iconmarker = "";
+            newpindata.push({ idarea, position, iconmarker });
+          }
+          i++;
+        }
+        console.log(position.lat);
+        this.latposition = position.lat;
+        this.lngposition = position.lng;
+        this.mapcenter = position;
+        this.datapin = newpindata;
+      });
+      i = 0;
+      var newxdata = [];
+      axios
+        .get("http://127.0.0.1:8000/cassava-check/")
+        .then((response) => {
+          while (i < response.data.length) {
+            if (response.data[i].cassava_area == this.selectedarea) {
+              var id = response.data[i].id;
+              var x1 = response.data[i].spectrum1;
+              var x2 = response.data[i].spectrum2;
+              var x3 = response.data[i].spectrum3;
+              var x4 = response.data[i].spectrum4;
+              var x5 = response.data[i].spectrum5;
+              var x6 = response.data[i].spectrum6;
+              var temputure = response.data[i].temperature;
+              var humidity = response.data[i].humidity;
+              this.alreadyhaveid.push(id);
+              newxdata.push({
+                id,
+                x1,
+                x2,
+                x3,
+                x4,
+                x5,
+                x6,
+                temputure,
+                humidity,
+              });
+            }
+            i++;
+          }
+          this.xdata = newxdata;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
     changeMode() {
       if (this.mode == 1) {
         this.mode = 2;
@@ -349,7 +418,7 @@ export default {
         this.mode = 1;
         this.latposition = this.datapin[0].position.lat;
         this.lngposition = this.datapin[0].position.lng;
-        this.starterfunction();
+        this.createNewCassava();
         this.clickmode = true;
         this.dragemode = false;
         this.modename = "ตั้งต้นใหม่";
@@ -387,6 +456,77 @@ export default {
         type: "setIdArea",
         idarea: this.datapin[i].idarea,
       });
+    },
+    saveEditCassava() {
+      var i = 0;
+      var g = 0;
+      axios
+        .put("http://127.0.0.1:8000/area-check/" + this.selectedarea + "/", {
+          farm_store: this.idfarm,
+          starch_percentage: 45,
+          tree_latitude: this.latposition,
+          tree_longtitude: this.lngposition,
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      while (i < this.xdata.length) {
+        g = 0;
+        while (g < this.alreadyhaveid.length) {
+          if (this.xdata[i].id == this.alreadyhaveid[g]) {
+            axios
+              .put(
+                "http://127.0.0.1:8000/cassava-check/" + this.xdata[i].id + "/",
+                {
+                  cassava_area: this.selectedidarea,
+                  check_date: this.date,
+                  latitude: this.latposition,
+                  longtitude: this.lngposition,
+                  spectrum1: this.xdata[i].x1,
+                  spectrum2: this.xdata[i].x2,
+                  spectrum3: this.xdata[i].x3,
+                  spectrum4: this.xdata[i].x4,
+                  spectrum5: this.xdata[i].x5,
+                  spectrum6: this.xdata[i].x6,
+                  temperature: this.xdata[i].temputure,
+                  starchPercentage: "25",
+                  humidity: this.xdata[i].humidity,
+                }
+              )
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          } else {
+            axios
+              .post("http://127.0.0.1:8000/cassava-check/", {
+                cassava_area: this.selectedidarea,
+                check_date: this.date,
+                latitude: this.latposition,
+                longtitude: this.lngposition,
+                spectrum1: this.xdata[i].x1,
+                spectrum2: this.xdata[i].x2,
+                spectrum3: this.xdata[i].x3,
+                spectrum4: this.xdata[i].x4,
+                spectrum5: this.xdata[i].x5,
+                spectrum6: this.xdata[i].x6,
+                temperature: this.xdata[i].temputure,
+                starchPercentage: "25",
+                humidity: this.xdata[i].humidity,
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+          g++;
+        }
+        i++;
+      }
     },
     addNewArea() {
       console.log("//////////////////////" + this.idfarm);
@@ -455,6 +595,8 @@ export default {
     sendData() {
       if (this.mode == 2) {
         this.addNewArea();
+      } else if (this.mode == 3) {
+        this.saveEditCassava();
       } else {
         this.postData();
       }
@@ -474,7 +616,7 @@ export default {
     },
     addCassava() {
       this.xdata.push({
-        id: this.xdata.length + 1,
+        id: 99999,
         x1: 0,
         x2: 0,
         x3: 0,

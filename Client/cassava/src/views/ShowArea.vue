@@ -41,7 +41,9 @@
           <v-btn id="selectdatebutton" rounded @click="changedatemarker()"
             >ค้นหา</v-btn
           >
-          <v-btn id="selectdatebutton" rounded @click="testfunction()">ทั้งหมด</v-btn>
+          <v-btn id="selectdatebutton" rounded @click="testfunction()"
+            >ทั้งหมด</v-btn
+          >
         </v-col>
       </v-row>
       <v-row id="everythingisonfire">
@@ -74,18 +76,21 @@
         <v-col cols="12" md="3" sm="12">
           <v-row>
             <v-col cols="12" md="3" sm="3" id="framepinimg"
-              ><v-img id="pin" src="../assets/Agradeicon.png"></v-img></v-col
-            ><div id="detailgrade">เกรด A</div></v-row
+              ><v-img id="pin" src="../assets/Agradeicon.png"></v-img
+            ></v-col>
+            <div id="detailgrade">เกรด A</div></v-row
           >
           <v-row>
             <v-col cols="12" md="3" sm="3" id="framepinimg"
-              ><v-img id="pin" src="../assets/Bgradeicon.png"></v-img></v-col
-            ><div id="detailgrade">เกรด B</div></v-row
+              ><v-img id="pin" src="../assets/Bgradeicon.png"></v-img
+            ></v-col>
+            <div id="detailgrade">เกรด B</div></v-row
           >
           <v-row>
             <v-col cols="12" md="3" sm="3" id="framepinimg"
-              ><v-img id="pin" src="../assets/Cgradeicon.png"></v-img></v-col
-            ><div id="detailgrade">เกรด C</div></v-row
+              ><v-img id="pin" src="../assets/Cgradeicon.png"></v-img
+            ></v-col>
+            <div id="detailgrade">เกรด C</div></v-row
           >
           <div id="detailtext">
             คุณภาพโดยรวมทั้งแปลง
@@ -129,7 +134,7 @@ export default {
     gradeBtotal: 50,
     gradeCtotal: 40,
     totalstarch: 50,
-    mdk:[],
+    mdk: [],
     datapin: [
       {
         id: 0,
@@ -182,17 +187,11 @@ export default {
       newidfarm: "getIdFarm",
       areaname: "getNameArea",
       path: "getPath",
-      mapcenter: "getPosition"
+      mapcenter: "getPosition",
     }),
     computedDateFormatted() {
       return this.formatDate(this.date);
     },
-  },
-  updated() {
-    this.totalstarchfinder();
-  },
-  mounted() {
-    this.totalstarchfinder();
   },
   methods: {
     async fetchdatafromdatabase() {
@@ -225,7 +224,6 @@ export default {
             }
             i++;
           }
-          //this.mapcenter = cassavaareaidlist[0].position;
         })
         .catch((err) => {
           console.error(err);
@@ -273,37 +271,35 @@ export default {
         type: "setDetailArea",
         detailarea: cassavaareaidlist,
       });
-      this.datapin = cassavaareaidlist;
+      this.datapin = cassavaareaidlist
       this.markers = cassavaareaidlist;
     },
     changedatemarker() {
-
       var i = 0;
       var m = 0;
-      var newdatadate = []
-      var newavgstarch = 0
-      var selecteddate = this.date
-      while (i < this.datapin.length) {
-        newavgstarch = 0
-        newdatadate = []
+      var jo = [...this.datapin]
+      var newdatadate = [];
+      var newavgstarch = 0;
+      var selecteddate = this.date;
+      while (i < jo.length) {
+        newavgstarch = 0;
+        newdatadate = [];
         m = 0;
-        while (m < this.datapin[i].datadetail.length) {
-          if(this.datapin[i].datadetail[m].dategetdata == selecteddate){
-            newavgstarch += this.datapin[i].datadetail[m].starchPercentage
-            newdatadate.push(this.datapin[i].datadetail[m])
+        while (m < jo[i].datadetail.length) {
+          if (jo[i].datadetail[m].dategetdata == selecteddate) {
+            newavgstarch += jo[i].datadetail[m].starchPercentage;
+            newdatadate.push(jo[i].datadetail[m]);
           }
           m++;
         }
-        if (newdatadate.length != 0){
-          this.markers[i].avgstarch = newavgstarch/newdatadate.length
+        if (newdatadate.length != 0) {
+          this.markers[i].avgstarch = newavgstarch / newdatadate.length;
         }
-        this.markers[i].datadetail = newdatadate
+        this.markers[i].datadetail = [...newdatadate];
         i++;
       }
-      console.log("datapin")
-      console.log(this.datapin)
-      console.log("marker")
-      console.log(this.markers)
+      console.log(this.datapin);
+      console.log(this.markers);
     },
     totalstarchfinder() {
       var i = 0;
@@ -360,8 +356,8 @@ export default {
         };
       }
     },
-    resetsearch(){
-      this.markers = this.datapin
+    resetsearch() {
+      this.markers = this.datapin;
     },
     formatDate(date) {
       if (!date) return null;
@@ -431,15 +427,15 @@ export default {
   margin-right: 1vw;
   margin-bottom: 1vh;
 }
-#detailgrade{
+#detailgrade {
   font-size: 18px;
-  padding: 3vh
+  padding: 3vh;
 }
-#framepinimg{
+#framepinimg {
   height: 1vh;
   width: 1vw;
 }
-#namearea{
+#namearea {
   font-size: 28px;
 }
 </style>

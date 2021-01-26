@@ -57,6 +57,9 @@ export default {
       },
     },
   }),
+  created(){
+    this.checkloginstate()
+  },
   methods: {
     moveto(i) {
       console.log(i);
@@ -66,6 +69,14 @@ export default {
       } else if (i == "forgetpassword") {
         vm.$router.push("/forgetpassword");
       }
+    },
+    async checkloginstate() {
+      const vm = this;
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          vm.$router.push("/show-all-area");
+        }
+      });
     },
     loginfun(email, password) {
       const vm = this;
@@ -83,11 +94,10 @@ export default {
                     type: "setUserName",
                     username: response.data[i].username,
                   });
-                  break
+                  break;
                 }
-                i++
+                i++;
               }
-              
             })
             .catch((err) => {
               console.error(err);
