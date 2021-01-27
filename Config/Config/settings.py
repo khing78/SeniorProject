@@ -133,3 +133,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 DEBUG = True
+
+DATETIME_FORMAT = '%d-%m-%Y %H:%M:%S' 
+USE_L10N = False
+USE_TZ = False # if you plan to disable timezone support

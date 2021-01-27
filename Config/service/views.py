@@ -44,7 +44,7 @@ def uid_editor(request, pk) :
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response({'uidupdate' : uid}, serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         uid.delete()
@@ -122,7 +122,7 @@ def cassava_check_editor(request, pk) :
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response({'checkdupdate' : checked_data}, serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         checked_data.delete()

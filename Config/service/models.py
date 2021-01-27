@@ -44,7 +44,7 @@ class CassavaArea (models.Model) :
 
 class CassavaCheck (models.Model) :
     cassava_area = models.ForeignKey(CassavaArea, default=None, on_delete=models.CASCADE)
-    check_date = models.DateTimeField(default=timezone.now)
+    check_date = models.DateField(default=timezone.now)
     latitude = models.DecimalField(max_digits=30, decimal_places=15, default=0)
     longtitude = models.DecimalField(max_digits=30, decimal_places=15, default=0)
     spectrum1 = models.FloatField(max_length=20)
