@@ -538,9 +538,10 @@ export default {
         i++;
       }
       var m = 0;
+      console.log(this.deletecassavaid)
       while (m < this.deletecassavaid.length) {
         axios.delete(
-          "http://127.0.0.1:8000/cassava-check/" + this.xdata[i].id + "/",
+          "http://127.0.0.1:8000/cassava-check/" + this.deletecassavaid[m] + "/",
           {}
         );
         m++;
@@ -618,25 +619,21 @@ export default {
       } else {
         this.postData();
       }
+        this.$router.push("/show-area");
     },
     moveTo(i) {
       const vm = this;
       if (i == "back") {
         vm.$router.push("/show-area");
       }
-      /*if (i == "save") {
-        vm.$router.push("/show-area");
-      }*/
     },
     removeCassava(index) {
-      this.deletecassavaid.push(index);
-      console.log(this.deletecassavaid)
+      this.deletecassavaid.push(this.xdata[index].id);
       console.log(index + 1);
       this.xdata.splice(index, 1);
     },
     addCassava() {
       this.xdata.push({
-        id: 99999,
         x1: 0,
         x2: 0,
         x3: 0,
@@ -648,6 +645,10 @@ export default {
     },
     deleteArea() {
       //เอา ID ของหมุดไปลบออกจาก Database แล้วกลับไปหน้า Showarea
+      axios.delete(
+          "http://127.0.0.1:8000/area-check/" + this.selectedarea + "/",
+          {}
+        );
       const vm = this;
       vm.$router.push("/show-area");
     },
