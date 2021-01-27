@@ -142,7 +142,7 @@ def area_check_get(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-api_view(['PUT', 'DELETE'])
+@api_view(['PUT', 'DELETE'])
 def area_check(request, pk) :
     try:
         areas = CassavaArea.objects.get(pk=pk)
@@ -158,7 +158,7 @@ def area_check(request, pk) :
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response({'checkdupdate' : areas}, serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         areas.delete()
@@ -173,31 +173,3 @@ def measure(lat1, lon1, lat2, lon2) :
     d = R * c;
     metar = d * 1000
     return metar, print("distance : " ,metar); #meters
-
-api_view(['PUT', 'DELETE'])
-def cassava_check_new(request, pk) :
-    try:
-        checked_data = CassavaCheck.objects.get(pk=pk)
-    except CassavaCheck.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    if request.method == 'GET':
-        serializers = CassavaCheckSerializers(checked_data)
-        return Response(serializers.data)
-
-    elif request.method == 'PUT':
-        serializer = CassavaCheckSerializers(checked_data, data=request.data)
-        if pk is None :
-            serializer = CassavaCheckSerializers(data=request.data)
-            if serializer.is_valid() :
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST), print("this is none of pk")
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response({'checkdupdate' : checked_data}, serializer.errors, status=status.HTTP_400_BAD_REQUEST), print("this have pk")
-
-    elif request.method == 'DELETE':
-        checked_data.delete()
-        return Response(print(pk + ' is deleted') ,status=status.HTTP_400_BAD_REQUEST)
