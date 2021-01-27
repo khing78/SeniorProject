@@ -179,6 +179,12 @@ export default {
       },
     ],
   }),
+  update(){
+    this.totalstarchfinder()
+  },
+  mounted(){
+    this.totalstarchfinder()
+  },
   created() {
     this.fetchdatafromdatabase();
   },
@@ -277,18 +283,18 @@ export default {
     changedatemarker() {
       var i = 0;
       var m = 0;
-      var jo = [...this.datapin]
       var newdatadate = [];
       var newavgstarch = 0;
       var selecteddate = this.date;
-      while (i < jo.length) {
+      while (i < this.datapin.length) {
         newavgstarch = 0;
         newdatadate = [];
         m = 0;
-        while (m < jo[i].datadetail.length) {
-          if (jo[i].datadetail[m].dategetdata == selecteddate) {
-            newavgstarch += jo[i].datadetail[m].starchPercentage;
-            newdatadate.push(jo[i].datadetail[m]);
+        while (m < this.datapin[i].datadetail.length) {
+          if (this.datapin[i].datadetail[m].dategetdata == selecteddate) {
+            newavgstarch += this.datapin[i].datadetail[m].starchPercentage;
+            var datacassava = this.datapin[i].datadetail[m]
+            newdatadate.push(datacassava);
           }
           m++;
         }
