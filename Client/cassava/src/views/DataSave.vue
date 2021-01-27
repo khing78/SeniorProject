@@ -211,6 +211,7 @@ export default {
     modename: "ตั้งต้นใหม่",
     dragemode: false,
     alreadyhaveid: [],
+    deletecassavaid: [],
     lenghtofarea: 5,
     latposition: 0,
     lngposition: 0,
@@ -278,6 +279,7 @@ export default {
       positionarea: "getPosition",
       editmode: "getEditMode",
       selectedarea: "getSelectedArea",
+      selectdate: "getSelectedDate",
     }),
     computedDateFormatted() {
       return this.formatDate(this.date);
@@ -335,6 +337,7 @@ export default {
         });
     },
     async starteditCassava() {
+      this.date = this.selectdate;
       this.dragemode = true;
       var i = 0;
       var newpindata = [];
@@ -363,7 +366,10 @@ export default {
         .get("http://127.0.0.1:8000/cassava-check/")
         .then((response) => {
           while (i < response.data.length) {
-            if (response.data[i].cassava_area == this.selectedarea) {
+            if (
+              response.data[i].cassava_area == this.selectedarea &&
+              response.data[i].check_date.substr(0, 10) == this.selectdate
+            ) {
               var id = response.data[i].id;
               var x1 = response.data[i].spectrum1;
               var x2 = response.data[i].spectrum2;
@@ -460,6 +466,7 @@ export default {
     saveEditCassava() {
       var i = 0;
       var g = 0;
+      var p = 0;
       axios
         .put("http://127.0.0.1:8000/area-check/" + this.selectedarea + "/", {
           farm_store: this.idfarm,
@@ -474,6 +481,7 @@ export default {
           console.log(error);
         });
       while (i < this.xdata.length) {
+        p = 0;
         g = 0;
         while (g < this.alreadyhaveid.length) {
           if (this.xdata[i].id == this.alreadyhaveid[g]) {
@@ -481,7 +489,7 @@ export default {
               .put(
                 "http://127.0.0.1:8000/cassava-check/" + this.xdata[i].id + "/",
                 {
-                  cassava_area: this.selectedidarea,
+                  cassava_area: this.selectedarea,
                   check_date: this.date,
                   latitude: this.latposition,
                   longtitude: this.lngposition,
@@ -502,30 +510,40 @@ export default {
               .catch((error) => {
                 console.log(error);
               });
-          } else {
-            axios
-              .post("http://127.0.0.1:8000/cassava-check/", {
-                cassava_area: this.selectedidarea,
-                check_date: this.date,
-                latitude: this.latposition,
-                longtitude: this.lngposition,
-                spectrum1: this.xdata[i].x1,
-                spectrum2: this.xdata[i].x2,
-                spectrum3: this.xdata[i].x3,
-                spectrum4: this.xdata[i].x4,
-                spectrum5: this.xdata[i].x5,
-                spectrum6: this.xdata[i].x6,
-                temperature: this.xdata[i].temputure,
-                starchPercentage: "25",
-                humidity: this.xdata[i].humidity,
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+            p = 1;
           }
           g++;
         }
+        if (p == 0) {
+          axios
+            .post("http://127.0.0.1:8000/cassava-check/", {
+              cassava_area: this.selectedarea,
+              check_date: this.date,
+              latitude: this.latposition,
+              longtitude: this.lngposition,
+              spectrum1: this.xdata[i].x1,
+              spectrum2: this.xdata[i].x2,
+              spectrum3: this.xdata[i].x3,
+              spectrum4: this.xdata[i].x4,
+              spectrum5: this.xdata[i].x5,
+              spectrum6: this.xdata[i].x6,
+              temperature: this.xdata[i].temputure,
+              starchPercentage: "25",
+              humidity: this.xdata[i].humidity,
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
         i++;
+      }
+      var m = 0;
+      while (m < this.deletecassavaid.length) {
+        axios.delete(
+          "http://127.0.0.1:8000/cassava-check/" + this.xdata[i].id + "/",
+          {}
+        );
+        m++;
       }
     },
     addNewArea() {
@@ -611,6 +629,8 @@ export default {
       }*/
     },
     removeCassava(index) {
+      this.deletecassavaid.push(index);
+      console.log(this.deletecassavaid)
       console.log(index + 1);
       this.xdata.splice(index, 1);
     },

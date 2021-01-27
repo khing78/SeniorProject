@@ -46,11 +46,6 @@ export default {
       const vm = this;
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-          console.log(user.uid);
-          vm.$store.commit({
-            type: "setUid",
-            uid: user.user.uid,
-          });
           vm.$router.push("/show-all-area");
         } else {
           vm.$router.push("/");
