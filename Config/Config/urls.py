@@ -26,6 +26,7 @@ urlpatterns = [
     path('farms/<str:pk>/', views.farm_detail, name="farmlist-get&post"),
     path('result/', views.result, name="show-result"),
     path('cassava-check/', views.cassava_check, name="cassava-check"),
+    path('cassava-check/<str:pk>/', views.cassava_check_editor, name="cassava-check"),
     path('area-check/', views.area_check_get, name="area-check"),
     path('area-check/<str:pk>/', views.area_check, name="area-check-update-delete")
 ]
