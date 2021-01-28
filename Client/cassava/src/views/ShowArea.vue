@@ -8,7 +8,7 @@
       </v-row>
       <v-row>
         <v-col cols="12" md="2" sm="3"
-          ><v-btn id="addbutton" rounded @click="moveto('pin')"
+          ><v-btn id="addbutton" rounded @click="moveto('pin')" style="font-size: 18px"
             >+ เพิ่มข้อมูลมันสำปะหลัง</v-btn
           ></v-col
         >
@@ -37,7 +37,7 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
-        <v-col cols="12" md="4" sm="3" class="text-center">
+        <v-col cols="12" md="4" sm="3" >
           <v-btn id="selectdatebutton" rounded @click="changedatemarker()"
             >ค้นหา</v-btn
           >
@@ -109,10 +109,10 @@
       </v-row>
       <v-row>
         <v-col class="text-right">
-          <v-btn id="backbutton" rounded @click="moveto('back')"
+          <v-btn id="backbutton" rounded @click="moveto('back')" style="font-size: 18px"
             >ย้อนกลับ</v-btn
           >
-          <v-btn color="#FFB200" rounded @click="moveto('editarea')"
+          <v-btn color="#FFB200" rounded @click="moveto('editarea')" style="font-size: 18px"
             >จัดการแปลง</v-btn
           >
         </v-col>
@@ -304,8 +304,6 @@ export default {
         this.markers[i].datadetail = [...newdatadate];
         i++;
       }
-      console.log(this.datapin);
-      console.log(this.markers);
     },
     totalstarchfinder() {
       var i = 0;
@@ -406,7 +404,7 @@ export default {
 <style scoped>
 #detailtext {
   text-align: center;
-  size: 10px;
+  font-size: 20px;
   line-height: 2.5;
 }
 #showmap {

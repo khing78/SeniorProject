@@ -182,11 +182,11 @@
       </v-simple-table>
       <v-row>
         <v-col class="text-left">
-          <v-btn id="backbutton" rounded @click="moveTo('back')">ยกเลิก</v-btn>
+          <v-btn id="backbutton" rounded @click="moveTo('back')" style="font-size: 18px">ยกเลิก</v-btn>
         </v-col>
         <v-col class="text-right">
           <v-btn id="savebutton" rounded @click="moveTo('save'), sendData()"
-            >บันทึก</v-btn
+            style="font-size: 18px">บันทึก</v-btn
           >
         </v-col>
       </v-row>

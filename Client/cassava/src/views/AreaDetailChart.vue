@@ -36,11 +36,11 @@
             <line-chart
               id="chartee"
               ref="chartee"
-              style="height: 400px"
+              style="height: 500px"
             ></line-chart>
           </div>
         </v-col>
-        <v-col cols="12" md="3">
+        <v-col cols="12" md="3" style="font-size: 20px">
           เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassava }}
           <br />
           เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
@@ -49,7 +49,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-btn rounded @click="moveto('back')"> ย้อนกลับ </v-btn>
+        <v-btn rounded @click="moveto('back')" style="font-size: 18px"> ย้อนกลับ </v-btn>
       </v-row>
     </v-container>
   </v-main>

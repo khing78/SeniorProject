@@ -13,7 +13,7 @@
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="white" v-bind="attrs" v-on="on" text :disabled="!name">
-            <div id="username" style="color: #1ce227; padding-right: 5px">
+            <div id="username" style="color: #1ce227; padding-right: 5px; font-size: 18px">
               {{ name }}
             </div>
           </v-btn>

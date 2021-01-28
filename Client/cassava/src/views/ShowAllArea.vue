@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-row>
         <v-col>
-          <v-btn color="#1CE227" rounded @click="moveto('addarea')"
+          <v-btn color="#1CE227" style="font-size: 18px" rounded @click="moveto('addarea')"
             >+ เพิ่มแปลงใหม่</v-btn
           >
         </v-col>
@@ -28,10 +28,11 @@
           <v-btn
             id="filterprovincebutton"
             @click="selectfilter(selectprovince, selectdistrict)"
+            style="font-size: 18px"
           >
             ค้นหา
           </v-btn>
-          <v-btn id="showeverything" @click="showeveryarea()"> ทั้งหมด </v-btn>
+          <v-btn id="showeverything" @click="showeveryarea()" style="font-size: 18px"> ทั้งหมด </v-btn>
         </v-col>
       </v-row>
       <v-row>
@@ -58,8 +59,8 @@
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-center" id="areaname">ชื่อแปลง</th>
-                  <th class="text-center" id="areaname">รายละเอียด</th>
+                  <th class="text-center" id="areaname" style="font-size: 20px">ชื่อแปลง</th>
+                  <th class="text-center" id="areaname" style="font-size: 20px">รายละเอียด</th>
                 </tr>
               </thead>
               <tbody>
@@ -70,8 +71,8 @@
                   style="text: center"
                   @click="moveto(item.id - 1)"
                 >
-                  <td>{{ item.name }}</td>
-                  <td>อ.{{ item.district }} จ.{{ item.province }}</td>
+                  <td style="font-size: 18px">{{ item.name }}</td>
+                  <td style="font-size: 18px">อ.{{ item.district }} จ.{{ item.province }}</td>
                 </tr>
               </tbody>
             </template>

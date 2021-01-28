@@ -3,11 +3,11 @@
     <v-container>
       <v-row>
         <v-col cols="12" class="text-right">
-          <v-btn rounded @click="moveto('chart')">กราฟ</v-btn>
+          <v-btn rounded @click="moveto('chart')" style="font-size: 18px">กราฟ</v-btn>
         </v-col>
       </v-row>
       <v-row class="text-center" justify="center">
-        <v-col class="text-center">
+        <v-col class="text-center" style="font-size: 20px">
           เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchavg }}
           <br />
           วันที่เก็บข้อมูล: {{ showdate }}
@@ -16,17 +16,17 @@
           <br />
         </v-col>
       </v-row>
-      <v-simple-table fixed-header height="400px" style="padding-bottom: 20px">
+      <v-simple-table fixed-header height="400px" style="padding-bottom: 20px; font-size: 18px">
         <template v-slot:default>
           <thead>
             <tr>
-              <th class="text-center" style="background-color: #ffa9a9">
+              <th class="text-center" style="background-color: #ffa9a9; font-size: 18px">
                 เปอร์เซ็นต์แป้ง(%)
               </th>
-              <th class="text-center" style="background-color: #ffa9a9">
+              <th class="text-center" style="background-color: #ffa9a9; font-size: 18px">
                 อุณหภูมิ(เซลเซียส)
               </th>
-              <th class="text-center" style="background-color: #ffa9a9">
+              <th class="text-center" style="background-color: #ffa9a9; font-size: 18px">
                 ความชื้นสัมพัทธ์(%)
               </th>
             </tr>
@@ -42,10 +42,10 @@
       </v-simple-table>
       <v-row>
         <v-col class="text-left">
-          <v-btn color="#F2F2F2" rounded @click="moveto('back')">ย้อนกลับ</v-btn>
+          <v-btn color="#F2F2F2" rounded @click="moveto('back')" style="font-size: 18px">ย้อนกลับ</v-btn>
         </v-col>
         <v-col class="text-right">
-          <v-btn color="#FFB200" rounded @click="editdata()">แก้ไข</v-btn>
+          <v-btn color="#FFB200" rounded @click="editdata()" style="font-size: 18px">แก้ไข</v-btn>
         </v-col>
       </v-row>
     </v-container>
