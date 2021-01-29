@@ -3,7 +3,7 @@
     <v-container id="mainbackground" fill-height fluid style="width: 100%">
       <v-card width="400" class="mx-auto mt-5">
         <div id="formlogin">
-          <div id="titlelogin">เข้าสู่ระบบ</div>
+          <div id="titlelogin" style="font-size: 30px">เข้าสู่ระบบ</div>
           <div id="errormessager">{{ errorM }}</div>
           <div id="inputlogin">
             อีเมล

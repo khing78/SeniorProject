@@ -45,7 +45,9 @@
           <br />
           เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
           <br />
-          อุณหภูมิเฉลี่ย(เซลเซียส): {{ temputure }}
+          อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
+          <br />
+          ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{humnaity}}
         </v-col>
       </v-row>
       <v-row>
@@ -72,6 +74,7 @@ export default {
     modal: false,
     menu2: false,
     areaname: "",
+    humnaity: 0,
     gradecassava: "B",
     precentstarchaverage: 28.52,
     dategetdata: "26/5/2563",
@@ -222,6 +225,7 @@ export default {
       var dayforchart = [];
       var precentforchart = [];
       var tempforcal = [];
+      var huma = [];
       while (i < this.pindetail.length) {
         var [selectday, selectmonth, selectyear] = this.pindetail[
           i
@@ -232,25 +236,29 @@ export default {
           dayforchart.push(this.pindetail[i].daygetdata);
           precentforchart.push(this.pindetail[i].precentstarch);
           tempforcal.push(this.pindetail[i].temputure);
+          huma.push(this.pindetail[i].temputure)
         
         }
         i++;
       }
-      return [dayforchart, precentforchart, tempforcal];
+      return [dayforchart, precentforchart, tempforcal,humidity];
     },
-    changedetailside(precentforchart, tempforcal) {
+    changedetailside(precentforchart, tempforcal, humidity) {
       var i = 0;
       var totalprecent = 0;
       var avgprecent = 0;
       var tempall = 0;
+      var humna = 0
       while (i < precentforchart.length) {
         totalprecent += precentforchart[i];
         tempall += parseFloat(tempforcal[i]);
+        huma += parseFloat(humidity[i])
         i++;
       }
       avgprecent = totalprecent / precentforchart.length;
       this.precentstarchaverage = avgprecent.toFixed(2);
       this.temputure = (tempall / tempforcal.length).toFixed(2);
+      this.humnaity = (huma/ humidity.length).toFixed(2);
       if (avgprecent < 25) {
         this.gradecassava = "C";
       } else if (avgprecent < 30) {

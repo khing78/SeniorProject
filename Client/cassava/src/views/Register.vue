@@ -3,7 +3,7 @@
     <v-container id="mainbackground" fill-height fluid style="width: 100%">
       <v-card width="400" class="mx-auto mt-5">
         <div id="formregister">
-          <div id="titleregister">สมัครสมาชิก</div>
+          <div id="titleregister" style="font-size: 28px">สมัครสมาชิก</div>
           <v-form id="inputregister" v-model="inputregi">
             ชื่อผู้ใช้
             <v-text-field v-model="username" ></v-text-field>

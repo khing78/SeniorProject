@@ -3,7 +3,7 @@
     <v-container id="mainbackground" fill-height fluid style="width: 100%">
       <v-card width="400" class="mx-auto mt-5">
         <div id="formregister">
-          <div id="titleregister">ลืมรหัสผ่าน</div>
+          <div id="titleregister" style="font-size: 28px">ลืมรหัสผ่าน</div>
           <div id="inputregister">
             {{errorM}}
             อีเมล
