@@ -8,7 +8,11 @@
       </v-row>
       <v-row>
         <v-col cols="12" md="2" sm="3"
-          ><v-btn id="addbutton" rounded @click="moveto('pin')" style="font-size: 18px"
+          ><v-btn
+            id="addbutton"
+            rounded
+            @click="moveto('pin')"
+            style="font-size: 18px"
             >+ เพิ่มข้อมูลมันสำปะหลัง</v-btn
           ></v-col
         >
@@ -37,11 +41,11 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
-        <v-col cols="12" md="4" sm="3" >
+        <v-col cols="12" md="4" sm="3">
           <v-btn id="selectdatebutton" rounded @click="changedatemarker()"
             >ค้นหา</v-btn
           >
-          <v-btn id="selectdatebutton" rounded @click="testfunction()"
+          <v-btn id="selectdatebutton" rounded @click="resetsearch()"
             >ทั้งหมด</v-btn
           >
         </v-col>
@@ -109,10 +113,18 @@
       </v-row>
       <v-row>
         <v-col class="text-right">
-          <v-btn id="backbutton" rounded @click="moveto('back')" style="font-size: 18px"
+          <v-btn
+            id="backbutton"
+            rounded
+            @click="moveto('back')"
+            style="font-size: 18px"
             >ย้อนกลับ</v-btn
           >
-          <v-btn color="#FFB200" rounded @click="moveto('editarea')" style="font-size: 18px"
+          <v-btn
+            color="#FFB200"
+            rounded
+            @click="moveto('editarea')"
+            style="font-size: 18px"
             >จัดการแปลง</v-btn
           >
         </v-col>
@@ -179,13 +191,13 @@ export default {
       },
     ],
   }),
-  update(){
-    this.totalstarchfinder()
-  },
-  mounted(){
-    this.totalstarchfinder()
+  updated() {
+    this.totalstarchfinder();
   },
   created() {
+    if (this.newidfarm == ""){
+        this.$router.push("/show-all-area");
+      }
     this.fetchdatafromdatabase();
   },
   computed: {
@@ -234,34 +246,31 @@ export default {
         .catch((err) => {
           console.error(err);
         });
+        var newlistdata = []
       await axios
         .get("http://127.0.0.1:8000/cassava-check/")
         .then((response) => {
           i = 0;
           while (i < cassavaareaidlist.length) {
-            var listcassava = [];
+            newlistdata = []
             m = 0;
             while (m < response.data.length) {
               if (
                 response.data[m].cassava_area ==
                 cassavaareaidlist[i].cassavaareaid
               ) {
+                console.log(cassavaareaidlist[i].datadetail.length);
                 var dategetdata = response.data[m].check_date.slice(0, 10);
                 var starchPercentage = response.data[m].starchPercentage;
                 var humidity = response.data[m].humidity;
                 var temperature = response.data[m].temperature;
                 starch += response.data[m].starchPercentage;
                 lengthstach++;
-                listcassava.push({
-                  dategetdata,
-                  starchPercentage,
-                  humidity,
-                  temperature,
-                });
+                newlistdata.push({dategetdata,starchPercentage,humidity,temperature})
               }
               m++;
             }
-            cassavaareaidlist[i].datadetail = listcassava;
+            cassavaareaidlist[i].datadetail = newlistdata
             if (cassavaareaidlist[i].datadetail.length !== 0) {
               cassavaareaidlist[i].avgstarch = starch / lengthstach;
             }
@@ -277,32 +286,32 @@ export default {
         type: "setDetailArea",
         detailarea: cassavaareaidlist,
       });
-      this.datapin = cassavaareaidlist
+      this.datapin = cassavaareaidlist;
       this.markers = cassavaareaidlist;
+      console.log(this.markers);
     },
     changedatemarker() {
-      var i = 0;
-      var m = 0;
-      var newdatadate = [];
-      var newavgstarch = 0;
-      var selecteddate = this.date;
-      while (i < this.datapin.length) {
+      var i;
+      var m;
+      var newavgstarch;
+      var datainside = [];
+      this.markers = [];
+      for (i = 0; i < this.datapin.length; i++) {
+        datainside = [];
         newavgstarch = 0;
-        newdatadate = [];
-        m = 0;
-        while (m < this.datapin[i].datadetail.length) {
-          if (this.datapin[i].datadetail[m].dategetdata == selecteddate) {
+        for (m = 0; m < this.datapin[i].datadetail.length; m++) {
+          if (this.datapin[i].datadetail[m].dategetdata == this.date) {
+            datainside.push(this.datapin[i].datadetail[m]);
             newavgstarch += this.datapin[i].datadetail[m].starchPercentage;
-            var datacassava = this.datapin[i].datadetail[m]
-            newdatadate.push(datacassava);
           }
-          m++;
         }
-        if (newdatadate.length != 0) {
-          this.markers[i].avgstarch = newavgstarch / newdatadate.length;
+        if (datainside.length != 0) {
+          var cassavaareaid = this.datapin[i].cassavaareaid;
+          var position = this.datapin[i].position;
+          var datadetail = datainside;
+          var avgstarch = newavgstarch / datainside.length;
+          this.markers.push({ avgstarch, datadetail, position, cassavaareaid });
         }
-        this.markers[i].datadetail = [...newdatadate];
-        i++;
       }
     },
     totalstarchfinder() {

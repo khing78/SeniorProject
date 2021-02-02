@@ -94,6 +94,7 @@ export default {
   },
   computed:{
       ...mapGetters({
+      newidfarm: "getIdFarm",
       areadetail: "getDetailArea",
       selecteddate : "getSelectedDate",
       selectedarea : "getSelectedArea",
@@ -102,6 +103,9 @@ export default {
     
   },
   async created(){
+    if (this.newidfarm == ""){
+        this.$router.push("/show-all-area");
+      }
     this.startshow()
     this.formatDate(this.selecteddate)
   },

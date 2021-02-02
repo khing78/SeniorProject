@@ -182,11 +182,21 @@
       </v-simple-table>
       <v-row>
         <v-col class="text-left">
-          <v-btn id="backbutton" rounded @click="moveTo('back')" style="font-size: 18px">ยกเลิก</v-btn>
+          <v-btn
+            id="backbutton"
+            rounded
+            @click="moveTo('back')"
+            style="font-size: 18px"
+            >ยกเลิก</v-btn
+          >
         </v-col>
         <v-col class="text-right">
-          <v-btn id="savebutton" rounded @click="moveTo('save'), sendData()"
-            style="font-size: 18px">บันทึก</v-btn
+          <v-btn
+            id="savebutton"
+            rounded
+            @click="moveTo('save'), sendData()"
+            style="font-size: 18px"
+            >บันทึก</v-btn
           >
         </v-col>
       </v-row>
@@ -286,6 +296,9 @@ export default {
     },
   },
   created() {
+    if (this.newidfarm == ""){
+        this.$router.push("/show-all-area");
+      }
     if (this.editmode == false) {
       this.deletebuttonmode = true;
       this.createNewCassava();
@@ -306,7 +319,7 @@ export default {
         .get("http://127.0.0.1:8000/area-check/")
         .then((response) => {
           while (i < response.data.length) {
-            if (response.data[i].cassava_area_id == this.selectedarea) {
+            if (response.data[i].farm_store == this.idfarm) {
               var idarea = response.data[i].cassava_area_id;
               var position = {
                 lat: Number(response.data[i].tree_latitude),
@@ -364,7 +377,7 @@ export default {
       });
       i = 0;
       var newxdata = [];
-      axios
+     await axios
         .get("http://127.0.0.1:8000/cassava-check/")
         .then((response) => {
           while (i < response.data.length) {
@@ -465,11 +478,11 @@ export default {
         idarea: this.datapin[i].idarea,
       });
     },
-    saveEditCassava() {
+   async saveEditCassava() {
       var i = 0;
       var g = 0;
       var p = 0;
-      axios
+     await axios
         .put("http://127.0.0.1:8000/area-check/" + this.selectedarea + "/", {
           farm_store: this.idfarm,
           starch_percentage: 45,
@@ -487,7 +500,7 @@ export default {
         g = 0;
         while (g < this.alreadyhaveid.length) {
           if (this.xdata[i].id == this.alreadyhaveid[g]) {
-            axios
+           await axios
               .put(
                 "http://127.0.0.1:8000/cassava-check/" + this.xdata[i].id + "/",
                 {
@@ -517,7 +530,7 @@ export default {
           g++;
         }
         if (p == 0) {
-          axios
+         await axios
             .post("http://127.0.0.1:8000/cassava-check/", {
               cassava_area: this.selectedarea,
               check_date: this.date,
@@ -549,9 +562,9 @@ export default {
         m++;
       }
     },
-    addNewArea() {
+   async addNewArea() {
       console.log("//////////////////////" + this.idfarm);
-      axios
+     await axios
         .post("http://127.0.0.1:8000/area-check/", {
           farm_store: this.idfarm,
           starch_percentage: 45,
@@ -588,10 +601,10 @@ export default {
           console.log(error);
         });
     },
-    postData() {
+    async postData() {
       var i = 0;
       while (i < this.xdata.length) {
-        axios
+       await axios
           .post("http://127.0.0.1:8000/cassava-check/", {
             cassava_area: this.selectedidarea,
             check_date: this.date,

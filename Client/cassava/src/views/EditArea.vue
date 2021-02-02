@@ -169,12 +169,16 @@ export default {
       return this.formatDate(this.date);
     },
     ...mapGetters({
+      newidfarm: "getIdFarm",
       province: "getProvince",
       selectedidfarm: "getIdFarm",
       uid: "getUid"
     }),
   },
   async created(){
+    if (this.newidfarm == ""){
+        this.$router.push("/show-all-area");
+      }
     //ดึงข้อมูลจาก Database
     this.startshow()
   },

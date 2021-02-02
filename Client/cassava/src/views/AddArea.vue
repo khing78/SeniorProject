@@ -127,7 +127,9 @@
           <v-btn rounded style="margin-end: 10px" @click="moveto('back')"
             >ยกเลิก</v-btn
           >
-          <v-btn color="#1CE227" rounded @click="moveto('save'), addnewfarm()">บันทึก</v-btn>
+          <v-btn color="#1CE227" rounded @click="moveto('save'), addnewfarm()"
+            >บันทึก</v-btn
+          >
         </v-col>
       </v-row>
     </v-container>
@@ -136,7 +138,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import axios from 'axios';
+import axios from "axios";
 import firebase from "firebase/app";
 import "firebase/auth";
 export default {
@@ -152,7 +154,7 @@ export default {
     positiona: {},
     markers: [
       { Id: 1, name: "1", position: { lat: 16.466022, lng: 102.898313 } },
-    ],  
+    ],
     areaname: "",
     selectprovince: "",
     selectdistrict: "",
@@ -166,12 +168,12 @@ export default {
     }),
   },
   methods: {
-    async addnewfarm(){
+    async addnewfarm() {
       var user = firebase.auth().currentUser;
-      console.log(user.uid + "  +  this lat " )
-      console.log(this.newpath)
+      console.log(user.uid + "  +  this lat ");
+      console.log(this.newpath);
       await axios
-        .post("http://127.0.0.1:8000/farms/",{
+        .post("http://127.0.0.1:8000/farms/", {
           uid_store: user.uid,
           farm_name: this.areaname,
           province: this.selectprovince,
@@ -188,14 +190,14 @@ export default {
           latitude_mark3: this.newpath[3].lat,
           longtitude_mark3: this.newpath[3].lng,
           latitude_mark4: this.newpath[4].lat,
-          longtitude_mark4: this.newpath[4].lng
+          longtitude_mark4: this.newpath[4].lng,
         })
         .then((reponse) => {
           console.log(reponse);
         })
         .catch((error) => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
     moveto(i) {
       const vm = this;
@@ -205,6 +207,33 @@ export default {
         // ส่งข้อมูลไปที่ Database เพื่อเก็บข้อมูล
         vm.$router.push("/show-all-area");
       }
+    },
+    checkloginstate() {
+      const vm = this;
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          axios.get("http://127.0.0.1:8000/uids/").then((response) => {
+            var i = 0;
+            while (i < response.data.length) {
+              if (response.data[i].uId == user.uid) {
+                vm.$store.commit({
+                  type: "setUserName",
+                  username: response.data[i].username,
+                });
+                break;
+              }
+              i++;
+            }
+          });
+          console.log(user.uid);
+          vm.$store.commit({
+            type: "setUid",
+            uid: user.uid,
+          });
+        } else {
+          vm.$router.push("/");
+        }
+      });
     },
     changefrommetertolatlong(width, long) {
       //เปลี่ยน กว้างยาว เป็น lat long
@@ -293,6 +322,7 @@ export default {
     },
   },
   created() {
+    this.checkloginstate()
     navigator.geolocation.getCurrentPosition((position) => {
       (this.mapcenter = {
         lat: position.coords.latitude,

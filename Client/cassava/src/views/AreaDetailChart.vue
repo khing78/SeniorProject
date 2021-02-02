@@ -77,10 +77,9 @@ export default {
     menu2: false,
     areaname: "",
     humnaity: 0,
-    gradecassava: "B",
-    precentstarchaverage: 28.52,
-    dategetdata: "26/5/2563",
-    temputure: 35.25,
+    gradecassava: "-",
+    precentstarchaverage: 0,
+    temputure: 0,
     addDatachartw: [0, 1, 2, 3],
     datachart: {
       day: [
@@ -238,7 +237,7 @@ export default {
           dayforchart.push(this.pindetail[i].daygetdata);
           precentforchart.push(this.pindetail[i].precentstarch);
           tempforcal.push(this.pindetail[i].temputure);
-          huma.push(this.pindetail[i].temputure);
+          huma.push(this.pindetail[i].humidity);
         }
         i++;
       }

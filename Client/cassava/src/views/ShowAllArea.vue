@@ -163,6 +163,9 @@ export default {
       },
     ],
   }),
+  mounted(){
+    this.fetchdatafromdatabase()
+  },
   created() {
     //ทุกครั้งที่เข้าหน้ามาให้โหลดข้อมูลแปลงทั้งหมดจาก Database ใหม่
     this.fetchdatafromdatabase()
@@ -268,7 +271,7 @@ export default {
     showeveryarea() {
       this.areashow = this.detailarea;
     },
-    async checkloginstate() {
+    checkloginstate() {
       const vm = this;
       firebase.auth().onAuthStateChanged(function(user) {
         if(user) {
