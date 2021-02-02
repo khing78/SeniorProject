@@ -289,8 +289,10 @@ export default {
     if (this.editmode == false) {
       this.deletebuttonmode = true;
       this.createNewCassava();
-    } else {
+    } else 
+    if (this.editmode == true){
       this.mode = 3;
+      this.buttonmode = true
       this.deletebuttonmode = false;
       this.starteditCassava();
     }

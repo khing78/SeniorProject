@@ -47,11 +47,13 @@
           <br />
           อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
           <br />
-          ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{humnaity}}
+          ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{ humnaity }}
         </v-col>
       </v-row>
       <v-row>
-        <v-btn rounded @click="moveto('back')" style="font-size: 18px"> ย้อนกลับ </v-btn>
+        <v-btn rounded @click="moveto('back')" style="font-size: 18px">
+          ย้อนกลับ
+        </v-btn>
       </v-row>
     </v-container>
   </v-main>
@@ -97,80 +99,81 @@ export default {
         daygetdata: "15/11/2563",
         precentstarch: 10.45,
         temputure: 25.05,
-        humidity: 40
+        humidity: 40,
       },
       {
         daygetdata: "18/11/2563",
         precentstarch: 13.43,
         temputure: 32.02,
-        humidity: 30
+        humidity: 30,
       },
       {
         daygetdata: "27/11/2563",
         precentstarch: 18.85,
         temputure: 31.12,
-        humidity:50
+        humidity: 50,
       },
       {
         daygetdata: "05/12/2563",
         precentstarch: 22.15,
         temputure: 28.04,
-        humidity: 40
+        humidity: 40,
       },
       {
         daygetdata: "08/12/2563",
         precentstarch: 25.12,
         temputure: 27.03,
-        humidity: 30
+        humidity: 30,
       },
       {
         daygetdata: "19/12/2563",
         precentstarch: 24.53,
         temputure: 26.15,
-        humidity: 60
+        humidity: 60,
       },
       {
         daygetdata: "20/12/2563",
         precentstarch: 21.25,
         temputure: 24.05,
-        humidity: 60
+        humidity: 60,
       },
     ],
   }),
   computed: {
     ...mapGetters({
       detailarea: "getDetailArea",
-      selectedarea: "getSelectedArea"
+      selectedarea: "getSelectedArea",
     }),
     computedDatetoFormatted() {
       return this.formatDate(this.dateto);
     },
   },
-  created(){
-    this.startshow()
+  created() {
+    this.startshow();
   },
   methods: {
-    startshow(){
-      this.pindetail = []
-      var i = 0
-      var dataforchart = []
-      while (i < this.detailarea.length){
-        if(this.detailarea[i].cassavaareaid == this.selectedarea){
-          dataforchart.push(this.detailarea[i])
-          break
+    startshow() {
+      this.pindetail = [];
+      var i = 0;
+      var dataforchart = [];
+      while (i < this.detailarea.length) {
+        if (this.detailarea[i].cassavaareaid == this.selectedarea) {
+          dataforchart.push(this.detailarea[i]);
+          break;
         }
-        i++
+        i++;
       }
-      i = 0
-      while(i < dataforchart[0].datadetail.length){
-        var daygetdata = this.changeformatforshow(dataforchart[0].datadetail[i].dategetdata)
-        var precentstarch = dataforchart[0].datadetail[i].starchPercentage
-        var temputure = dataforchart[0].datadetail[i].temperature
-        var humidity = dataforchart[0].datadetail[i].humidity
-        this.pindetail.push({daygetdata,precentstarch,temputure,humidity})
-        i++
+      i = 0;
+      while (i < dataforchart[0].datadetail.length) {
+        var daygetdata = this.changeformatforshow(
+          dataforchart[0].datadetail[i].dategetdata
+        );
+        var precentstarch = dataforchart[0].datadetail[i].starchPercentage;
+        var temputure = dataforchart[0].datadetail[i].temperature;
+        var humidity = dataforchart[0].datadetail[i].humidity;
+        this.pindetail.push({ daygetdata, precentstarch, temputure, humidity });
+        i++;
       }
-      
     },
     moveto(i) {
       const vm = this;
@@ -210,7 +213,6 @@ export default {
       return `${day}/${month}/${newyear}`;
     },
 
-    
     checkday() {
       var newfromdate;
       var newtodate;
@@ -236,29 +238,28 @@ export default {
           dayforchart.push(this.pindetail[i].daygetdata);
           precentforchart.push(this.pindetail[i].precentstarch);
           tempforcal.push(this.pindetail[i].temputure);
-          huma.push(this.pindetail[i].temputure)
-        
+          huma.push(this.pindetail[i].temputure);
         }
         i++;
       }
-      return [dayforchart, precentforchart, tempforcal,humidity];
+      return [dayforchart, precentforchart, tempforcal, huma];
     },
     changedetailside(precentforchart, tempforcal, humidity) {
       var i = 0;
       var totalprecent = 0;
       var avgprecent = 0;
       var tempall = 0;
-      var humna = 0
+      var humna = 0;
       while (i < precentforchart.length) {
         totalprecent += precentforchart[i];
         tempall += parseFloat(tempforcal[i]);
-        huma += parseFloat(humidity[i])
+        humna += parseFloat(humidity[i]);
         i++;
       }
       avgprecent = totalprecent / precentforchart.length;
       this.precentstarchaverage = avgprecent.toFixed(2);
       this.temputure = (tempall / tempforcal.length).toFixed(2);
-      this.humnaity = (huma/ humidity.length).toFixed(2);
+      this.humnaity = (humna / humidity.length).toFixed(2);
       if (avgprecent < 25) {
         this.gradecassava = "C";
       } else if (avgprecent < 30) {
@@ -268,8 +269,13 @@ export default {
       }
     },
     changechart() {
-      var [dayforchart, precentforchart, tempforcal] = this.checkday();
-      this.changedetailside(precentforchart, tempforcal);
+      var [
+        dayforchart,
+        precentforchart,
+        tempforcal,
+        humnidity,
+      ] = this.checkday();
+      this.changedetailside(precentforchart, tempforcal, humnidity);
       var chart = this.$refs.chartee;
       chart.datacollection.labels = dayforchart;
       chart.datacollection.datasets[0].data = precentforchart;
