@@ -40,6 +40,9 @@
           <gmap-map
             :center="mapcenter"
             :zoom="16"
+            :options="{
+              styles:hide
+            }"
             style="width: 100%; height: 500px"
             map-type-id="satellite"
           >
@@ -92,6 +95,17 @@ import firebase from "firebase/app";
 import axios from "axios";
 export default {
   data: () => ({
+      hide: [
+    {
+      featureType: "poi",
+      stylers: [{ visibility: "off" }],
+    },
+    {
+      featureType: "transit",
+      elementType: "labels.icon",
+      stylers: [{ visibility: "off" }],
+    },
+  ],
     acbuttonmode:true,
     selectprovince: "",
     selectdistrict: "",

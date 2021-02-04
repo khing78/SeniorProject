@@ -68,6 +68,9 @@
             id="map"
             :center="mapcenter"
             :zoom="18"
+            :options="{
+              styles: hide,
+            }"
             style="width: 100%; height: 500px"
             map-type-id="terrain"
           >
@@ -209,6 +212,17 @@ import { mapGetters } from "vuex";
 
 export default {
   data: () => ({
+    hide: [
+    {
+      featureType: "poi",
+      stylers: [{ visibility: "off" }],
+    },
+    {
+      featureType: "transit",
+      elementType: "labels.icon",
+      stylers: [{ visibility: "off" }],
+    },
+  ],
     date: new Date().toISOString().substr(0, 10),
     selectedidarea: "",
     mode: 1,

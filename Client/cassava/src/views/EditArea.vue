@@ -8,6 +8,9 @@
             id="map"
             :center="mapcenter"
             :zoom="18"
+            :options="{
+              styles: hide,
+            }"
             style="width: 100%; height: 500px"
             map-type-id="terrain"
           >
@@ -139,11 +142,22 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 export default {
   data: () => ({
+    hide: [
+      {
+        featureType: "poi",
+        stylers: [{ visibility: "off" }],
+      },
+      {
+        featureType: "transit",
+        elementType: "labels.icon",
+        stylers: [{ visibility: "off" }],
+      },
+    ],
     menu: false,
     modal: false,
     menu2: false,
     date: "2020-11-16",
-    idfarm:"",
+    idfarm: "",
     mapcenter: { lat: 16.466022, lng: 102.898313, wide: 100, long: 100 },
     newpath: [
       { lat: 16.466022, lng: 102.898313 },
@@ -172,55 +186,63 @@ export default {
       newidfarm: "getIdFarm",
       province: "getProvince",
       selectedidfarm: "getIdFarm",
-      uid: "getUid"
+      uid: "getUid",
     }),
   },
-  async created(){
-    if (this.newidfarm == ""){
-        this.$router.push("/show-all-area");
-      }
+  async created() {
+    if (this.newidfarm == "") {
+      this.$router.push("/show-all-area");
+    }
     //ดึงข้อมูลจาก Database
-    this.startshow()
+    this.startshow();
   },
   methods: {
-    startshow(){
-      this.markers = []
+    startshow() {
+      this.markers = [];
       axios
         .get("http://127.0.0.1:8000/farms/")
         .then((response) => {
           var i = 0;
           while (i < response.data.length) {
-            if(response.data[i].farm_id == this.selectedidfarm){
-            var idfarm = response.data[i].farm_id;
-            var plantingDate = response.data[i].planting_date;
-            var name = response.data[i].farm_name;
-            var province = response.data[i].province;
-            var district = response.data[i].district;
-            var latitude = response.data[i].latitude;
-            var longtitude = response.data[i].longtitude;
-            var width = response.data[i].farm_width
-            var long = response.data[i].farm_long
-            var position = { lat: Number(latitude), lng: Number(longtitude) };
-            var path = [
-             { lat: Number(latitude), lng: Number(longtitude) }
-            ,{lat: Number(response.data[i].latitude_mark3), lng: Number(response.data[i].longtitude_mark3)}
-            ]
+            if (response.data[i].farm_id == this.selectedidfarm) {
+              var idfarm = response.data[i].farm_id;
+              var plantingDate = response.data[i].planting_date;
+              var name = response.data[i].farm_name;
+              var province = response.data[i].province;
+              var district = response.data[i].district;
+              var latitude = response.data[i].latitude;
+              var longtitude = response.data[i].longtitude;
+              var width = response.data[i].farm_width;
+              var long = response.data[i].farm_long;
+              var position = { lat: Number(latitude), lng: Number(longtitude) };
+              var path = [
+                { lat: Number(latitude), lng: Number(longtitude) },
+                {
+                  lat: Number(response.data[i].latitude_mark3),
+                  lng: Number(response.data[i].longtitude_mark3),
+                },
+              ];
 
-            this.areaname = name
-            this.mapcenter = { lat: Number(latitude), lng: Number(longtitude) ,wide: width,long:long}
-            console.log(this.mapcenter)
-            this.selectprovince = province
-            this.selectdistrict = district
-            this.path = path
-            this.date = plantingDate
-            this.idfarm = idfarm
-            this.markers.push(position)
+              this.areaname = name;
+              this.mapcenter = {
+                lat: Number(latitude),
+                lng: Number(longtitude),
+                wide: width,
+                long: long,
+              };
+              console.log(this.mapcenter);
+              this.selectprovince = province;
+              this.selectdistrict = district;
+              this.path = path;
+              this.date = plantingDate;
+              this.idfarm = idfarm;
+              this.markers.push(position);
 
-            break
+              break;
             }
-             i++;
+            i++;
           }
-          this.changepositionmap(latitude,longtitude,width,long)
+          this.changepositionmap(latitude, longtitude, width, long);
         })
         .catch((err) => {
           console.error(err);
@@ -233,16 +255,16 @@ export default {
       }
     },
     formatDate(date) {
-      console.log(date)
+      console.log(date);
       if (!date) return null;
       const [year, month, day] = date.split("-");
       const newyear = parseInt(year) + 543;
-      this.newdate = `${day}/${month}/${newyear}`
+      this.newdate = `${day}/${month}/${newyear}`;
       return `${day}/${month}/${newyear}`;
     },
-    changeformatdateback(date){
-      const [day,month,year] = date.split("/")
-      const newyear = parseInt(year) - 543
+    changeformatdateback(date) {
+      const [day, month, year] = date.split("/");
+      const newyear = parseInt(year) - 543;
       return `${newyear}-${month}/${day}`;
     },
     deletearea() {
@@ -250,34 +272,42 @@ export default {
       const vm = this;
       vm.$router.push("/show-all-area");
     },
-    async savedata(){
+    async savedata() {
       //ทำการใส่ข้อมูลใหม่เข้าไปแทนที่ใน Database และกลับไปหน้า Show area
-      console.log("http://127.0.0.1:8000/farms/"+ this.selectedidfarm + "/" + " this is uid " + this.uid)
-      await axios.put('http://127.0.0.1:8000/farms/'+ this.selectedidfarm + "/", {
-        uid_store: this.uid,
-        farm_id: this.idfarm,
-        farm_name: this.areaname,
-        province: this.selectprovince,
-        district: this.selectdistrict,
-        planting_date: this.date,
-        farm_width: this.mapcenter.wide,
-        farm_long: this.mapcenter.long,
-        latitude: this.newpath[0].lat,
-        longtitude: this.newpath[0].lng,
-        latitude_mark1: this.newpath[1].lat,
-        longtitude_mark1: this.newpath[1].lng,
-        latitude_mark2: this.newpath[2].lat,
-        longtitude_mark2: this.newpath[2].lng,
-        latitude_mark3: this.newpath[3].lat,
-        longtitude_mark3: this.newpath[3].lng,
-        latitude_mark4: this.newpath[4].lat,
-        longtitude_mark4: this.newpath[4].lng
-
-      })
-      .then(response => {console.log(response)})
-      .catch((error) => {
-          console.log(error)
-      })
+      console.log(
+        "http://127.0.0.1:8000/farms/" +
+          this.selectedidfarm +
+          "/" +
+          " this is uid " +
+          this.uid
+      );
+      await axios
+        .put("http://127.0.0.1:8000/farms/" + this.selectedidfarm + "/", {
+          uid_store: this.uid,
+          farm_id: this.idfarm,
+          farm_name: this.areaname,
+          province: this.selectprovince,
+          district: this.selectdistrict,
+          planting_date: this.date,
+          farm_width: this.mapcenter.wide,
+          farm_long: this.mapcenter.long,
+          latitude: this.newpath[0].lat,
+          longtitude: this.newpath[0].lng,
+          latitude_mark1: this.newpath[1].lat,
+          longtitude_mark1: this.newpath[1].lng,
+          latitude_mark2: this.newpath[2].lat,
+          longtitude_mark2: this.newpath[2].lng,
+          latitude_mark3: this.newpath[3].lat,
+          longtitude_mark3: this.newpath[3].lng,
+          latitude_mark4: this.newpath[4].lat,
+          longtitude_mark4: this.newpath[4].lng,
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       const vm = this;
       vm.$router.push("/show-area");
     },

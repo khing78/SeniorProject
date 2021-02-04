@@ -8,6 +8,9 @@
             id="map"
             :center="mapcenter"
             :zoom="18"
+            :options="{
+              styles: hide,
+            }"
             style="width: 100%; height: 500px"
             map-type-id="terrain"
           >
@@ -143,6 +146,17 @@ import firebase from "firebase/app";
 import "firebase/auth";
 export default {
   data: () => ({
+    hide: [
+      {
+        featureType: "poi",
+        stylers: [{ visibility: "off" }],
+      },
+      {
+        featureType: "transit",
+        elementType: "labels.icon",
+        stylers: [{ visibility: "off" }],
+      },
+    ],
     date: new Date().toISOString().substr(0, 10),
     menu: false,
     modal: false,
@@ -322,7 +336,7 @@ export default {
     },
   },
   created() {
-    this.checkloginstate()
+    this.checkloginstate();
     navigator.geolocation.getCurrentPosition((position) => {
       (this.mapcenter = {
         lat: position.coords.latitude,

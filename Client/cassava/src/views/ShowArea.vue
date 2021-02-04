@@ -56,6 +56,9 @@
             ref="mapRef"
             :center="mapcenter"
             :zoom="17"
+            :options="{
+              styles:hide
+            }"
             style="width: 100%; height: 500px"
             map-type-id="terrain"
           >
@@ -138,6 +141,17 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 export default {
   data: () => ({
+    hide: [
+    {
+      featureType: "poi",
+      stylers: [{ visibility: "off" }],
+    },
+    {
+      featureType: "transit",
+      elementType: "labels.icon",
+      stylers: [{ visibility: "off" }],
+    },
+  ],
     date: new Date().toISOString().substr(0, 10),
     menu: false,
     modal: false,
