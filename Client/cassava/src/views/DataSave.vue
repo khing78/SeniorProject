@@ -86,6 +86,13 @@
               "
               @click="selectMode(index)"
             ></gmap-marker>
+            <gmap-polyline
+              v-if="path.length > 0"
+              :path="path"
+              :editable="false"
+              ref="polyline"
+            >
+            </gmap-polyline>
           </gmap-map>
         </v-col>
         <v-col cols="12">
