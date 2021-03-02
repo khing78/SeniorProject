@@ -57,7 +57,7 @@ export default {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
          axios
-            .get("http://127.0.0.1:8000/uids/")
+            .get("http://188.166.246.244:6969/uids/")
             .then((response) => {
               var i = 0;
               while (i < response.data.length) {

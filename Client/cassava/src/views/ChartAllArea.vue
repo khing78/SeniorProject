@@ -1,6 +1,6 @@
 <template>
-  <v-main class="area-detail-chart">
-    <v-container>
+  <v-main class="chart-all-area">
+    <v-container fluid>
       <v-row>
         <v-col class="text-right"> </v-col>
       </v-row>
@@ -31,23 +31,57 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="9">
+        <v-col cols="12" md="8">
           <div id="showchart">
             <line-chart
               id="chartee"
               ref="chartee"
-              style="height: 500px"
+              style="height: 500px;"
+              class="ma-0"
             ></line-chart>
           </div>
         </v-col>
-        <v-col cols="12" md="3" style="font-size: 20px">
-          เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassava }}
-          <br />
-          เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
-          <br />
-          อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
-          <br />
-          ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{ humnaity }}
+        <v-col cols="12" md="4" style="font-size: 20px" class="ma-0">
+         <v-col cols="4" class="ma-0">
+            แปลงที่ 1
+            เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassava }}
+            <br />
+            เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
+            <br />
+            อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
+            <br />
+            ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{ humnaity }}
+          </v-col>
+          <v-col cols="4" class="ma-0">
+            แปลงที่ 2
+            เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassava }}
+            <br />
+            เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
+            <br />
+            อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
+            <br />
+            ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{ humnaity }}
+          </v-col>
+          <v-col cols="4" class="ma-0">
+            แปลงที่ 3
+            เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassava }}
+            <br />
+            เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
+            <br />
+            อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
+            <br />
+            ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{ humnaity }}
+          </v-col>
+          <v-col cols="4" class="ma-0">
+            แปลงที่ 4
+            เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassava }}
+            <br />
+            เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
+            <br />
+            อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
+            <br />
+            ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{ humnaity }}
+          </v-col>
         </v-col>
       </v-row>
       <v-row>
@@ -281,9 +315,9 @@ export default {
 
       chart.refreashchart();
     },
-  changearea(numberarea,clickarea){
+  /*changearea(numberarea,clickarea){
     axios
-        .get("http://127.0.0.1:8000/farms/")
+        .get("http://188.166.246.244:6969/farms/")
         .then((response) => {
           var i = 0;
           while (i < response.data.length) {
@@ -295,7 +329,7 @@ export default {
         .catch((err) => {
           console.error(err);
         });
-  },
+  },*/
   },
 };
 </script>

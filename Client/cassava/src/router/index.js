@@ -10,6 +10,7 @@ import ShowArea from '../views/ShowArea.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Forgetpassword from '../views/ForgetPassword.vue'
+import ChartAllArea from '../views/ChartAllArea.vue'
 
 Vue.use(VueRouter)
 
@@ -68,6 +69,11 @@ const routes = [
     path: '/forgetpassword',
     name: 'forgetpassword',
     component: Forgetpassword
+  },
+  {
+    path: '/chart-all-area',
+    name: 'chartAllArea',
+    component: ChartAllArea
   },
   {
     path: '/about',
