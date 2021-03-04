@@ -317,7 +317,7 @@ export default {
     },
   /*changearea(numberarea,clickarea){
     axios
-        .get("http://188.166.246.244:6969/farms/")
+        .get("http://188.166.246.244:8000/farms/")
         .then((response) => {
           var i = 0;
           while (i < response.data.length) {

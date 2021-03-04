@@ -187,7 +187,7 @@ export default {
       console.log(user.uid + "  +  this lat ");
       console.log(this.newpath);
       await axios
-        .post("http://188.166.246.244:6969/farms/", {
+        .post("http://188.166.246.244:8000/farms/", {
           uid_store: user.uid,
           farm_name: this.areaname,
           province: this.selectprovince,
@@ -226,7 +226,7 @@ export default {
       const vm = this;
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-          axios.get("http://188.166.246.244:6969/uids/").then((response) => {
+          axios.get("http://188.166.246.244:8000/uids/").then((response) => {
             var i = 0;
             while (i < response.data.length) {
               if (response.data[i].uId == user.uid) {

@@ -85,7 +85,7 @@ export default {
         .signInWithEmailAndPassword(email, password)
         .then((user) => {
           axios
-            .get("http://188.166.246.244:6969/uids/")
+            .get("http://188.166.246.244:8000/uids/")
             .then((response) => {
               var i = 0;
               while (i < response.data.length) {
