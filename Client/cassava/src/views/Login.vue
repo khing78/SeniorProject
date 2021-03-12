@@ -74,7 +74,7 @@ export default {
       const vm = this;
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-          vm.$router.push("/show-all-area");
+          vm.$router.push("/show-all-area").catch(()=>{});
         }
       });
     },
@@ -106,7 +106,7 @@ export default {
             type: "setUid",
             uid: user.user.uid,
           });
-          vm.$router.push("/show-all-area");
+          vm.$router.push("/show-all-area").catch(()=>{});
         })
         .catch((error) => {
           //var errorCode = error.code;

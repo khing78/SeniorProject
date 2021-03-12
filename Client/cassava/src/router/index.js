@@ -56,11 +56,6 @@ const routes = [
     component: ShowArea
   },
   {
-    path: '/login',
-    name: 'login',
-    component: Login
-  },
-  {
     path: '/register',
     name: 'register',
     component: Register

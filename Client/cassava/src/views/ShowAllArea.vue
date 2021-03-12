@@ -147,35 +147,7 @@ export default {
         uid: "",
       },
     ],
-    areashow: [
-      {
-        id: 0,
-        idfarm: 0,
-        name: "แปลงสมชาย",
-        province: "ขอนแก่น",
-        district: "เมือง",
-        position: { lat: 18.466022, lng: 102.898313 },
-        uid: "",
-      },
-      {
-        id: 1,
-        idfarm: 1,
-        name: "แปลงสมศรี",
-        province: "ขอนแก่น",
-        district: "เวียงเก่า",
-        position: { lat: 16.466037, lng: 99.899724 },
-        uid: "",
-      },
-      {
-        id: 2,
-        idfarm: 2,
-        name: "แปลงมารี",
-        province: "ขอนแก่น",
-        district: "บ้านแฮด",
-        position: { lat: 15.465616, lng: 102.899717 },
-        uid: "",
-      },
-    ],
+    areashow: [],
   }),
   mounted(){
     this.fetchdatafromdatabase()
@@ -200,7 +172,7 @@ export default {
           var i = 0;
           this.detailarea = [];
           this.areashow = [];
-          //console.log(firebase.auth().currentUser + "response: ", response);
+          console.log(firebase.auth().currentUser + "response: ", response);
           while (i < response.data.length) {
             if (response.data[i].uid_store == this.uid) {
               var id = i;
@@ -254,6 +226,7 @@ export default {
             }
             i++;
           }
+          console.log("show" + this.areashow);
         })
         .catch((err) => {
           console.error(err);

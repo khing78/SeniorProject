@@ -83,7 +83,7 @@ export default {
             type: "setName",
             name: this.username,
           });
-          vm.$router.push("/show-all-area");
+          vm.$router.push("/show-all-area").catch(()=>{});
           axios({
             method: 'post',
             url: 'http://188.166.246.244:8000/uids/',
