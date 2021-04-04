@@ -36,52 +36,68 @@
             <line-chart
               id="chartee"
               ref="chartee"
-              style="height: 500px;"
+              style="height: 500px"
               class="ma-0"
             ></line-chart>
           </div>
         </v-col>
-        <v-col cols="12" md="4" style="font-size: 20px" class="ma-0">
-         <v-col cols="4" class="ma-0">
-            แปลงที่ 1
-            เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassava }}
-            <br />
-            เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
-            <br />
-            อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
-            <br />
-            ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{ humnaity }}
-          </v-col>
-          <v-col cols="4" class="ma-0">
-            แปลงที่ 2
-            เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassava }}
-            <br />
-            เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
-            <br />
-            อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
-            <br />
-            ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{ humnaity }}
-          </v-col>
-          <v-col cols="4" class="ma-0">
-            แปลงที่ 3
-            เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassava }}
-            <br />
-            เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
-            <br />
-            อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
-            <br />
-            ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{ humnaity }}
-          </v-col>
-          <v-col cols="4" class="ma-0">
-            แปลงที่ 4
-            เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassava }}
-            <br />
-            เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
-            <br />
-            อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
-            <br />
-            ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{ humnaity }}
-          </v-col>
+        <v-col cols="12" md="4" style="font-size: 16px" class="ma-0">
+          <v-row>
+            <v-col id="area1" cols="6" class="ma-0">
+              แปลง {{areaname1}}
+              <br />
+              เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassava }}
+              <br />
+              เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
+              <br />
+              อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
+              <br />
+              ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{ humnaity }}
+              <br />
+              <v-btn>เลือกแปลง</v-btn>
+            </v-col>
+            <v-col id="area2" cols="6" class="ma-0">
+              แปลง {{areaname2}}
+              <br /> 
+              เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassava }}
+              <br />
+              เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
+              <br />
+              อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
+              <br />
+              ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{ humnaity }}
+              <br />
+              <v-btn>เลือกแปลง</v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col id="area3" cols="6" class="ma-0">
+              แปลง {{areaname3}}
+              <br /> 
+              เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassava }}
+              <br />
+              เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
+              <br />
+              อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
+              <br />
+              ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{ humnaity }}
+              <br />
+              <v-btn>เลือกแปลง</v-btn>
+            </v-col>
+            <v-col id="area4" cols="6" class="ma-0">
+              แปลง {{areaname4}}
+              <br />
+              เกรดคุณภาพแป้งเฉลี่ย: {{ gradecassava }}
+              <br />
+              เปอร์เซ็นต์แป้งเฉลี่ย(%): {{ precentstarchaverage }}
+              <br />
+              อุณหภูมิโดยเฉลี่ย(เซลเซียส): {{ temputure }}
+              <br />
+              ความชื้นสัมพันธ์โดยเฉลี่ย(%) : {{ humnaity }}
+              <br />
+              <v-btn>เลือกแปลง</v-btn>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
       <v-row>
@@ -93,6 +109,7 @@
   </v-main>
 </template>
 <script>
+import axios from "axios";
 import LineChart from "@/components/LineChart";
 import { mapGetters } from "vuex";
 export default {
@@ -104,12 +121,16 @@ export default {
       new Date().toISOString().substr(0, 10),
       new Date().toISOString().substr(0, 10),
     ],
+    listnamefarm:[],
     fromdate: "",
     todate: "",
     menu: false,
     modal: false,
     menu2: false,
-    areaname: "",
+    areaname1: "",
+    areaname2: "",
+    areaname3: "",
+    areaname4: "",
     humnaity: 0,
     gradecassava: "-",
     precentstarchaverage: 0,
@@ -176,6 +197,7 @@ export default {
     ...mapGetters({
       detailarea: "getDetailArea",
       selectedarea: "getSelectedArea",
+      idfarm: "getIdFarm",
     }),
     computedDatetoFormatted() {
       return this.formatDate(this.dateto);
@@ -186,27 +208,19 @@ export default {
   },
   methods: {
     startshow() {
-      this.pindetail = [];
-      var i = 0;
-      var dataforchart = [];
-      while (i < this.detailarea.length) {
-        if (this.detailarea[i].cassavaareaid == this.selectedarea) {
-          dataforchart.push(this.detailarea[i]);
-          break;
-        }
-        i++;
-      }
-      i = 0;
-      while (i < dataforchart[0].datadetail.length) {
-        var daygetdata = this.changeformatforshow(
-          dataforchart[0].datadetail[i].dategetdata
-        );
-        var precentstarch = dataforchart[0].datadetail[i].starchPercentage;
-        var temputure = dataforchart[0].datadetail[i].temperature;
-        var humidity = dataforchart[0].datadetail[i].humidity;
-        this.pindetail.push({ daygetdata, precentstarch, temputure, humidity });
-        i++;
-      }
+          axios
+        .get("http://188.166.246.244:8000/farms/")
+        .then((response) => {
+          var i = 0;
+          while (i < response.data.length) {
+            
+            i++;
+          }
+          
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
     moveto(i) {
       const vm = this;
@@ -315,13 +329,13 @@ export default {
 
       chart.refreashchart();
     },
-  /*changearea(numberarea,clickarea){
+    /*changearea(numberarea,clickarea){
     axios
         .get("http://188.166.246.244:8000/farms/")
         .then((response) => {
           var i = 0;
           while (i < response.data.length) {
-
+            
             i++;
           }
           
