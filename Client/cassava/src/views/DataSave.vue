@@ -337,7 +337,7 @@ export default {
       var i = 0;
       var newpindata = [];
       await axios
-        .get("http://188.166.246.244:8000/area-check/")
+        .get("http://143.198.205.220:8000/area-check/")
         .then((response) => {
           while (i < response.data.length) {
             if (response.data[i].farm_store == this.idfarm) {
@@ -377,7 +377,7 @@ export default {
       this.dragemode = true;
       var i = 0;
       var newpindata = [];
-      await axios.get("http://188.166.246.244:8000/area-check/").then((response) => {
+      await axios.get("http://143.198.205.220:8000/area-check/").then((response) => {
         while (i < response.data.length) {
           if (response.data[i].cassava_area_id == this.selectedarea) {
             var idarea = response.data[i].cassava_area_id;
@@ -399,7 +399,7 @@ export default {
       i = 0;
       var newxdata = [];
      await axios
-        .get("http://188.166.246.244:8000/cassava-check/")
+        .get("http://143.198.205.220:8000/cassava-check/")
         .then((response) => {
           while (i < response.data.length) {
             if (
@@ -504,7 +504,7 @@ export default {
       var g = 0;
       var p = 0;
      await axios
-        .put("http://188.166.246.244:8000/area-check/" + this.selectedarea + "/", {
+        .put("http://143.198.205.220:8000/area-check/" + this.selectedarea + "/", {
           farm_store: this.idfarm,
           starch_percentage: 45,
           tree_latitude: this.latposition,
@@ -523,7 +523,7 @@ export default {
           if (this.xdata[i].id == this.alreadyhaveid[g]) {
            await axios
               .put(
-                "http://188.166.246.244:8000/cassava-check/" + this.xdata[i].id + "/",
+                "http://143.198.205.220:8000/cassava-check/" + this.xdata[i].id + "/",
                 {
                   cassava_area: this.selectedarea,
                   check_date: this.date,
@@ -552,7 +552,7 @@ export default {
         }
         if (p == 0) {
          await axios
-            .post("http://188.166.246.244:8000/cassava-check/", {
+            .post("http://143.198.205.220:8000/cassava-check/", {
               cassava_area: this.selectedarea,
               check_date: this.date,
               latitude: this.latposition,
@@ -577,7 +577,7 @@ export default {
       console.log(this.deletecassavaid)
       while (m < this.deletecassavaid.length) {
         axios.delete(
-          "http://188.166.246.244:8000/cassava-check/" + this.deletecassavaid[m] + "/",
+          "http://143.198.205.220:8000/cassava-check/" + this.deletecassavaid[m] + "/",
           {}
         );
         m++;
@@ -586,7 +586,7 @@ export default {
    async addNewArea() {
       console.log("//////////////////////" + this.idfarm);
      await axios
-        .post("http://188.166.246.244:8000/area-check/", {
+        .post("http://143.198.205.220:8000/area-check/", {
           farm_store: this.idfarm,
           starch_percentage: 45,
           tree_latitude: this.latposition,
@@ -597,7 +597,7 @@ export default {
           var i = 0;
           while (i < this.xdata.length) {
             axios
-              .post("http://188.166.246.244:8000/cassava-check/", {
+              .post("http://143.198.205.220:8000/cassava-check/", {
                 cassava_area: this.selectedidarea,
                 check_date: this.date,
                 latitude: this.latposition,
@@ -626,7 +626,7 @@ export default {
       var i = 0;
       while (i < this.xdata.length) {
        await axios
-          .post("http://188.166.246.244:8000/cassava-check/", {
+          .post("http://143.198.205.220:8000/cassava-check/", {
             cassava_area: this.selectedidarea,
             check_date: this.date,
             latitude: this.latposition,
@@ -682,7 +682,7 @@ export default {
     deleteArea() {
       //เอา ID ของหมุดไปลบออกจาก Database แล้วกลับไปหน้า Showarea
       axios.delete(
-          "http://188.166.246.244:8000/area-check/" + this.selectedarea + "/",
+          "http://143.198.205.220:8000/area-check/" + this.selectedarea + "/",
           {}
         );
       const vm = this;

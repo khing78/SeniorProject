@@ -237,7 +237,7 @@ export default {
       this.datapin = [];
       this.markers = [];
       await axios
-        .get("http://188.166.246.244:8000/area-check/")
+        .get("http://143.198.205.220:8000/area-check/")
         .then((response) => {
           var i = 0;
           while (i < response.data.length) {
@@ -262,7 +262,7 @@ export default {
         });
         var newlistdata = []
       await axios
-        .get("http://188.166.246.244:8000/cassava-check/")
+        .get("http://143.198.205.220:8000/cassava-check/")
         .then((response) => {
           i = 0;
           while (i < cassavaareaidlist.length) {

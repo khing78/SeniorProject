@@ -200,7 +200,7 @@ export default {
     startshow() {
       this.markers = [];
       axios
-        .get("http://188.166.246.244:8000/farms/")
+        .get("http://143.198.205.220:8000/farms/")
         .then((response) => {
           var i = 0;
           while (i < response.data.length) {
@@ -275,14 +275,14 @@ export default {
     async savedata() {
       //ทำการใส่ข้อมูลใหม่เข้าไปแทนที่ใน Database และกลับไปหน้า Show area
       console.log(
-        "http://188.166.246.244:8000/farms/" +
+        "http://143.198.205.220:8000/farms/" +
           this.selectedidfarm +
           "/" +
           " this is uid " +
           this.uid
       );
       await axios
-        .put("http://188.166.246.244:8000/farms/" + this.selectedidfarm + "/", {
+        .put("http://143.198.205.220:8000/farms/" + this.selectedidfarm + "/", {
           uid_store: this.uid,
           farm_id: this.idfarm,
           farm_name: this.areaname,

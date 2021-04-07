@@ -86,7 +86,7 @@ export default {
           vm.$router.push("/show-all-area").catch(()=>{});
           axios({
             method: 'post',
-            url: 'http://188.166.246.244:8000/uids/',
+            url: 'http://143.198.205.220:8000/uids/',
             data: {
               email : email,
               username : username,

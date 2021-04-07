@@ -209,7 +209,7 @@ export default {
   methods: {
     startshow() {
           axios
-        .get("http://188.166.246.244:8000/farms/")
+        .get("http://143.198.205.220:8000/farms/")
         .then((response) => {
           var i = 0;
           while (i < response.data.length) {
@@ -331,7 +331,7 @@ export default {
     },
     /*changearea(numberarea,clickarea){
     axios
-        .get("http://188.166.246.244:8000/farms/")
+        .get("http://143.198.205.220:8000/farms/")
         .then((response) => {
           var i = 0;
           while (i < response.data.length) {
