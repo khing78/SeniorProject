@@ -3,7 +3,11 @@
     <v-container fluid>
       <v-row>
         <v-col>
-          <v-btn color="#1CE227" style="font-size: 18px" rounded @click="moveto('addarea')"
+          <v-btn
+            color="#1CE227"
+            style="font-size: 18px"
+            rounded
+            @click="moveto('addarea')"
             >+ เพิ่มแปลงใหม่</v-btn
           >
         </v-col>
@@ -32,7 +36,13 @@
           >
             ค้นหา
           </v-btn>
-          <v-btn id="showeverything" @click="showeveryarea()" style="font-size: 18px"> ทั้งหมด </v-btn>
+          <v-btn
+            id="showeverything"
+            @click="showeveryarea()"
+            style="font-size: 18px"
+          >
+            ทั้งหมด
+          </v-btn>
         </v-col>
       </v-row>
       <v-row>
@@ -41,7 +51,7 @@
             :center="mapcenter"
             :zoom="16"
             :options="{
-              styles:hide
+              styles: hide,
             }"
             style="width: 100%; height: 500px"
             map-type-id="satellite"
@@ -62,8 +72,12 @@
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-center" id="areaname" style="font-size: 20px">ชื่อแปลง</th>
-                  <th class="text-center" id="areaname" style="font-size: 20px">รายละเอียด</th>
+                  <th class="text-center" id="areaname" style="font-size: 20px">
+                    ชื่อแปลง
+                  </th>
+                  <th class="text-center" id="areaname" style="font-size: 20px">
+                    รายละเอียด
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -72,16 +86,20 @@
                   v-for="item in areashow"
                   :key="item.Id"
                   style="text: center"
-                  @click="moveto(item.id - 1)"
+                  @click="moveto(item.id)"
                 >
                   <td style="font-size: 18px">{{ item.name }}</td>
-                  <td style="font-size: 18px">อ.{{ item.district }} จ.{{ item.province }}</td>
+                  <td style="font-size: 18px">
+                    อ.{{ item.district }} จ.{{ item.province }}
+                  </td>
                 </tr>
               </tbody>
             </template>
           </v-simple-table>
           <v-col class="text-center">
-            <v-btn @click="moveto('Accepted')" :disabled= acbuttonmode>ตกลง</v-btn>
+            <v-btn @click="moveto('Accepted')" :disabled="acbuttonmode"
+              >ตกลง</v-btn
+            >
           </v-col>
         </v-col>
       </v-row>
@@ -95,18 +113,18 @@ import firebase from "firebase/app";
 import axios from "axios";
 export default {
   data: () => ({
-      hide: [
-    {
-      featureType: "poi",
-      stylers: [{ visibility: "off" }],
-    },
-    {
-      featureType: "transit",
-      elementType: "labels.icon",
-      stylers: [{ visibility: "off" }],
-    },
-  ],
-    acbuttonmode:true,
+    hide: [
+      {
+        featureType: "poi",
+        stylers: [{ visibility: "off" }],
+      },
+      {
+        featureType: "transit",
+        elementType: "labels.icon",
+        stylers: [{ visibility: "off" }],
+      },
+    ],
+    acbuttonmode: true,
     selectprovince: "",
     selectdistrict: "",
     selectid: 0,
@@ -115,46 +133,15 @@ export default {
     plantingDate: "",
     selectedpath: [],
     mapcenter: { lat: 16.4411261, lng: 102.8644933 },
-    detailarea: [
-      {
-        id: 0,
-        idfarm: 0,
-        name: "แปลงสมชาย",
-        province: "ขอนแก่น",
-        district: "เมือง",
-        desciption: "อ.เมือง จ.ขอนแก่น",
-        position: { lat: 18.466022, lng: 102.898313 },
-        uid: "",
-      },
-      {
-        id: 1,
-        idfarm: 1,
-        name: "แปลงสมศรี",
-        province: "ขอนแก่น",
-        district: "เวียงเก่า",
-        desciption: "อ.เวียงเก่า จ.ขอนแก่น",
-        position: { lat: 16.466037, lng: 99.899724 },
-        uid: "",
-      },
-      {
-        id: 2,
-        idfarm: 2,
-        name: "แปลงมารี",
-        province: "ขอนแก่น",
-        district: "บ้านแฮด",
-        desciption: "อ.บ้านแฮด จ.ขอนแก่น",
-        position: { lat: 15.465616, lng: 102.899717 },
-        uid: "",
-      },
-    ],
+    detailarea: [],
     areashow: [],
   }),
-  mounted(){
-    this.fetchdatafromdatabase()
+  mounted() {
+    this.fetchdatafromdatabase();
   },
   created() {
     //ทุกครั้งที่เข้าหน้ามาให้โหลดข้อมูลแปลงทั้งหมดจาก Database ใหม่
-    this.fetchdatafromdatabase()
+    this.fetchdatafromdatabase();
   },
   computed: {
     ...mapGetters({
@@ -165,7 +152,7 @@ export default {
   },
   methods: {
     async fetchdatafromdatabase() {
-      await this.checkloginstate()
+      await this.checkloginstate();
       await axios
         .get("http://143.198.205.220:8000/farms/")
         .then((response) => {
@@ -226,7 +213,7 @@ export default {
             }
             i++;
           }
-          console.log("show" + this.areashow);
+          console.log("show" + this.areashow[4].id);
         })
         .catch((err) => {
           console.error(err);
@@ -260,12 +247,12 @@ export default {
     },
     checkloginstate() {
       const vm = this;
-      firebase.auth().onAuthStateChanged(function(user) {
-        if(user) {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
           axios.get("http://143.198.205.220:8000/uids/").then((response) => {
-            var i=0;
-            while(i<response.data.length) {
-              if(response.data[i].uId==user.uid) {
+            var i = 0;
+            while (i < response.data.length) {
+              if (response.data[i].uId == user.uid) {
                 vm.$store.commit({
                   type: "setUserName",
                   username: response.data[i].username,
@@ -291,12 +278,19 @@ export default {
       if (i == "addarea") {
         vm.$router.push("/add-area");
       } else if (typeof i == "number") {
-        this.acbuttonmode = false
-        this.selectid = this.detailarea[i].idfarm;
-        this.mapcenter = this.detailarea[i].position;
-        this.plantingDate = this.detailarea[i].plantingDate;
-        this.namearea = this.detailarea[i].name;
-        this.selectedpath = this.detailarea[i].path;
+        console.log(i)
+        var m = 0;
+        while (m < this.detailarea.length) {
+          if (i == this.detailarea[m].id) {
+            this.acbuttonmode = false;
+            this.selectid = this.detailarea[m].idfarm;
+            this.mapcenter = this.detailarea[m].position;
+            this.plantingDate = this.detailarea[m].plantingDate;
+            this.namearea = this.detailarea[m].name;
+            this.selectedpath = this.detailarea[m].path;
+          }
+          m++;
+        }
       } else if (i == "Accepted") {
         //เอาข้อมูลID ของแปลงไปดึงแปลงใน Database
         vm.$store.commit({
