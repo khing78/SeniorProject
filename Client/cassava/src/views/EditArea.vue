@@ -126,10 +126,13 @@
         </v-col>
       </v-row>
       <v-row>
+        <v-col class="text-left">
+          <v-btn color="#DC143C" rounded style="margin-end: 10px" @click="deletearea()"
+            >ลบแปลง</v-btn>
+        </v-col>
         <v-col class="text-right">
           <v-btn rounded style="margin-end: 10px" @click="moveto('back')"
-            >ยกเลิก</v-btn
-          >
+            >ยกเลิก</v-btn>
           <v-btn color="#1CE227" rounded @click="savedata()">บันทึก</v-btn>
         </v-col>
       </v-row>
@@ -269,6 +272,13 @@ export default {
     },
     deletearea() {
       //ทำการเอา ID ของแปลงลบแปลงออกจากDatabase และกลับไปที่หน้า Show all area
+      axios.delete("http://143.198.205.220:8000/farms/" + this.selectedidfarm + "/")
+      .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       const vm = this;
       vm.$router.push("/show-all-area");
     },
