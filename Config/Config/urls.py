@@ -23,10 +23,12 @@ urlpatterns = [
     path('uids/', views.uid_collected, name="uid-get&crate"),
     path('uids/<str:pk>/', views.uid_editor, name="uid-edit"),
     path('farms/', views.farm_list, name="farmlist-get&post"),
-    path('farms/<str:pk>/', views.farm_detail, name="farmlist-get&post"),
+    path('farms/<str:pk>/', views.farm_detail, name="farmlist-PUT&DELETE"),
     path('result/', views.result, name="show-result"),
     path('cassava-check/', views.cassava_check, name="cassava-check"),
     path('cassava-check/<str:pk>/', views.cassava_check_editor, name="cassava-check"),
     path('area-check/', views.area_check_get, name="area-check"),
-    path('area-check/<str:pk>/', views.area_check, name="area-check-update-delete")
+    path('area-check/<str:pk>/', views.area_check, name="area-check-update-delete"),
+    path('cassava_test/<str:uid_store>/', views.cassava_check_farm, name="cassava_check_farm"),
+    path('area_check_create/<str:uid_store>/', views.area_check_create, name="for create area")
 ]
