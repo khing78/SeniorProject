@@ -166,26 +166,7 @@ def area_check(request, pk) :
 
 #เครื่องทุกเครื่องต้องมี uid ของ user นั้นๆ
 #เครื่องส่งค่า to cassava_check
-#cassava_check ทำหน้าที่รับข้อมูลมาแล้วเทียบกับตำแหน่งของฟาร์มถ้าไม่เกินรัศมีให้อยู่ในฟาร์มนั้น(เทียบทุกข้อมูล)
-#เขียนไงล่ะทีนี้
-@api_view(['GET', 'POST'])
-def cassava_check_farm(request, uid_store):
-    checked_data = FarmStore.objects.filter(uid_store=uid_store)
-    farm_lat_max = checked_data.values("latitude")
-    farm_long_max = checked_data.values("longtitude")
-    farm_lat_min = checked_data.values("latitude_mark2")
-    farm_long_min = checked_data.values("longtitude_mark2")
-
-    for i in range(len(farm_lat_max)):
-        print(checked_data)
-        print("farm lat1 " + str(farm_lat_max[i]['latitude']) 
-        + " long1 " + str(farm_long_max[i]['longtitude']) + " lat2 " 
-        + str(farm_lat_min[i]['latitude_mark2']) 
-        + " long2 " + str(farm_long_min[i]['longtitude_mark2']))
-
-    if request.method == 'GET' :
-        serializer = FarmSerializer(checked_data, many=True)
-        return Response(serializer.data)
+#area_check_create ทำหน้าที่รับข้อมูลมาแล้วเทียบกับตำแหน่งของฟาร์มถ้าไม่เกินรัศมีให้อยู่ในฟาร์มนั้น(เทียบทุกข้อมูล)
 
 @api_view(['GET', 'POST'])
 def area_check_create(request, uid_store):
