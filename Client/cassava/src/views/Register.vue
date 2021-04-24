@@ -120,6 +120,6 @@ export default {
   margin-right: 1vw;
 }
 #mainbackground {
-  background: darkred;
+  background-color: #9ACD32	 ;
 }
 </style>

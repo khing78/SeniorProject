@@ -132,6 +132,6 @@ export default {
   margin-bottom: 1vh;
 }
 #mainbackground {
-  background: darkred;
+  background-color: #9ACD32	 ;
 }
 </style>
