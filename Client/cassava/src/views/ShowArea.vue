@@ -37,14 +37,11 @@
             </template>
             <v-date-picker
               v-model="date"
-              @input="menu2 = false"
+              @input="changedatemarker(),menu2 = false"
             ></v-date-picker>
           </v-menu>
         </v-col>
         <v-col cols="12" md="4" sm="3">
-          <v-btn id="selectdatebutton" rounded @click="changedatemarker()"
-            >ค้นหา</v-btn
-          >
           <v-btn id="selectdatebutton" rounded @click="resetsearch()"
             >ทั้งหมด</v-btn
           >
@@ -57,7 +54,7 @@
             :center="mapcenter"
             :zoom="17"
             :options="{
-              styles:hide
+              styles: hide,
             }"
             style="width: 100%; height: 500px"
             map-type-id="terrain"
@@ -142,16 +139,16 @@ import { mapGetters } from "vuex";
 export default {
   data: () => ({
     hide: [
-    {
-      featureType: "poi",
-      stylers: [{ visibility: "off" }],
-    },
-    {
-      featureType: "transit",
-      elementType: "labels.icon",
-      stylers: [{ visibility: "off" }],
-    },
-  ],
+      {
+        featureType: "poi",
+        stylers: [{ visibility: "off" }],
+      },
+      {
+        featureType: "transit",
+        elementType: "labels.icon",
+        stylers: [{ visibility: "off" }],
+      },
+    ],
     date: new Date().toISOString().substr(0, 10),
     menu: false,
     modal: false,
@@ -209,9 +206,9 @@ export default {
     this.totalstarchfinder();
   },
   created() {
-    if (this.newidfarm == ""){
-        this.$router.push("/show-all-area");
-      }
+    if (this.newidfarm == "") {
+      this.$router.push("/show-all-area");
+    }
     this.fetchdatafromdatabase();
   },
   computed: {
@@ -260,31 +257,38 @@ export default {
         .catch((err) => {
           console.error(err);
         });
-        var newlistdata = []
+      var newlistdata = [];
       await axios
         .get("http://143.198.205.220:8000/cassava-check/")
         .then((response) => {
           i = 0;
           while (i < cassavaareaidlist.length) {
-            newlistdata = []
+            newlistdata = [];
             m = 0;
             while (m < response.data.length) {
               if (
                 response.data[m].cassava_area ==
                 cassavaareaidlist[i].cassavaareaid
               ) {
-                console.log(cassavaareaidlist[i].datadetail.length);
                 var dategetdata = response.data[m].check_date.slice(0, 10);
                 var starchPercentage = response.data[m].starchPercentage;
                 var humidity = response.data[m].humidity;
                 var temperature = response.data[m].temperature;
                 starch += response.data[m].starchPercentage;
                 lengthstach++;
-                newlistdata.push({dategetdata,starchPercentage,humidity,temperature})
+                newlistdata.push({
+                  dategetdata,
+                  starchPercentage,
+                  humidity,
+                  temperature,
+                });
+              }
+              if (m == response.data.length - 1) {
+                this.date = response.data[m].check_date.slice(0, 10);
               }
               m++;
             }
-            cassavaareaidlist[i].datadetail = newlistdata
+            cassavaareaidlist[i].datadetail = newlistdata;
             if (cassavaareaidlist[i].datadetail.length !== 0) {
               cassavaareaidlist[i].avgstarch = starch / lengthstach;
             }
@@ -303,6 +307,7 @@ export default {
       this.datapin = cassavaareaidlist;
       this.markers = cassavaareaidlist;
       console.log(this.markers);
+      this.changedatemarker();
     },
     changedatemarker() {
       var i;
