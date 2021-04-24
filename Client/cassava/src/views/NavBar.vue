@@ -5,7 +5,7 @@
         ><v-btn
           text
           @click="moveto('backtonormal')"
-          style="color: #1ce227; font-size: 24px"
+          style="color: #0E8317; font-size: 24px"
           >ระบบแสดงคุณภาพมันสำปะหลัง</v-btn
         ></v-toolbar-title
       >
