@@ -517,6 +517,7 @@ export default {
           console.log(error);
         });
       while (i < this.xdata.length) {
+        var strachavg = 47 + 47 * this.xdata[i].x1 + 47 * this.xdata[i].x2 + 47 * this.xdata[i].x3 + 47 * this.xdata[i].x4 + 47 * this.xdata[i].x5 + 47 * this.xdata[i].x6;
         p = 0;
         g = 0;
         while (g < this.alreadyhaveid.length) {
@@ -536,7 +537,7 @@ export default {
                   spectrum5: this.xdata[i].x5,
                   spectrum6: this.xdata[i].x6,
                   temperature: this.xdata[i].temputure,
-                  starchPercentage: "25",
+                  starchPercentage: strachavg,
                   humidity: this.xdata[i].humidity,
                 }
               )
@@ -564,7 +565,7 @@ export default {
               spectrum5: this.xdata[i].x5,
               spectrum6: this.xdata[i].x6,
               temperature: this.xdata[i].temputure,
-              starchPercentage: "25",
+              starchPercentage: strachavg,
               humidity: this.xdata[i].humidity,
             })
             .catch((error) => {
@@ -596,6 +597,7 @@ export default {
           this.selectedidarea = response.data.cassava_area_id;
           var i = 0;
           while (i < this.xdata.length) {
+            var strachavg = 47 + 47 * this.xdata[i].x1 + 47 * this.xdata[i].x2 + 47 * this.xdata[i].x3 + 47 * this.xdata[i].x4 + 47 * this.xdata[i].x5 + 47 * this.xdata[i].x6;
             axios
               .post("http://143.198.205.220:8000/cassava-check/", {
                 cassava_area: this.selectedidarea,
@@ -609,7 +611,7 @@ export default {
                 spectrum5: this.xdata[i].x5,
                 spectrum6: this.xdata[i].x6,
                 temperature: this.xdata[i].temputure,
-                starchPercentage: "25",
+                starchPercentage: strachavg,
                 humidity: this.xdata[i].humidity,
               })
               .catch((error) => {
@@ -623,6 +625,7 @@ export default {
         });
     },
     async postData() {
+      var strachavg = 47 + 47 * this.xdata[i].x1 + 47 * this.xdata[i].x2 + 47 * this.xdata[i].x3 + 47 * this.xdata[i].x4 + 47 * this.xdata[i].x5 + 47 * this.xdata[i].x6;
       var i = 0;
       while (i < this.xdata.length) {
        await axios
@@ -638,7 +641,7 @@ export default {
             spectrum5: this.xdata[i].x5,
             spectrum6: this.xdata[i].x6,
             temperature: this.xdata[i].temputure,
-            starchPercentage: "25",
+            starchPercentage: strachavg,
             humidity: this.xdata[i].humidity,
           })
           .catch((error) => {
