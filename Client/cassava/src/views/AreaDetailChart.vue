@@ -150,6 +150,9 @@ export default {
   created() {
     this.startshow();
   },
+  mounted(){
+    this.changechart();
+  },
   methods: {
     startshow() {
       this.pindetail = [];
@@ -173,6 +176,8 @@ export default {
         this.pindetail.push({ daygetdata, precentstarch, temputure, humidity });
         i++;
       }
+      this.dateto[0] = dataforchart[0].datadetail[dataforchart[0].datadetail.length - 2].dategetdata
+      this.dateto[1] = dataforchart[0].datadetail[dataforchart[0].datadetail.length - 1].dategetdata
     },
     moveto(i) {
       const vm = this;

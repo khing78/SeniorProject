@@ -282,14 +282,12 @@ export default {
                   humidity,
                   temperature,
                 });
-              }
-              if (m == response.data.length - 1) {
-                this.date = response.data[m].check_date.slice(0, 10);
+                this.date = dategetdata
               }
               m++;
             }
             cassavaareaidlist[i].datadetail = newlistdata;
-            if (cassavaareaidlist[i].datadetail.length !== 0) {
+            if (cassavaareaidlist[i].datadetail.length != 0) {
               cassavaareaidlist[i].avgstarch = starch / lengthstach;
             }
             starch = 0;
