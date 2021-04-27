@@ -5,7 +5,7 @@
         ><v-btn
           text
           @click="moveto('backtonormal')"
-          style="color: #0E8317; font-size: 24px"
+          style="color: #0E8317; "
           >ระบบแสดงคุณภาพมันสำปะหลัง</v-btn
         ></v-toolbar-title
       >
@@ -13,7 +13,7 @@
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="white" v-bind="attrs" v-on="on" text :disabled="!name">
-            <div id="username" style="color: #1ce227; padding-right: 5px; font-size: 18px">
+            <div id="username" style="color: #1ce227; padding-right: 10vm; font-size: 18px">
               {{ name }}
             </div>
           </v-btn>
@@ -26,7 +26,7 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-avatar><v-img id="imagecharacter" :src="imagesrc"></v-img></v-avatar>
+      <!-- <v-avatar><v-img id="imagecharacter" :src="imagesrc"></v-img></v-avatar> -->
     </v-app-bar>
   </div>
 </template>
@@ -110,5 +110,19 @@ export default {
 <style>
 .navbar {
   font-family: "Prompt", sans-serif;
+}
+.v-toolbar__content{
+  width: auto;
+}
+@media screen and (min-width: 601px) {
+  .v-btn__content {
+    font-size: 22px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .v-btn__content {
+    font-size: 12px;
+  }
 }
 </style>

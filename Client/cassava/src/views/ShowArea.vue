@@ -37,7 +37,7 @@
             </template>
             <v-date-picker
               v-model="date"
-              @input="changedatemarker(),menu2 = false"
+              @input="changedatemarker(), (menu2 = false)"
             ></v-date-picker>
           </v-menu>
         </v-col>
@@ -78,24 +78,30 @@
           <!-- For Map -->
         </v-col>
         <v-col cols="12" md="3" sm="12">
-          <v-row>
+          <v-row class="grande">
             <v-col cols="12" md="3" sm="3" id="framepinimg"
               ><v-img id="pin" src="../assets/Agradeicon.png"></v-img
             ></v-col>
-            <div id="detailgrade">เกรด A</div></v-row
-          >
-          <v-row>
+            <v-col>
+              <div id="detailgrade">เกรด A</div>
+            </v-col>
+          </v-row>
+          <v-row class="grande">
             <v-col cols="12" md="3" sm="3" id="framepinimg"
               ><v-img id="pin" src="../assets/Bgradeicon.png"></v-img
             ></v-col>
-            <div id="detailgrade">เกรด B</div></v-row
-          >
-          <v-row>
+            <v-col>
+              <div id="detailgrade">เกรด B</div>
+            </v-col>
+          </v-row>
+          <v-row class="grande">
             <v-col cols="12" md="3" sm="3" id="framepinimg"
               ><v-img id="pin" src="../assets/Cgradeicon.png"></v-img
             ></v-col>
-            <div id="detailgrade">เกรด C</div></v-row
-          >
+            <v-col>
+              <div id="detailgrade">เกรด C</div>
+            </v-col>
+          </v-row>
           <div id="detailtext">
             คุณภาพโดยรวมทั้งแปลง
             <br />
@@ -282,7 +288,7 @@ export default {
                   humidity,
                   temperature,
                 });
-                this.date = dategetdata
+                this.date = dategetdata;
               }
               m++;
             }
@@ -442,6 +448,10 @@ export default {
   min-width: 18px;
   max-height: 70px;
   min-height: 23px;
+  display: inline-block;
+}
+.grande{
+  text-align: center;
 }
 #backbutton {
   margin-right: 1vw;

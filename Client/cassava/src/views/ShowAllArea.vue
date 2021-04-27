@@ -2,7 +2,7 @@
   <v-main class="show-all-area">
     <v-container fluid>
       <v-row>
-        <v-col>
+        <v-col class="addFarm" cols="12" md="3" sm="4">
           <v-btn
             color="#1CE227"
             style="font-size: 18px"
@@ -11,7 +11,7 @@
             >+ เพิ่มแปลงใหม่</v-btn
           >
         </v-col>
-        <v-col cols="12" md="3" sm="3">
+        <v-col cols="12" md="3" sm="2">
           <v-combobox
             v-model="selectprovince"
             :items="allprovince"
@@ -20,7 +20,7 @@
             dense
           ></v-combobox>
         </v-col>
-        <v-col cols="12" md="3" sm="3">
+        <v-col cols="12" md="3" sm="2">
           <v-text-field
             v-model="selectdistrict"
             label="อำเภอ"
@@ -28,7 +28,7 @@
             dense
           ></v-text-field>
         </v-col>
-        <v-col cols="12" md="3" sm="3">
+        <v-col cols="12" md="3" sm="4">
           <v-btn
             id="filterprovincebutton"
             @click="selectfilter(selectprovince, selectdistrict)"
@@ -320,14 +320,28 @@ export default {
 };
 </script>
 <style scoped>
-#table {
-  height: 400px;
-  padding-bottom: 20px;
+@media screen and (min-width: 601px) {
+  #table {
+    height: 400px;
+    padding-bottom: 20px;
+  }
+  .addFarm{
+    width: fit-content;
+  }
 }
+
+@media screen and (max-width: 600px) {
+  #table {
+    height: 200px;
+    padding-bottom: 20px;
+  }
+}
+
 #areaname {
   background-color: #ffa9a9;
 }
 #filterprovincebutton {
   margin-right: 1vw;
 }
+
 </style>
