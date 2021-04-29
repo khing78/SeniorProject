@@ -76,6 +76,6 @@ export default {
   margin-right: 1vw;
 }
 #mainbackground {
-  background-color: #9ACD32	 ;
+  background-image: url('~@/assets/leaf.png');
 }
 </style>

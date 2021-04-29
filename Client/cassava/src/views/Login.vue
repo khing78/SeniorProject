@@ -132,6 +132,7 @@ export default {
   margin-bottom: 1vh;
 }
 #mainbackground {
-  background-color: #9ACD32	 ;
+  /* background-color: #9ACD32	 ; */
+  background-image: url('~@/assets/leaf.png');
 }
 </style>
