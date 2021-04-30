@@ -65,7 +65,7 @@
               :position="m.position"
               :clickable="true"
               :icon="changeocolormarker(m.avgstarch)"
-              @click="moveto(m.cassavaareaid)"
+              @click="moveto(m)"
             ></gmap-marker>
             <gmap-polyline
               v-if="path.length > 0"
@@ -403,6 +403,7 @@ export default {
       return `${day}/${month}/${newyear}`;
     },
     moveto(i) {
+      console.log(i.datadetail[0].dategetdata)
       const vm = this;
       if (i == "pin") {
         vm.$store.commit({
@@ -421,11 +422,11 @@ export default {
       } else {
         vm.$store.commit({
           type: "setSelectedArea",
-          selectedarea: i,
+          selectedarea: i.cassavaareaid,
         });
         vm.$store.commit({
           type: "setSelectedDate",
-          selecteddate: this.date,
+          selecteddate: i.datadetail[0].dategetdata,
         });
         vm.$router.push("/pin-detail");
       }
